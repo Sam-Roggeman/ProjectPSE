@@ -5,7 +5,7 @@
 #ifndef PROJECT_VACCINATIECENTRUM_H
 #define PROJECT_VACCINATIECENTRUM_H
 
-
+#include "iostream"
 #include <string>
 
 class Vaccinatiecentrum {
@@ -51,6 +51,8 @@ public:
     void setCapaciteit(int capaciteit1) {
         Vaccinatiecentrum::capaciteit = capaciteit1;
     }
+
+    bool correctlyInitialized();
 };
 
 

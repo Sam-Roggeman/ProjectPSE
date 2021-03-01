@@ -50,6 +50,8 @@ public:
     void addcentra(Vaccinatiecentrum* vaccinatiecentrum){
         vaccinatiecentra.push_back(vaccinatiecentrum);
     }
+
+    bool correctlyInitialized();
 };
 
 
