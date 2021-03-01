@@ -17,9 +17,10 @@ int main(int argc, char **argv) {
     Hub hub =  Hub();
     Vaccinatiecentrum centrum = Vaccinatiecentrum();
     TiXmlDocument doc;
-    if(!doc.LoadFile("cdCatalog.xml")) {
+    if(!doc.LoadFile("test.xml")) {
         std::cerr << doc.ErrorDesc() << std::endl;
         return 1;
     }
+
 
 }
