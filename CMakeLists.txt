@@ -34,7 +34,7 @@ set(DEBUG_SOURCE_FILES
         src/tinyxml.cpp
         src/tinyxml.h
         src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp)
+        src/tinyxmlparser.cpp src/Vaccinatiecentrum.cpp src/Vaccinatiecentrum.h)
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})
