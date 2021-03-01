@@ -7,17 +7,15 @@
 //============================================================================
 
 #include <iostream>
-#include <vector>
 #include "tinyxml.h"
 #include "Vaccinatiecentrum.h"
-#include "hub"
+#include "Hub.h"
 
 using namespace std;
 
 int main(int argc, char **argv) {
     Hub hub =  Hub();
-    std::vector<VACCINATIECENTRUM> vaccinatiecentra = ;
-    Hub hub =  Hub();
+    Vaccinatiecentrum centrum = Vaccinatiecentrum();
     TiXmlDocument doc;
     if(!doc.LoadFile("cdCatalog.xml")) {
         std::cerr << doc.ErrorDesc() << std::endl;
