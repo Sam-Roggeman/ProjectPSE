@@ -9,6 +9,8 @@
 #include <iostream>
 #include <vector>
 #include "tinyxml.h"
+#include "Vaccinatiecentrum.h"
+#include "hub"
 
 using namespace std;
 

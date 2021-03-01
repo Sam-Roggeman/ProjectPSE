@@ -23,7 +23,7 @@ set(RELEASE_SOURCE_FILES src/ProjectMain.cpp src/Project.cpp
         src/tinyxml.cpp
         src/tinyxml.h
         src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp HUB.cpp HUB.h)
+        src/tinyxmlparser.cpp src/Hub.cpp src/Hub.h)
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES

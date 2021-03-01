@@ -5,13 +5,15 @@
 #ifndef PROJECT_HUB_H
 #define PROJECT_HUB_H
 
+#include "Vaccinatiecentrum.h"
+#include "vector"
 
 class Hub {
 public:
     int levering;
     int interval;
     int transport;
-    vector<Vaccinatiecentrum*> vaccinatiecentra;
+    std::vector<Vaccinatiecentrum*> vaccinatiecentra;
     Hub(){}
 
     int getLevering() const {
@@ -38,15 +40,15 @@ public:
         Hub::transport = transport1;
     }
 
-    const vector<Vaccinatiecentrum *> &getVaccinatiecentra() const {
+    const std::vector<Vaccinatiecentrum *> &getVaccinatiecentra() const {
         return vaccinatiecentra;
     }
 
-    void setVaccinatiecentra(const vector<Vaccinatiecentrum*> &vaccinatiecentra1) {
+    void setVaccinatiecentra(const std::vector<Vaccinatiecentrum*> &vaccinatiecentra1) {
         Hub::vaccinatiecentra = vaccinatiecentra1;
     }
     void addcentra(Vaccinatiecentrum* vaccinatiecentrum){
-        vaccinatiecentra.pushback(vaccinatiecentrum);
+        vaccinatiecentra.push_back(vaccinatiecentrum);
     }
 };
 
