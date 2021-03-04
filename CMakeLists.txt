@@ -23,12 +23,7 @@ set(RELEASE_SOURCE_FILES src/ProjectMain.cpp src/Project.cpp
         src/tinyxml.cpp
         src/tinyxml.h
         src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp
-        src/Hub.cpp
-        src/Hub.h
-        src/Vaccinatiecentrum.cpp
-        src/Vaccinatiecentrum.h
-        )
+        src/tinyxmlparser.cpp src/Hub.cpp src/Hub.h)
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
@@ -39,12 +34,7 @@ set(DEBUG_SOURCE_FILES
         src/tinyxml.cpp
         src/tinyxml.h
         src/tinyxmlerror.cpp
-        src/tinyxmlparser.cpp
-        src/Vaccinatiecentrum.cpp
-        src/Vaccinatiecentrum.h
-        src/Hub.cpp
-        src/Hub.h
-        )
+        src/tinyxmlparser.cpp src/Vaccinatiecentrum.cpp src/Vaccinatiecentrum.h)
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})

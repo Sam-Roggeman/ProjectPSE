@@ -5,7 +5,7 @@
 #include "Hub.h"
 
 bool Hub::correctlyInitialized() {
-    for (int i = 0; i < getVaccinatiecentra().size();i++){
+    for (unsigned int i = 0; i < getVaccinatiecentra().size();i++){
         if (!this->getVaccinatiecentra()[i]->correctlyInitialized()){
             return false;
         }

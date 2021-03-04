@@ -56,6 +56,7 @@ int initializeSimulation(const char *filename, Hub &hub){
                     std::cerr << "element niet herkend" << std::endl;
                 }
             }
+            hub.vaccinatiecentrummap[centrum->getNaamCentrum()] = centrum;
             hub.addcentra(centrum);
         } else if (elem_name == "HUB") {
             //loop over alle kinderelementen

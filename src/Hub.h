@@ -7,13 +7,14 @@
 
 #include "Vaccinatiecentrum.h"
 #include "vector"
-
+#include <map>
 class Hub {
 public:
     int levering;
     int interval;
     int transport;
     std::vector<Vaccinatiecentrum*> vaccinatiecentra;
+    std::map<std::string,Vaccinatiecentrum*> vaccinatiecentrummap;
     Hub(){}
 
     int getLevering() const {
