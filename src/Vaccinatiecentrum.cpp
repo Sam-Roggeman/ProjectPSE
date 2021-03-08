@@ -5,7 +5,7 @@
 #include "Vaccinatiecentrum.h"
 
 
-bool Vaccinatiecentrum::correctlyInitialized() {
+bool Vaccinatiecentrum::correctlyInitialized() const {
     if (this->getCapaciteit()<0){
         std::cerr << "capaciteit 0\n";
         return false;

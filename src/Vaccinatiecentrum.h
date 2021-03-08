@@ -52,7 +52,7 @@ public:
         Vaccinatiecentrum::capaciteit = capaciteit1;
     }
 
-    bool correctlyInitialized();
+    bool correctlyInitialized() const;
 };
 
 
