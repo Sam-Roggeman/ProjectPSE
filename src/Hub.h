@@ -4,10 +4,11 @@
 
 #ifndef PROJECT_HUB_H
 #define PROJECT_HUB_H
-
 #include "Vaccinatiecentrum.h"
 #include "vector"
 #include <map>
+
+
 class Hub {
     int levering;
     int interval;
@@ -55,6 +56,7 @@ public:
 
     bool correctlyInitialized() const;
 
+    void outputHub(std::ostream &out) const;
 };
 
 

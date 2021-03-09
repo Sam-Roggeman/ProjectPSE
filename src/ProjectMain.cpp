@@ -22,5 +22,6 @@ using namespace std;
 int main(int argc, char **argv) {
     Hub hub;
     initializeSimulation("test.xml", hub);
+    outputSimulation(hub);
     return 0;
 }

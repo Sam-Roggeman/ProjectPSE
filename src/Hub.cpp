@@ -21,3 +21,18 @@ const std::map<std::string, Vaccinatiecentrum *> &Hub::getVaccinatiecentra() con
     return vaccinatiecentra;
 }
 
+void Hub::outputHub(std::ostream& out) const {
+    out << "Hub (" << this->levering <<" vaccins)"<< std::endl;
+    for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
+            it != this->vaccinatiecentra.end(); it++){
+        Vaccinatiecentrum* centrum = it->second;
+        out << "\t-> " << it->first <<" ("<< centrum->getAantalVaccins() << " vaccins)"<<std::endl;
+    }
+    for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
+         it != this->vaccinatiecentra.end(); it++){
+        Vaccinatiecentrum* centrum = it->second;
+        out << it->first <<": "<< centrum->getAantalGevaccineerden() << " gevaccineerd"<< ", nog " <<
+                centrum->aantalOngevaccineerden() <<" inwoners niet gevaccineerd" <<std::endl;
+    }
+}
+

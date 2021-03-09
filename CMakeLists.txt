@@ -24,7 +24,11 @@ set(RELEASE_SOURCE_FILES
         src/tinyxmlerror.cpp
         src/tinyxmlparser.cpp
         src/Hub.cpp
-        src/Hub.h)
+        src/Hub.h
+        src/Vaccinatiecentrum.cpp
+        src/Vaccinatiecentrum.h
+
+        )
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES

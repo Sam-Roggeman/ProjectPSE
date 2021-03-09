@@ -2,8 +2,10 @@
 // Created by User on 1/03/2021.
 //
 
-#include "Project.h"
 #include <iostream>
+#include "tinyxml.h"
+#include "Vaccinatiecentrum.h"
+#include "Hub.h"
 #include <sstream>
 #include "DesignByContract.h"
 int initializeSimulation(const char *filename, Hub &hub){
@@ -74,3 +76,12 @@ int initializeSimulation(const char *filename, Hub &hub){
     doc.Clear();
     return 0;
 }
+
+void outputSimulation(const Hub &hub, std::ostream &out) {
+    hub.outputHub(out);
+}
+
+void outputSimulation(const Hub &hub) {
+    outputSimulation(hub,std::cout);
+}
+

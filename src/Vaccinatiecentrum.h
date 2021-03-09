@@ -9,13 +9,15 @@
 #include <string>
 
 class Vaccinatiecentrum {
+    int aantal_vaccins;
     std::string naam_centrum;
     std::string adres_centrum;
     int aantal_inwoners;
     int capaciteit;
+    int aantal_gevaccineerden;
 public:
 
-    Vaccinatiecentrum(){};
+    Vaccinatiecentrum();
 
     Vaccinatiecentrum(std::string naam, std::string adres, int inwoners, int capaciteit):
             naam_centrum(naam), adres_centrum(adres), aantal_inwoners(inwoners), capaciteit(capaciteit){};
@@ -53,6 +55,16 @@ public:
     }
 
     bool correctlyInitialized() const;
+
+    int getAantalVaccins() const;
+
+    void addVaccins(int aantalVaccins);
+
+    void addGevaccineerden(int aantalGevaccineerden);
+
+    int getAantalGevaccineerden() const;
+
+    int aantalOngevaccineerden() const;
 };
 
 
