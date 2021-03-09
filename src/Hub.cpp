@@ -4,9 +4,9 @@
 
 #include "Hub.h"
 
-bool Hub::correctlyInitialized() {
-//    for (unsigned int i = 0; i < getVaccinatiecentra().size();i++){
-//        if (!this->getVaccinatiecentra()[i]->correctlyInitialized()){
+bool Hub::correctlyInitialized() const {
+//    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
+//        if (! it->second->correctlyInitialized()){
 //            return false;
 //        }
 //    }
@@ -16,3 +16,8 @@ bool Hub::correctlyInitialized() {
     }
     return true;
 }
+
+const std::map<std::string, Vaccinatiecentrum *> &Hub::getVaccinatiecentra() const {
+    return vaccinatiecentra;
+}
+

@@ -9,12 +9,11 @@
 #include "vector"
 #include <map>
 class Hub {
-public:
     int levering;
     int interval;
     int transport;
-    std::vector<Vaccinatiecentrum*> vaccinatiecentra;
-    std::map<std::string,Vaccinatiecentrum*> vaccinatiecentrummap;
+    std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
+public:
     Hub(){}
 
     int getLevering() const {
@@ -40,19 +39,22 @@ public:
     void setTransport(int transport1) {
         Hub::transport = transport1;
     }
-
-    const std::vector<Vaccinatiecentrum *> &getVaccinatiecentra() const {
-        return vaccinatiecentra;
-    }
+    
+    const std::map<std::string, Vaccinatiecentrum *> &getVaccinatiecentra() const;
 
     void setVaccinatiecentra(const std::vector<Vaccinatiecentrum*> &vaccinatiecentra1) {
-        Hub::vaccinatiecentra = vaccinatiecentra1;
-    }
-    void addcentra(Vaccinatiecentrum* vaccinatiecentrum){
-        vaccinatiecentra.push_back(vaccinatiecentrum);
+        for (unsigned int i = 0; i<vaccinatiecentra1.size();i++ ){
+            Vaccinatiecentrum* centrum = vaccinatiecentra1[i];
+            vaccinatiecentra[centrum->getNaamCentrum()] = centrum;
+        }
     }
 
-    bool correctlyInitialized();
+    void addcentra(Vaccinatiecentrum* vaccinatiecentrum){
+        vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
+    }
+
+    bool correctlyInitialized() const;
+
 };
 
 

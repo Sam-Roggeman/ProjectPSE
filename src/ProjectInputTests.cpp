@@ -24,11 +24,11 @@ protected:
     Hub hub;
 };
 TEST_F (ProjectTest, Juistteruggeven){
-    EXPECT_EQ(0, initializeSimulation("test.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./test.xml",hub));
 
 }
 
 TEST_F(ProjectTest,foutteruggeven){
-    EXPECT_EQ(1, initializeSimulation("test1.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./test1.xml",hub));
 }
 
