@@ -4,11 +4,13 @@
 
 #ifndef PROJECT_PROJECT_H
 #define PROJECT_PROJECT_H
-
-
-class Project {
-
-};
+#include <iostream>
+#include "tinyxml.h"
+#include "Vaccinatiecentrum.h"
+#include "Hub.h"
+#include <sstream>
+#include "DesignByContract.h"
+int initializeSimulation(const char *filename, Hub &hub);
 
 
 #endif //PROJECT_PROJECT_H
