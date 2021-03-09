@@ -24,11 +24,25 @@ protected:
     Hub hub;
 };
 TEST_F (ProjectTest, Juistteruggeven){
-    EXPECT_EQ(0, initializeSimulation("./test.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/test.xml",hub));
 
 }
 
-TEST_F(ProjectTest,foutteruggeven){
-    EXPECT_EQ(1, initializeSimulation("./test1.xml",hub));
+TEST_F(ProjectTest, verkeerde_input){
+    //file not found
+    EXPECT_EQ(1, initializeSimulation("./testInput/abc.xml",hub));
+    //verkeerde xml constructie
+    EXPECT_EQ(1, initializeSimulation("./testInput/test1.xml",hub));
+    //onherkenbaar element
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar1.xml",hub));
+
+    EXPECT_EQ(1, initializeSimulation("./testInput/onherkenbaar2.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/onherkenbaar3.xml",hub));
+
+    //ongeldige informatie
+
+    //inconsistente simulatie
+
 }
+
 

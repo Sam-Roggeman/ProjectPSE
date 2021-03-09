@@ -7,6 +7,7 @@
 #include "Vaccinatiecentrum.h"
 #include "vector"
 #include <map>
+#include "DesignByContract.h"
 
 
 class Hub {

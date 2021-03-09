@@ -2,12 +2,8 @@
 // Created by User on 1/03/2021.
 //
 
-#include <iostream>
-#include "tinyxml.h"
-#include "Vaccinatiecentrum.h"
-#include "Hub.h"
-#include <sstream>
-#include "DesignByContract.h"
+#include "Project.h"
+
 int initializeSimulation(const char *filename, Hub &hub){
     Vaccinatiecentrum* centrum;
     TiXmlDocument doc;

@@ -16,7 +16,7 @@ set(RELEASE_SOURCE_FILES
         src/ProjectMain.cpp
         src/Project.cpp
         src/Project.h
-        src/test.xml
+        testInput/test.xml
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp
@@ -38,7 +38,7 @@ set(DEBUG_SOURCE_FILES
         src/ProjectInputTests.cpp
         src/ProjectOutputTests.cpp
         src/ProjectTests.cpp
-        src/test.xml
+        testInput/test.xml
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp
