@@ -43,7 +43,7 @@ int initializeSimulation(const char *filename, Hub &hub){
                     std::cerr << "element niet herkend" << std::endl;
                 }
             }
-            hub.addcentra(centrum);
+            hub.addcentrum(centrum);
         } else if (elem_name == "HUB") {
             //loop over alle kinderelementen
             for (TiXmlElement *hub_elem = cdElement->FirstChildElement(); hub_elem != NULL; hub_elem = hub_elem->NextSiblingElement()) {
@@ -69,6 +69,7 @@ int initializeSimulation(const char *filename, Hub &hub){
             std::cerr << "element niet herkend" << std::endl;
         }
     }
+    hub.correctlyInitialized();
     doc.Clear();
     return 0;
 }

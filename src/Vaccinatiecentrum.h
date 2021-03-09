@@ -19,8 +19,11 @@ public:
 
     Vaccinatiecentrum();
 
-    Vaccinatiecentrum(std::string naam, std::string adres, int inwoners, int capaciteit):
-            naam_centrum(naam), adres_centrum(adres), aantal_inwoners(inwoners), capaciteit(capaciteit){};
+    Vaccinatiecentrum(const std::string& naam, const std::string& adres, int inwoners, int capaciteit):
+            naam_centrum(naam), adres_centrum(adres), aantal_inwoners(inwoners), capaciteit(capaciteit){
+        aantal_gevaccineerden = 0;
+        aantal_vaccins =0;
+    };
 
     const std::string &getNaamCentrum() const {
         return naam_centrum;

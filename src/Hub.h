@@ -51,7 +51,7 @@ public:
         }
     }
 
-    void addcentra(Vaccinatiecentrum* vaccinatiecentrum){
+    void addcentrum(Vaccinatiecentrum* vaccinatiecentrum){
         vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
     }
 
