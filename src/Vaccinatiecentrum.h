@@ -68,6 +68,12 @@ public:
     int getAantalGevaccineerden() const;
 
     int aantalOngevaccineerden() const;
+
+    void vaccineren();
+
+    void substractVaccins(int aantal);
+
+    void vaccineren(std::ostream &out);
 };
 
 

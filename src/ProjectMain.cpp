@@ -23,5 +23,6 @@ int main(int argc, char **argv) {
     Hub hub;
     initializeSimulation("test.xml", hub);
     outputSimulation(hub);
+    hub.transportToCentra();
     return 0;
 }

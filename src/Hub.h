@@ -11,6 +11,7 @@
 
 
 class Hub {
+    int aantal_vaccins;
     int levering;
     int interval;
     int transport;
@@ -18,12 +19,12 @@ class Hub {
 public:
     Hub(){}
 
-    int getLevering() const {
-        return levering;
+    int getAantalVaccins() const {
+        return aantal_vaccins;
     }
 
-    void setLevering(int levering1) {
-        Hub::levering = levering1;
+    void setAantalVaccins(int levering1) {
+        Hub::aantal_vaccins = levering1;
     }
 
     int getInterval() const {
@@ -55,9 +56,23 @@ public:
         vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
     }
 
+    void substractVaccins(int vaccins);
+
     bool correctlyInitialized() const;
 
     void outputHub(std::ostream &out) const;
+
+    void transportToCentra();
+
+    void transportToCentra(std::ostream &out);
+
+    void leveringToHub();
+
+    bool isLeveringsDag(int dag);
+
+    void vaccineren(std::ostream out);
+
+    void vaccineren();
 };
 
 
