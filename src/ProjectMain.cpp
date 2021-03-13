@@ -21,7 +21,7 @@ using namespace std;
 
 int main(int argc, char **argv) {
     Hub hub;
-    initializeSimulation("test.xml", hub);
-    autoSimulation(hub,0,5);
+    initializeSimulation("./testInput/test.xml", hub);
+    autoSimulation(hub,0,5, std::cout);
     return 0;
 }

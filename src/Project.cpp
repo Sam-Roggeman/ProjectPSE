@@ -83,11 +83,11 @@ void outputSimulation(const Hub &hub) {
     outputSimulation(hub,std::cout);
 }
 
-//void autoSimulation(Hub& hub, int start, int eind){
-//    autoSimulation(hub, start, eind, std::cout);
-//}
-
 void autoSimulation(Hub& hub, int start, int eind){
+    autoSimulation(hub, start, eind, std::cout);
+}
+
+void autoSimulation(Hub& hub, int start, int eind, std::ostream &out){
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(hub.correctlyInitialized(), "Foutieve hub");
 
