@@ -7,6 +7,7 @@
 
 #include "iostream"
 #include <string>
+#include <math.h>
 
 class Vaccinatiecentrum {
     int aantal_vaccins;
@@ -93,7 +94,7 @@ public:
     /*vaccinaties worden uitgevoerd en output gaat naar out
      * @param out: de outstream waarnaar de output gestuurt wordt
      * */
-    void vaccineren(std::ostream &out);
+//    void vaccineren(std::ostream &out);
 };
 
 

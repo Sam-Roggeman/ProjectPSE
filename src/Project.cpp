@@ -76,25 +76,25 @@ int initializeSimulation(const char *filename, Hub &hub){
 }
 
 void outputSimulation(const Hub &hub, std::ostream &out) {
-    hub.outputHub(out);
+    hub.outputHub();
 }
 
 void outputSimulation(const Hub &hub) {
     outputSimulation(hub,std::cout);
 }
 
-void autoSimulation(Hub& hub, int start, int eind){
-    autoSimulation(hub, start, eind, std::cout);
-}
+//void autoSimulation(Hub& hub, int start, int eind){
+//    autoSimulation(hub, start, eind, std::cout);
+//}
 
-void autoSimulation(Hub& hub, int start, int eind, std::ostream out){
+void autoSimulation(Hub& hub, int start, int eind){
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(hub.correctlyInitialized(), "Foutieve hub");
 
 //    1.  WHILE huidige dag<eind dag
 
     for (int current = start; current < eind; current++) {
-
+        hub.outputHub();
 //    1.1 IF er vaccins geleverd worden op de huidige dag
         if (hub.isLeveringsDag(current)){
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal

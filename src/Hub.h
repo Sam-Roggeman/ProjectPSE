@@ -65,7 +65,7 @@ public:
     /*output de hub naar de meegegeven ostream
      * @param out: de stream waar de output heen gaat
      * */
-    void outputHub(std::ostream &out) const;
+    void outputHub() const;
 
     /*transport vaccins vanuit de hub naar alle centra, output in std::out
      * */
@@ -74,7 +74,7 @@ public:
     /*transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
      * */
-    void transportToCentra(std::ostream &out);
+//    void transportToCentra(std::ostream &out);
 
     /*er wordt een lading aan de hub geleverd
      * */
@@ -89,7 +89,7 @@ public:
     /*alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt
      * */
-    void vaccineren(std::ostream out);
+//    void vaccineren(std::ostream out);
 
     /*alle centra van de hub voeren vaccinaties uit, output gaat naar std::out
      * */

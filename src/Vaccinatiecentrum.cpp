@@ -49,17 +49,18 @@ int Vaccinatiecentrum::aantalOngevaccineerden() const {
     return aantal_inwoners-aantal_gevaccineerden;
 }
 
-void Vaccinatiecentrum::vaccineren() {
-    vaccineren(std::cout);
-}
+//void Vaccinatiecentrum::vaccineren() {
+//    vaccineren(std::cout);
+//}
 
-void Vaccinatiecentrum::vaccineren(std::ostream& out) {
+void Vaccinatiecentrum::vaccineren() {
     int ongevaccineerden = this->aantalOngevaccineerden();
-    int aantal_nieuwe_gevaccineerden = std::min(aantal_vaccins, capaciteit, ongevaccineerden);
+    int kleinste = std::min(aantal_vaccins, capaciteit);
+    int aantal_nieuwe_gevaccineerden = std::min(kleinste,ongevaccineerden);
     this->substractVaccins(aantal_nieuwe_gevaccineerden);
     this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
 
-    out << "Er werden " << aantal_nieuwe_gevaccineerden <<" inwoners gevaccineerd in " <<
+    std::cout << "Er werden " << aantal_nieuwe_gevaccineerden <<" inwoners gevaccineerd in " <<
             this->naam_centrum << "." << std::endl;
 
 }

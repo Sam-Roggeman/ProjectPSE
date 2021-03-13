@@ -22,7 +22,6 @@ using namespace std;
 int main(int argc, char **argv) {
     Hub hub;
     initializeSimulation("test.xml", hub);
-    outputSimulation(hub);
-    hub.transportToCentra();
+    autoSimulation(hub,0,5);
     return 0;
 }
