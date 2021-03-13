@@ -68,5 +68,37 @@ void Vaccinatiecentrum::substractVaccins(int aantal) {
     this->aantal_vaccins -= aantal;
 }
 
+int Vaccinatiecentrum::getAantalInwoners() const {
+    return aantal_inwoners;
+}
+
+void Vaccinatiecentrum::setAantalInwoners(int aantalInwoners) {
+    aantal_inwoners = aantalInwoners;
+}
+
+int Vaccinatiecentrum::getCapaciteit() const {
+    return capaciteit;
+}
+
+void Vaccinatiecentrum::setCapaciteit(int capaciteit1) {
+    Vaccinatiecentrum::capaciteit = capaciteit1;
+}
+
+const std::string &Vaccinatiecentrum::getNaamCentrum() const {
+    return naam_centrum;
+}
+
+void Vaccinatiecentrum::setNaamCentrum(const std::string &naamcentrum) {
+    naam_centrum = naamcentrum;
+}
+
+void Vaccinatiecentrum::setAdresCentrum(const std::string &adrescentrum) {
+    adres_centrum = adrescentrum;
+}
+
+const std::string &Vaccinatiecentrum::getAdresCentrum() const {
+    return adres_centrum;
+}
+
 
 

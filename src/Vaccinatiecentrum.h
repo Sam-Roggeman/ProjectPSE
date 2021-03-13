@@ -17,62 +17,82 @@ class Vaccinatiecentrum {
     int aantal_gevaccineerden;
 public:
 
+    /*maakt een niet vaccinatiecentrum object aan
+     * @return vaccinatiecentrum
+     * */
     Vaccinatiecentrum();
 
-    Vaccinatiecentrum(const std::string& naam, const std::string& adres, int inwoners, int capaciteit):
-            naam_centrum(naam), adres_centrum(adres), aantal_inwoners(inwoners), capaciteit(capaciteit){
-        aantal_gevaccineerden = 0;
-        aantal_vaccins =0;
-    };
+    /*returnt de naam van het centrum
+     * */
+    const std::string &getNaamCentrum() const;
 
-    const std::string &getNaamCentrum() const {
-        return naam_centrum;
-    }
+    /*veranderd de naam van het centrum naar naamCentrum
+     * */
+    void setNaamCentrum(const std::string &naamcentrum);
 
-    void setNaamCentrum(const std::string &naamCentrum) {
-        naam_centrum = naamCentrum;
-    }
+    /*returnt het adres van het centrum
+     * */
+    const std::string &getAdresCentrum() const;
 
-    const std::string &getAdresCentrum() const {
-        return adres_centrum;
-    }
+    /*verandert het adres van het centrum naar adrescentrum
+     */
+    void setAdresCentrum(const std::string &adrescentrum);
 
-    void setAdresCentrum(const std::string &adresCentrum) {
-        adres_centrum = adresCentrum;
-    }
+    /*returnt het aantal inwoners dat bij het centrum hoort
+     * */
+    int getAantalInwoners() const;
 
-    int getAantalInwoners() const {
-        return aantal_inwoners;
-    }
+    /*zet het aantal inwoners dat bij het centrum hoort op aantal_inwoners
+     * */
+    void setAantalInwoners(int aanta_inwoners);
 
-    void setAantalInwoners(int aantalInwoners) {
-        aantal_inwoners = aantalInwoners;
-    }
+    /*returnt de vaccinatiecapaciteit per dag
+     * */
+    int getCapaciteit() const;
 
-    int getCapaciteit() const {
-        return capaciteit;
-    }
+    /*zet de vaccinatiecapaciteit op capaciteit1
+     * */
+    void setCapaciteit(int capaciteit1);
 
-    void setCapaciteit(int capaciteit1) {
-        Vaccinatiecentrum::capaciteit = capaciteit1;
-    }
-
+    /*kijkt na of het cenrum correct geinitializeerd is
+     * @returns true als correct
+     * */
     bool correctlyInitialized() const;
 
+    /*returnt het aantal vaccins in het centrum
+     * */
     int getAantalVaccins() const;
 
-    void addVaccins(int aantalVaccins);
+    /*voeg vaccins toe aan het centrum
+     * @param aantal_vaccins het aantal vaccins dat toegevoegd wordt
+     * */
+    void addVaccins(int aantal_vaccins);
 
-    void addGevaccineerden(int aantalGevaccineerden);
+    /*add aantal_gevaccineerden toe aan het totaal aantal gevaccineren
+     * @param aantal_gevaccineerden: het aantal mensen dat gevaccineerd is
+     * */
+    void addGevaccineerden(int aantal_gevaccineerden);
 
+    /*returt het aantal mensen dat gevaccineerd is
+     * */
     int getAantalGevaccineerden() const;
 
+    /*returnt het aantal ongevaccineerden
+     * @returnt : aantal_inwoners - aantal_gevaccineerden
+     * */
     int aantalOngevaccineerden() const;
 
+    /*vaccinaties worden uitgevoerd en output gaat naar std::cout
+     * */
     void vaccineren();
 
+    /*substract het aantal van het huidige aantal vaccins
+     * */
     void substractVaccins(int aantal);
 
+    /*vaccinaties worden uitgevoerd en output gaat naar out
+     * @param out: de outstream waarnaar de output gestuurt wordt
+     * */
     void vaccineren(std::ostream &out);
 };
 
