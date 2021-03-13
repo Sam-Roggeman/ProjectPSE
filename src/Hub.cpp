@@ -18,9 +18,7 @@ bool Hub::correctlyInitialized() const {
     return true;
 }
 
-const std::map<std::string, Vaccinatiecentrum *> &Hub::getVaccinatiecentra() const {
-    return vaccinatiecentra;
-}
+
 
 void Hub::outputHub(std::ostream& out) const {
     REQUIRE(this->correctlyInitialized(), "foutieve hub");
@@ -98,10 +96,6 @@ int Hub::getAantalVaccins() const {
     return aantal_vaccins;
 }
 
-void Hub::setAantalVaccins(int levering1) {
-    Hub::aantal_vaccins = levering1;
-}
-
 int Hub::getInterval() const {
     return interval;
 }
@@ -118,12 +112,6 @@ void Hub::setTransport(int transport1) {
     Hub::transport = transport1;
 }
 
-void Hub::setVaccinatiecentra(const std::vector<Vaccinatiecentrum *> &vaccinatiecentra1) {
-    for (unsigned int i = 0; i<vaccinatiecentra1.size();i++ ){
-        Vaccinatiecentrum* centrum = vaccinatiecentra1[i];
-        vaccinatiecentra[centrum->getNaamCentrum()] = centrum;
-    }
-}
 
 void Hub::addcentrum(Vaccinatiecentrum *vaccinatiecentrum) {
     vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
@@ -131,10 +119,6 @@ void Hub::addcentrum(Vaccinatiecentrum *vaccinatiecentrum) {
 
 Hub::Hub() {
     aantal_vaccins = 0;
-}
-
-int Hub::getLevering() const {
-    return levering;
 }
 
 void Hub::setLevering(int levering1) {
