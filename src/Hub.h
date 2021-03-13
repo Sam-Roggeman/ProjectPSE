@@ -11,68 +11,95 @@
 
 
 class Hub {
+
+private:
     int aantal_vaccins;
     int levering;
     int interval;
     int transport;
     std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
 public:
-    Hub(){}
+    /*Maakt een hub object aan, zonder de membervariabelen te initializeren
+     *@returns hub object
+     * */
+    Hub();
 
-    int getAantalVaccins() const {
-        return aantal_vaccins;
-    }
+    /*Geeft het aantal vaccins in de hub terug
+     *@returns aantal vaccins in de hub
+     * */
+    int getAantalVaccins() const;
 
-    void setAantalVaccins(int levering1) {
-        Hub::aantal_vaccins = levering1;
-    }
+    /*Geeft het aantal dagen tussen twee leveringen
+     * @returns het interval
+     * */
+    int getInterval() const;
 
-    int getInterval() const {
-        return interval;
-    }
+    /*zet het aantal dagen tussen twee leveringen
+     * @param het interval tussen twee leveringen
+     * */
+    void setInterval(int interval1);
 
-    void setInterval(int interval1) {
-        Hub::interval = interval1;
-    }
+    /*geeft het aantal vaccins per transport
+     * @returns het aantal vaccins dat in een transport past
+     * */
+    int getTransport() const;
 
-    int getTransport() const {
-        return transport;
-    }
+    /*zet het aantal vaccins dat per transport past op de param transport1
+     * */
+    void setTransport(int transport1);
 
-    void setTransport(int transport1) {
-        Hub::transport = transport1;
-    }
-    
-    const std::map<std::string, Vaccinatiecentrum *> &getVaccinatiecentra() const;
+    /*voegt een centrum toe aan de hub
+     * @param vaccinatiecentrum: het toe te voegen vaccinatiecentrum
+     * */
+    void addcentrum(Vaccinatiecentrum* vaccinatiecentrum);
 
-    void setVaccinatiecentra(const std::vector<Vaccinatiecentrum*> &vaccinatiecentra1) {
-        for (unsigned int i = 0; i<vaccinatiecentra1.size();i++ ){
-            Vaccinatiecentrum* centrum = vaccinatiecentra1[i];
-            vaccinatiecentra[centrum->getNaamCentrum()] = centrum;
-        }
-    }
-
-    void addcentrum(Vaccinatiecentrum* vaccinatiecentrum){
-        vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
-    }
-
+    /*trekt vaccins van aantal vaccins in de hub
+     * @param vaccins: het aantal vaccins dat afgetrokken moet worden
+     * */
     void substractVaccins(int vaccins);
 
+    /*kijkt na of de hub correct geinitializeerd is
+     * */
     bool correctlyInitialized() const;
 
+    /*output de hub naar de meegegeven ostream
+     * @param out: de stream waar de output heen gaat
+     * */
     void outputHub(std::ostream &out) const;
 
+    /*transport vaccins vanuit de hub naar alle centra, output in std::out
+     * */
     void transportToCentra();
 
+    /*transport vaccins vanuit de hub naar alle centra
+     * @param out: de ostream waar outgeput wordt
+     * */
     void transportToCentra(std::ostream &out);
 
+    /*er wordt een lading aan de hub geleverd
+     * */
     void leveringToHub();
 
+    /*kijkt na of het momenteel een leveringsdag is
+     * @param dag: het nummer van de huidige dag
+     * @returns true als er geleverd wordt aan de hub
+     */
     bool isLeveringsDag(int dag);
 
+    /*alle centra van de hub voeren vaccinaties uit
+     * @param out: de output stream die de output binnenkrijgt
+     * */
     void vaccineren(std::ostream out);
 
+    /*alle centra van de hub voeren vaccinaties uit, output gaat naar std::out
+     * */
     void vaccineren();
+
+    /*Veranderd het aantal vaccins dat geleverd wordt op leveringsdag
+     * @param int: het aantal vaccins dat aan de
+     * */
+    void setLevering(int levering);
+
 };
 
 

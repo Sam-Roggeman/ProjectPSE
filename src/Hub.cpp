@@ -48,7 +48,7 @@ void Hub::transportToCentra(std::ostream& out) {
     int tot_lading = 0;
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
         centrum = it->second;
-        while (! (centrum->getCapaciteit() <= tot_lading) ){
+        while (centrum->getCapaciteit() > tot_lading){
             tot_lading += this->transport;
             aantal_ladingen++;
         }
@@ -92,5 +92,52 @@ void Hub::vaccineren(std::ostream out) {
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
         it->second->vaccineren(out);
     }
+}
+
+int Hub::getAantalVaccins() const {
+    return aantal_vaccins;
+}
+
+void Hub::setAantalVaccins(int levering1) {
+    Hub::aantal_vaccins = levering1;
+}
+
+int Hub::getInterval() const {
+    return interval;
+}
+
+void Hub::setInterval(int interval1) {
+    Hub::interval = interval1;
+}
+
+int Hub::getTransport() const {
+    return transport;
+}
+
+void Hub::setTransport(int transport1) {
+    Hub::transport = transport1;
+}
+
+void Hub::setVaccinatiecentra(const std::vector<Vaccinatiecentrum *> &vaccinatiecentra1) {
+    for (unsigned int i = 0; i<vaccinatiecentra1.size();i++ ){
+        Vaccinatiecentrum* centrum = vaccinatiecentra1[i];
+        vaccinatiecentra[centrum->getNaamCentrum()] = centrum;
+    }
+}
+
+void Hub::addcentrum(Vaccinatiecentrum *vaccinatiecentrum) {
+    vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
+}
+
+Hub::Hub() {
+    aantal_vaccins = 0;
+}
+
+int Hub::getLevering() const {
+    return levering;
+}
+
+void Hub::setLevering(int levering1) {
+    Hub::levering = levering1;
 }
 

@@ -50,7 +50,8 @@ int initializeSimulation(const char *filename, Hub &hub){
                 elem_name = hub_elem->Value();
                 //herken het element
                 if (elem_name == "levering") {
-                    hub.setAantalVaccins(atoi(hub_elem->FirstChild()->Value()));
+                    hub.setLevering(atoi(hub_elem->FirstChild()->Value()));
+                    hub.leveringToHub();
                 } else if (elem_name == "interval") {
                     hub.setInterval(atoi(hub_elem->FirstChild()->Value()));
                 } else if (elem_name == "transport") {
