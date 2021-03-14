@@ -10,6 +10,7 @@
 #include <math.h>
 
 class Vaccinatiecentrum {
+    Vaccinatiecentrum * _initCheck;
     int aantal_vaccins;
     std::string naam_centrum;
     std::string adres_centrum;
