@@ -90,7 +90,7 @@ public:
     /*alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt
      * */
-//    void vaccineren(std::ostream out);
+    void vaccineren(std::ostream &out);
 
     /*alle centra van de hub voeren vaccinaties uit, output gaat naar std::out
      * */
@@ -101,6 +101,9 @@ public:
      * */
     void setLevering(int levering);
 
+    bool notDone();
+
+    int aantalOngevaccineerden();
 };
 
 

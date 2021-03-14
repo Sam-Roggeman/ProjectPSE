@@ -88,6 +88,8 @@ public:
      * */
     void vaccineren();
 
+    void vaccineren(std::ostream& out);
+
     /*substract het aantal van het huidige aantal vaccins
      * */
     void substractVaccins(int aantal);

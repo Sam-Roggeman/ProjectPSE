@@ -83,10 +83,13 @@ void Hub::transportToCentra() {
 }
 
 void Hub::substractVaccins(int vaccins) {
+    REQUIRE(vaccins >= 0, "substractVaccins accepteerd geen negatieve getallen");
     this->aantal_vaccins -= vaccins;
+    ENSURE(aantal_vaccins >= 0, "aantal overgebleven vaccins is minder dan 0");
 }
 
 bool Hub::isLeveringsDag(int dag) {
+    REQUIRE(dag >= 0, "dag kan geen negatieve getal zijn");
     if (dag % (interval+1) == 0)
         return true;
     else
@@ -94,16 +97,18 @@ bool Hub::isLeveringsDag(int dag) {
 }
 
 void Hub::leveringToHub() {
+    int old = aantal_vaccins;
     aantal_vaccins += levering;
+    ENSURE(old == aantal_vaccins - levering, ""); //TODO
 }
 
-//void Hub::vaccineren() {
-//    vaccineren(std::cout);
-//}
-
 void Hub::vaccineren() {
+    vaccineren(std::cout);
+}
+
+void Hub::vaccineren(std::ostream &out) {
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
-        it->second->vaccineren();
+        it->second->vaccineren(out);
     }
 }
 
@@ -143,4 +148,21 @@ Hub::Hub() {
 void Hub::setLevering(int levering1) {
     Hub::levering = levering1;
 }
+
+bool Hub::notDone(){
+    if (this->aantalOngevaccineerden() > 0){
+        return false;
+    }
+    return true;
+}
+
+int Hub::aantalOngevaccineerden() {
+    int ongevaccineerden = 0;
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
+        ongevaccineerden += it->second->aantalOngevaccineerden();
+    }
+    return ongevaccineerden;
+}
+
+
 
