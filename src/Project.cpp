@@ -5,6 +5,8 @@
 #include "Project.h"
 
 int initializeSimulation(const char *filename, Hub &hub){
+    int hubcounter = 0;
+    int vaccinatiecentracounter = 0;
     Vaccinatiecentrum* centrum;
     TiXmlDocument doc;
     //open xml file indien: ASCII bestand met daarop een beschrijving van de vaccinatiecentra
@@ -25,6 +27,7 @@ int initializeSimulation(const char *filename, Hub &hub){
         std::string elem_name = cdElement->Value();
         //vindt het soort element
         if (elem_name == "VACCINATIECENTRUM") {
+            vaccinatiecentracounter += 1;
             centrum = new Vaccinatiecentrum();
             //loop over alle kinderelementen
             for (TiXmlElement *vac_elem = cdElement->FirstChildElement();
@@ -45,6 +48,7 @@ int initializeSimulation(const char *filename, Hub &hub){
             }
             hub.addcentrum(centrum);
         } else if (elem_name == "HUB") {
+            hubcounter += 1;
             //loop over alle kinderelementen
             for (TiXmlElement *hub_elem = cdElement->FirstChildElement(); hub_elem != NULL; hub_elem = hub_elem->NextSiblingElement()) {
                 elem_name = hub_elem->Value();
@@ -71,6 +75,8 @@ int initializeSimulation(const char *filename, Hub &hub){
         }
     }
     hub.correctlyInitialized();
+    REQUIRE((hubcounter == 1),"Je mag maar 1 hub hebben");
+    REQUIRE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     doc.Clear();
     return 0;
 }
