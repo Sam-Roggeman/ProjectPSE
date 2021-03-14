@@ -43,8 +43,15 @@ TEST_F(ProjectTest, verkeerde_input){
     EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo1.xml",hub));
     EXPECT_EQ(0,initializeSimulation("./testInput/ongeldigeinfo2.xml",hub));
     EXPECT_EQ(0,initializeSimulation("./testInput/ongeldigeinfo3.xml",hub));
-    //inconsistente simulatie
 
 }
-
-
+//inconsistente simulaties
+TEST_F(ProjectTest,inconsistent1){
+    EXPECT_EQ(1,initializeSimulation("./testInput/Inconsistentesim.xml",hub));
+}
+TEST_F(ProjectTest,inconsistent2){
+    EXPECT_EQ(1,initializeSimulation("./testInput/Inconsistentesim1.xml",hub));
+}
+TEST_F(ProjectTest,inconsistent3){
+    EXPECT_EQ(1,initializeSimulation("./testInput/Inconsistentesim2.xml",hub));
+}

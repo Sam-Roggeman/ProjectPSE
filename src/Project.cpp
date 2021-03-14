@@ -75,8 +75,9 @@ int initializeSimulation(const char *filename, Hub &hub){
         }
     }
     REQUIRE(hub.correctlyInitialized(),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
-    REQUIRE((hubcounter == 1),"Je mag maar 1 hub hebben");
+    REQUIRE((hubcounter < 2),"Je mag maar 1 hub hebben");
     REQUIRE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
+    REQUIRE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
     doc.Clear();
     return 0;
 }
