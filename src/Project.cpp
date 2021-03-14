@@ -74,7 +74,7 @@ int initializeSimulation(const char *filename, Hub &hub){
             std::cerr << "element niet herkend" << std::endl;
         }
     }
-    hub.correctlyInitialized();
+    REQUIRE(hub.correctlyInitialized(),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     REQUIRE((hubcounter == 1),"Je mag maar 1 hub hebben");
     REQUIRE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     doc.Clear();
