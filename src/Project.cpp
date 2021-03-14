@@ -104,7 +104,7 @@ void autoSimulation(Hub& hub, int start, int eind, std::ostream &out){
         out << "DAG " << current << ":" << std::endl;
         hub.outputHub(out);
 //    1.1 IF er vaccins geleverd worden op de huidige dag
-        if (hub.isLeveringsDag(current)){
+        if (hub.isLeveringsDag(current) && current != 0){
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
             hub.leveringToHub();
         }

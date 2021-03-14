@@ -38,7 +38,7 @@ void Hub::outputHub() const {
 
 void Hub::outputHub(std::ostream& out) const {
     REQUIRE(this->correctlyInitialized(), "foutieve hub");
-    out << "Hub (" << this->levering <<" vaccins)"<< std::endl;
+    out << "Hub (" << this->aantal_vaccins <<" vaccins)"<< std::endl;
     for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
             it != this->vaccinatiecentra.end(); it++){
         Vaccinatiecentrum* centrum = it->second;

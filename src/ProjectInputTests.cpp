@@ -25,7 +25,8 @@ protected:
 };
 TEST_F (ProjectTest, Juistteruggeven){
     EXPECT_EQ(0, initializeSimulation("./testInput/test.xml",hub));
-
+    EXPECT_EQ(0, initializeSimulation("./testInput/Juist.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/Juist1.xml",hub));
 }
 
 TEST_F(ProjectTest, verkeerde_input){
@@ -33,11 +34,20 @@ TEST_F(ProjectTest, verkeerde_input){
     EXPECT_EQ(1, initializeSimulation("./testInput/abc.xml",hub));
     //verkeerde xml constructie
     EXPECT_EQ(1, initializeSimulation("./testInput/test1.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie1.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie2.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie3.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie4.xml",hub));
     //onherkenbaar element
     EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar1.xml",hub));
-
-    EXPECT_EQ(1, initializeSimulation("./testInput/onherkenbaar2.xml",hub));
-    EXPECT_EQ(1, initializeSimulation("./testInput/onherkenbaar3.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar2.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar3.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar4.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar5.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar6.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar7.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar8.xml",hub));
 
     //ongeldige informatie
     EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo1.xml",hub));
