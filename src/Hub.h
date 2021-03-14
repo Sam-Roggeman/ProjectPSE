@@ -13,6 +13,7 @@
 class Hub {
 
 private:
+    Hub * _initCheck;
     int aantal_vaccins;
     int levering;
     int interval;

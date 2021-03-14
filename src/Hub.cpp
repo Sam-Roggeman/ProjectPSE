@@ -5,18 +5,23 @@
 #include "Hub.h"
 
 bool Hub::correctlyInitialized() const {
-    if (vaccinatiecentra.empty()) return false;
-    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
-        if (! it->second->correctlyInitialized()){
-            return false;
-        }
-    }
-    if (this->getInterval() < 0 || this->getAantalVaccins() < 0 || this->getTransport() < 0){
-        std::cerr << "levering, interval of transport < 0";
-        return false;
-    }
-    return true;
+    return this == _initCheck;
 }
+
+
+//bool Hub::correctlyInitialized() const {
+//    if (vaccinatiecentra.empty()) return false;
+//    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
+//        if (! it->second->correctlyInitialized()){
+//            return false;
+//        }
+//    }
+//    if (this->getInterval() < 0 || this->getAantalVaccins() < 0 || this->getTransport() < 0){
+//        std::cerr << "levering, interval of transport < 0";
+//        return false;
+//    }
+//    return true;
+//}
 
 
 
@@ -119,6 +124,10 @@ void Hub::addcentrum(Vaccinatiecentrum *vaccinatiecentrum) {
 }
 
 Hub::Hub() {
+    _initCheck = this;
+    this->interval = 0;
+    this->levering = 0;
+    this->transport = 0;
     aantal_vaccins = 0;
 }
 
