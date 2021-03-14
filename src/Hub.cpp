@@ -5,7 +5,16 @@
 #include "Hub.h"
 
 bool Hub::correctlyInitialized() const {
-    return this == _initCheck;
+    bool out = true;
+    if (this != _initCheck){
+        out = false;
+    }
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
+        if (!it->second->correctlyInitialized()){
+            out = false;
+        }
+    }
+    return out;
 }
 
 
