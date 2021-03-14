@@ -11,6 +11,7 @@
 #include "Vaccinatiecentrum.h"
 #include "Hub.h"
 #include <sstream>
+#include <fstream>
 #include "DesignByContract.h"
 #include "Project.h"
 using namespace std;
@@ -20,8 +21,12 @@ using namespace std;
 
 
 int main(int argc, char **argv) {
+    ofstream o;
+    o.open("a.txt");
+
     Hub hub;
     initializeSimulation("./testInput/test.xml", hub);
-    autoSimulation(hub,0,5, std::cout);
+    autoSimulation(hub,0,5, o);
+    o.close();
     return 0;
 }

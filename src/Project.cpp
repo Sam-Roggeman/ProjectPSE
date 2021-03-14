@@ -100,7 +100,8 @@ void autoSimulation(Hub& hub, int start, int eind, std::ostream &out){
 //    1.  WHILE huidige dag<eind dag
 
     for (int current = start; current < eind; current++) {
-        hub.outputHub();
+        out << "DAG " << current << ":" << std::endl;
+        hub.outputHub(out);
 //    1.1 IF er vaccins geleverd worden op de huidige dag
         if (hub.isLeveringsDag(current)){
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
@@ -109,9 +110,10 @@ void autoSimulation(Hub& hub, int start, int eind, std::ostream &out){
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
-        hub.transportToCentra();
+        hub.transportToCentra(out);
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub.vaccineren();
+        hub.vaccineren(out);
+        out << std::endl;
     }
 }

@@ -32,29 +32,31 @@ bool Hub::correctlyInitialized() const {
 //    return true;
 //}
 
-
-
 void Hub::outputHub() const {
+    outputHub(std::cout);
+}
+
+void Hub::outputHub(std::ostream& out) const {
     REQUIRE(this->correctlyInitialized(), "foutieve hub");
-    std::cout << "Hub (" << this->levering <<" vaccins)"<< std::endl;
+    out << "Hub (" << this->levering <<" vaccins)"<< std::endl;
     for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
             it != this->vaccinatiecentra.end(); it++){
         Vaccinatiecentrum* centrum = it->second;
-        std::cout << "\t-> " << it->first <<" ("<< centrum->getAantalVaccins() << " vaccins)"<<std::endl;
+        out << "\t-> " << it->first <<" ("<< centrum->getAantalVaccins() << " vaccins)"<<std::endl;
     }
     for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
          it != this->vaccinatiecentra.end(); it++){
         Vaccinatiecentrum* centrum = it->second;
-        std::cout << it->first <<": "<< centrum->getAantalGevaccineerden() << " gevaccineerd"<< ", nog " <<
+        out << it->first <<": "<< centrum->getAantalGevaccineerden() << " gevaccineerd"<< ", nog " <<
                 centrum->aantalOngevaccineerden() <<" inwoners niet gevaccineerd" <<std::endl;
     }
 }
 
-//void Hub::transportToCentra() {
-//    transportToCentra(std::cout);
-//}
-
 void Hub::transportToCentra() {
+    transportToCentra(std::cout);
+}
+
+void Hub::transportToCentra(std::ostream& out) {
     Vaccinatiecentrum* centrum;
 
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
@@ -72,7 +74,7 @@ void Hub::transportToCentra() {
         if (tot_lading <= this->levering){
             centrum->addVaccins(tot_lading);
             this->substractVaccins(tot_lading);
-            std::cout << "Er werden " << aantal_ladingen << " (" << tot_lading <<" vaccins) getransporteerd naar " <<
+            out << "Er werden " << aantal_ladingen << " (" << tot_lading <<" vaccins) getransporteerd naar " <<
                     centrum->getNaamCentrum() << "." << std::endl;
         }
         else {
@@ -162,6 +164,10 @@ int Hub::aantalOngevaccineerden() {
         ongevaccineerden += it->second->aantalOngevaccineerden();
     }
     return ongevaccineerden;
+}
+
+int Hub::getLevering() {
+    return levering;
 }
 
 

@@ -75,7 +75,7 @@ public:
     /*transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
      * */
-//    void transportToCentra(std::ostream &out);
+    void transportToCentra(std::ostream &out);
 
     /*er wordt een lading aan de hub geleverd
      * */
@@ -101,9 +101,14 @@ public:
      * */
     void setLevering(int levering);
 
+    int getLevering();
+
+
     bool notDone();
 
     int aantalOngevaccineerden();
+
+    void outputHub(std::ostream &out) const;
 };
 
 
