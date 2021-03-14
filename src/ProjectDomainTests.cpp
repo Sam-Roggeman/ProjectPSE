@@ -54,10 +54,16 @@ TEST_F(HubDomainTest, substractVaccins) {
     EXPECT_EQ(1000,hub2.getAantalVaccins());
     hub2.substractVaccins(1000);
     EXPECT_EQ(0,hub2.getAantalVaccins());
-
-
 }
 
+TEST_F(HubDomainTest, isLeveringsDag){
+    hub2.setInterval(1);
+    hub.setInterval(6);
+    EXPECT_TRUE(hub2.isLeveringsDag(2));
+    EXPECT_FALSE(hub2.isLeveringsDag(3));
+    EXPECT_TRUE(hub.isLeveringsDag(7));
+    EXPECT_FALSE(hub.isLeveringsDag(5));
+}
 TEST_F(HubDomainTest, notDone){
     vac.setAantalInwoners(1000);
     hub2.addcentrum(&vac);
