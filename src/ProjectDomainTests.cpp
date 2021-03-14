@@ -21,6 +21,8 @@ protected:
 
     Hub hub;
     Vaccinatiecentrum v;
+    Hub hub2;
+    Vaccinatiecentrum vac;
 };
 
 /**
@@ -46,9 +48,31 @@ TEST_F(HubDomainTest, CentrumDefaultConstructor ){
 }
 
 TEST_F(HubDomainTest, substractVaccins) {
+    hub2.setLevering(1000);
+    hub2.leveringToHub();
+    hub2.substractVaccins(0);
+    EXPECT_EQ(1000,hub2.getAantalVaccins());
+    hub2.substractVaccins(1000);
+    EXPECT_EQ(0,hub2.getAantalVaccins());
+
 
 }
 
+TEST_F(HubDomainTest, notDone){
+    vac.setAantalInwoners(1000);
+    hub2.addcentrum(&vac);
+    EXPECT_FALSE(hub2.notDone());
+    EXPECT_TRUE(hub.notDone());
+}
+
+TEST_F(HubDomainTest, aantalOngevaccineerden){
+    vac.setAantalInwoners(1000);
+    hub2.addcentrum(&vac);
+    vac.setCapaciteit(1000);
+    hub2.vaccineren();
+    EXPECT_EQ(0, hub.aantalOngevaccineerden());
+    EXPECT_EQ(1000,hub2.aantalOngevaccineerden());
+}
 //TODO
 //    void substractVaccins(int vaccins);
 //    void leveringToHub();
