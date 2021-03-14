@@ -40,7 +40,9 @@ TEST_F(ProjectTest, verkeerde_input){
     EXPECT_EQ(1, initializeSimulation("./testInput/onherkenbaar3.xml",hub));
 
     //ongeldige informatie
-
+    EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo1.xml",hub));
+    EXPECT_EQ(0,initializeSimulation("./testInput/ongeldigeinfo2.xml",hub));
+    EXPECT_EQ(0,initializeSimulation("./testInput/ongeldigeinfo3.xml",hub));
     //inconsistente simulatie
 
 }
