@@ -117,4 +117,37 @@ void autoSimulation(Hub& hub, int start, int eind, std::ostream &out){
         hub.vaccineren(out);
         out << std::endl;
     }
+
+}
+
+void autoSimulationUntilDone(Hub &hub) {
+    autoSimulationUntilDone(hub, std::cout);
+}
+
+
+void autoSimulationUntilDone(Hub &hub, std::ostream &out) {
+// Het systeem bevat een simulatie met de verschillende vaccinatiecentra
+    REQUIRE(hub.correctlyInitialized(), "Foutieve hub");
+
+//    1.  WHILE not done
+    int current_day = 0;
+    while (hub.notDone()){
+        out << "DAG " << current_day << ":" << std::endl;
+        hub.outputHub(out);
+//    1.1 IF er vaccins geleverd worden op de huidige dag
+        if (hub.isLeveringsDag(current_day) && current_day != 0){
+//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
+            hub.leveringToHub();
+        }
+
+//    1.2 FOR elk centrum verbonden met de hub
+//    1.2.1 voer use case 3.1 uit
+        hub.transportToCentra(out);
+//    1.3 FOR elk centrum
+//    1.3.1 voer use case 3.2 uit
+        hub.vaccineren(out);
+        out << std::endl;
+        current_day += 1;
+    }
+
 }

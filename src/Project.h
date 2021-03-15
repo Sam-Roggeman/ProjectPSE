@@ -16,6 +16,8 @@ void outputSimulation(const Hub& hub);
 void outputSimulation(const Hub& hub,std::ostream& out);
 void autoSimulation(Hub& hub, int start, int eind, std::ostream& out);
 void autoSimulation(Hub& hub, int start, int eind);
+void autoSimulationUntilDone(Hub &hub);
+void autoSimulationUntilDone(Hub& hub, std::ostream &out);
 
 
 

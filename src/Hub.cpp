@@ -17,21 +17,6 @@ bool Hub::correctlyInitialized() const {
     return out;
 }
 
-
-//bool Hub::correctlyInitialized() const {
-//    if (vaccinatiecentra.empty()) return false;
-//    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
-//        if (! it->second->correctlyInitialized()){
-//            return false;
-//        }
-//    }
-//    if (this->getInterval() < 0 || this->getAantalVaccins() < 0 || this->getTransport() < 0){
-//        std::cerr << "levering, interval of transport < 0";
-//        return false;
-//    }
-//    return true;
-//}
-
 void Hub::outputHub() const {
     outputHub(std::cout);
 }
@@ -71,15 +56,11 @@ void Hub::transportToCentra(std::ostream& out) {
             std::cerr << "2* capaciteit overeschreven " << std::endl;
             return;
         }
-        if (tot_lading <= this->levering){
+        if (tot_lading <= this->aantal_vaccins){
             centrum->addVaccins(tot_lading);
             this->substractVaccins(tot_lading);
-            out << "Er werden " << aantal_ladingen << " (" << tot_lading <<" vaccins) getransporteerd naar " <<
+            out << "Er werden " << aantal_ladingen << " ladingen (" << tot_lading <<" vaccins) getransporteerd naar " <<
                     centrum->getNaamCentrum() << "." << std::endl;
-        }
-        else {
-            std::cerr << "te weinig vaccins in de hub" << std::endl;
-            return;
         }
     }
 }
@@ -153,9 +134,9 @@ void Hub::setLevering(int levering1) {
 
 bool Hub::notDone(){
     if (this->aantalOngevaccineerden() > 0){
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
 int Hub::aantalOngevaccineerden() {
