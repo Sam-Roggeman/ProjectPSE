@@ -6,10 +6,10 @@ set(CMAKE_CXX_FLAGS "-Wall -Werror")
 set(CMAKE_EXE_LINKER_FLAGS -pthread)
 
 # Set include dir
-include_directories(gtest/include)
+include_directories(./gtest/include)
 
 # Set Library dir
-link_directories(gtest/lib)
+link_directories(./gtest/lib)
 
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
@@ -27,7 +27,6 @@ set(RELEASE_SOURCE_FILES
         src/Hub.h
         src/Vaccinatiecentrum.cpp
         src/Vaccinatiecentrum.h
-
         )
 
 # Set source files for DEBUG target
@@ -48,7 +47,10 @@ set(DEBUG_SOURCE_FILES
         src/Vaccinatiecentrum.cpp
         src/Vaccinatiecentrum.h
         src/Hub.cpp
-        src/Hub.h)
+        src/Hub.h
+        src/TicTacToeUtils.h
+        src/TicTacToeUtils.cpp
+        )
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})

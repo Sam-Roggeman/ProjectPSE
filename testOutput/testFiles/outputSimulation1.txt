@@ -1,0 +1,3 @@
+Hub (0 vaccins)
+	-> a (0 vaccins)
+a: 0 gevaccineerd, nog 0 inwoners niet gevaccineerd

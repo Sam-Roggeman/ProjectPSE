@@ -16,11 +16,7 @@ int initializeSimulation(const char *filename, Hub &hub){
     }
     TiXmlElement *root = doc.FirstChildElement();
     //als er geen root element is
-    if (root == NULL) {
-        std::cerr << "Failed to load file: No root element." << std::endl;
-        doc.Clear();
-        return 1;
-    }
+    REQUIRE(root != NULL, "Failed to load file: No root element.");
     //loop over alle child elementen zolang het bestand niet is ingelezen
     for (TiXmlElement *cdElement = root->FirstChildElement();
          cdElement != NULL; cdElement = cdElement->NextSiblingElement()) {
@@ -83,7 +79,7 @@ int initializeSimulation(const char *filename, Hub &hub){
 }
 
 void outputSimulation(const Hub &hub, std::ostream &out) {
-    hub.outputHub();
+    hub.outputHub(out);
 }
 
 void outputSimulation(const Hub &hub) {
