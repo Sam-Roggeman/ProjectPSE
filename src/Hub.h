@@ -113,6 +113,8 @@ public: //TODO comments
     int aantalOngevaccineerden();
 
     void outputHub(std::ostream &out) const;
+
+    bool completlyInitialized() const;
 };
 
 

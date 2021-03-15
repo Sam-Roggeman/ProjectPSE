@@ -7,14 +7,14 @@
 //============================================================================
 #include "Project.h"
 
-int initializeSimulation(const char *filename, Hub &hub){
+int initializeSimulation(const char *filename, Hub &hub, std::ostream &errstream) {
     int hubcounter = 0;
     int vaccinatiecentracounter = 0;
     Vaccinatiecentrum* centrum;
     TiXmlDocument doc;
     //open xml file indien: ASCII bestand met daarop een beschrijving van de vaccinatiecentra
     if (!doc.LoadFile(filename)) {
-        std::cerr << doc.ErrorDesc() << std::endl;
+        errstream << doc.ErrorDesc() << std::endl;
         return 1;
     }
     TiXmlElement *root = doc.FirstChildElement();
@@ -42,7 +42,7 @@ int initializeSimulation(const char *filename, Hub &hub){
                 } else if (elem_name == "capaciteit") {
                     centrum->setCapaciteit(std::atoi(vac_elem->FirstChild()->Value()));
                 } else {
-                    std::cerr << "element niet herkend" << std::endl;
+                    errstream << "element niet herkend" << std::endl;
                 }
             }
             hub.addcentrum(centrum);
@@ -64,19 +64,19 @@ int initializeSimulation(const char *filename, Hub &hub){
                 }
                     //element is niet herkent
                 else {
-                    std::cerr << "element niet herkend" << std::endl;
+                    errstream << "element niet herkend" << std::endl;
                 }
             }
         }
             //element is geen hub of centrum
         else {
-            std::cerr << "element niet herkend" << std::endl;
+            errstream << "element niet herkend" << std::endl;
         }
     }
-    REQUIRE(hub.correctlyInitialized(),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
-    REQUIRE((hubcounter < 2),"Je mag maar 1 hub hebben");
-    REQUIRE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
-    REQUIRE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
+    ENSURE(hub.completlyInitialized(),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    ENSURE((hubcounter < 2),"Je mag maar 1 hub hebben");
+    ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
+    ENSURE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
     doc.Clear();
     return 0;
 }

@@ -15,7 +15,7 @@
 #include <sstream>
 #include "DesignByContract.h"
 
-int initializeSimulation(const char *filename, Hub &hub);
+int initializeSimulation(const char *filename, Hub &hub, std::ostream &errstream);
 void outputSimulation(const Hub& hub);
 void outputSimulation(const Hub& hub,std::ostream& out);
 void autoSimulation(Hub& hub, int start, int eind, std::ostream& out);

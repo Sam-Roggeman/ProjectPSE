@@ -162,6 +162,8 @@ public:
      * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
      * */
     void vaccineren(std::ostream& out);
+
+    bool completlyInitialized() const;
 };
 
 

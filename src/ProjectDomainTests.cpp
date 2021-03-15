@@ -18,6 +18,7 @@ protected:
     friend class Hub;
 
     virtual void SetUp() {
+        ofs.open("/dev/null");
     }
 
     virtual void TearDown() {
@@ -27,6 +28,7 @@ protected:
     Vaccinatiecentrum v;
     Hub hub2;
     Vaccinatiecentrum vac;
+    std::ofstream  ofs;
 };
 
 /**
@@ -161,7 +163,7 @@ TEST_F(HubDomainTest, notDone){
 
     //Initalisering van alle waardes
     vac.setAantalVaccins(1000);
-    vac.vaccineren();
+    vac.vaccineren(ofs);
 
     //Testen op de return waarde van de functie
     EXPECT_FALSE(hub2.notDone());
@@ -174,7 +176,7 @@ TEST_F(HubDomainTest, aantalOngevaccineerden){
     vac.setAantalInwoners(1000);
     hub2.addcentrum(&vac);
     vac.setCapaciteit(1000);
-    hub2.vaccineren();
+    hub2.vaccineren(ofs);
 
     //Testen op de return waarde van de functie
     EXPECT_EQ(0, hub.aantalOngevaccineerden());
@@ -210,7 +212,7 @@ TEST_F(HubDomainTest, addVaccins){
     //Returnwaarde vergelijken met verwachtte waarde
     EXPECT_EQ(500,v.getAantalVaccins());
     EXPECT_NE(0,v.getAantalVaccins());
-    v.vaccineren();
+    v.vaccineren(ofs);
     EXPECT_EQ(0,v.getAantalVaccins());
     EXPECT_NE(500,v.getAantalVaccins());
 }

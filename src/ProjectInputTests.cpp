@@ -5,6 +5,7 @@
 // Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
 // Description : Input tests in C++, Ansi-style
 //============================================================================
+#include <fstream>
 #include "gtest/gtest.h"
 #include "Project.h"
 class ProjectTest: public ::testing::Test {
@@ -16,6 +17,7 @@ protected:
     // should define it if you need to initialize the variables.
     // Otherwise, this can be skipped.
     virtual void SetUp() {
+        ofs.open("/dev/null");
     }
 
     // virtual void TearDown() will be called after each test is run.
@@ -26,46 +28,48 @@ protected:
 
     // Declares the variables your tests want to use.
     Hub hub;
+    std::ofstream ofs;
+
 };
 TEST_F (ProjectTest, Juistteruggeven){
-    EXPECT_EQ(0, initializeSimulation("./testInput/test.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/Juist.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/Juist1.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/test.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/Juist.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/Juist1.xml", hub, ofs));
 }
 
 TEST_F(ProjectTest, verkeerde_input){
     //file not found
-    EXPECT_EQ(1, initializeSimulation("./testInput/abc.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/abc.xml", hub, ofs));
     //verkeerde xml constructie
-    EXPECT_EQ(1, initializeSimulation("./testInput/test1.xml",hub));
-    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie.xml",hub));
-    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie1.xml",hub));
-    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie2.xml",hub));
-    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie3.xml",hub));
-    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie4.xml",hub));
+    EXPECT_EQ(1, initializeSimulation("./testInput/test1.xml", hub, ofs));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie.xml", hub, ofs));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie1.xml", hub, ofs));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie2.xml", hub, ofs));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie3.xml", hub, ofs));
+    EXPECT_EQ(1, initializeSimulation("./testInput/verkeerdeconstructie4.xml", hub, ofs));
     //onherkenbaar element
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar1.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar2.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar3.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar4.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar5.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar6.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar7.xml",hub));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar8.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar1.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar2.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar3.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar4.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar5.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar6.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar7.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar8.xml", hub, ofs));
 
     //ongeldige informatie
-    EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo1.xml",hub));
-    EXPECT_EQ(0,initializeSimulation("./testInput/ongeldigeinfo2.xml",hub));
-    EXPECT_EQ(0,initializeSimulation("./testInput/ongeldigeinfo3.xml",hub));
+    EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo1.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo2.xml", hub, ofs));
+    EXPECT_EQ(0, initializeSimulation("./testInput/ongeldigeinfo3.xml", hub, ofs));
 
 }
 //inconsistente simulaties
 TEST_F(ProjectTest,inconsistent1){
-    EXPECT_EQ(1,initializeSimulation("./testInput/Inconsistentesim.xml",hub));
+    ASSERT_ANY_THROW(initializeSimulation("./testInput/Inconsistentesim.xml", hub, ofs));
 }
 TEST_F(ProjectTest,inconsistent2){
-    EXPECT_EQ(1,initializeSimulation("./testInput/Inconsistentesim1.xml",hub));
+    ASSERT_ANY_THROW(initializeSimulation("./testInput/Inconsistentesim1.xml", hub, ofs));
 }
 TEST_F(ProjectTest,inconsistent3){
-    EXPECT_EQ(1,initializeSimulation("./testInput/Inconsistentesim2.xml",hub));
+    EXPECT_ANY_THROW(initializeSimulation("./testInput/Inconsistentesim2.xml", hub, ofs));
 }

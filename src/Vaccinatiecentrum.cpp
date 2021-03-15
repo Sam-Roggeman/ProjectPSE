@@ -252,5 +252,24 @@ void Vaccinatiecentrum::vaccineren(std::ostream& out) {
             this->naam_centrum << "." << std::endl;
 }
 
+bool Vaccinatiecentrum::completlyInitialized() const {
+    if (this->getCapaciteit()<0){
+        std::cerr << "capaciteit 0\n";
+        return false;
+    }
+    else if (this->getAdresCentrum().empty()){
+        std::cerr << "leeg adres \n";
+        return false;
+    }
+    else if (this->getAantalInwoners()<0) {
+        std::cerr << "aantal inwoners <= 0\n";
+        return false;
+    }
+    else if (this->getNaamCentrum().empty()){
+        std::cerr << "lege naam \n";
+        return false;
+    }
+    return true;
+}
 
 

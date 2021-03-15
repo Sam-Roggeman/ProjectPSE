@@ -155,5 +155,18 @@ int Hub::getLevering() {
     return levering;
 }
 
+bool Hub::completlyInitialized() const {
+    bool out = true;
+    if (this != _initCheck){
+        out = false;
+    }
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
+        if (!it->second->completlyInitialized()){
+            out = false;
+        }
+    }
+    return out;
+}
+
 
 
