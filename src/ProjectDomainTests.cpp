@@ -79,11 +79,31 @@ TEST_F(HubDomainTest, aantalOngevaccineerden){
     EXPECT_EQ(0, hub.aantalOngevaccineerden());
     EXPECT_EQ(1000,hub2.aantalOngevaccineerden());
 }
+TEST_F(HubDomainTest, addGevaccineerden){
+    vac.addGevaccineerden(500);
+    EXPECT_EQ(500,vac.getAantalGevaccineerden());
+    EXPECT_EQ(0,v.getAantalGevaccineerden());
+    EXPECT_NE(0,vac.getAantalGevaccineerden());
+    EXPECT_NE(500,v.getAantalGevaccineerden());
+    v.addGevaccineerden(5400);
+    EXPECT_EQ(5400,v.getAantalGevaccineerden());
+    vac.addGevaccineerden(1500);
+    EXPECT_EQ(2000,vac.getAantalGevaccineerden());
+}
+
+TEST_F(HubDomainTest, addVacins){
+    v.addVaccins(500);
+    v.setAantalInwoners(1500);
+    v.setCapaciteit(500);
+    EXPECT_EQ(500,v.getAantalVaccins());
+    EXPECT_NE(0,v.getAantalVaccins());
+    v.vaccineren();
+    EXPECT_EQ(0,v.getAantalVaccins());
+    EXPECT_NE(500,v.getAantalVaccins());
+}
 /*TODO
  * Vaccinatiecentrum:
-     * aantalOngevaccineerden() const;
      * addGevaccineerden(int aantal_gevaccineerden);
-     * substractVaccins(int aantal);
      * void addVaccins(int aantal);
 
 */
