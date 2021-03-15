@@ -6,6 +6,7 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <gtest/gtest.h>
+#include "Project.h"
 
 #include "Hub.h"
 
@@ -35,6 +36,20 @@ TEST_F(HubDomainTest, HubDefaultConstructor) {
     EXPECT_EQ(0, hub.getAantalVaccins());
     EXPECT_EQ(0, hub.getTransport());
     EXPECT_EQ(0, hub.getLevering());
+
+    hub.setLevering(500);
+    hub.setInterval(6);
+    hub.setTransport(50);
+    hub.leveringToHub();
+    EXPECT_EQ(500,hub.getLevering());
+    EXPECT_EQ(500,hub.getAantalVaccins());
+    EXPECT_EQ(50,hub.getTransport());
+    EXPECT_EQ(6,hub.getInterval());
+
+    EXPECT_NE(50,hub.getLevering());
+    EXPECT_NE(500,hub.getTransport());
+    EXPECT_NE(5,hub.getInterval());
+    EXPECT_NE(1203,hub.getAantalVaccins());
 }
 
 TEST_F(HubDomainTest, CentrumDefaultConstructor ){
@@ -45,6 +60,19 @@ TEST_F(HubDomainTest, CentrumDefaultConstructor ){
     EXPECT_EQ(0, v.getAantalVaccins());
     EXPECT_EQ(0, v.getAantalInwoners());
     EXPECT_EQ(0, v.getCapaciteit());
+
+    v.setCapaciteit(1500);
+    v.setNaamCentrum("Antwerpen");
+    v.setAdresCentrum("vijfstraat 5");
+    v.setAantalInwoners(500);
+    v.setAantalVaccins(1300);
+    v.setAantalGevaccineerden(1240);
+    EXPECT_EQ(1500,v.getCapaciteit());
+    EXPECT_EQ("Antwerpen",v.getNaamCentrum());
+    EXPECT_EQ("vijfstraat 5", v.getAdresCentrum());
+    EXPECT_EQ(500,v.getAantalInwoners());
+    EXPECT_EQ(1300,v.getAantalVaccins());
+    EXPECT_EQ(1240,v.getAantalGevaccineerden());
 }
 
 TEST_F(HubDomainTest, substractVaccins) {
@@ -53,6 +81,19 @@ TEST_F(HubDomainTest, substractVaccins) {
     hub2.substractVaccins(0);
     EXPECT_EQ(1000,hub2.getAantalVaccins());
     hub2.substractVaccins(1000);
+    EXPECT_EQ(0,hub2.getAantalVaccins());
+
+    hub2.leveringToHub();
+    hub2.leveringToHub();
+    hub2.substractVaccins(1000);
+    EXPECT_EQ(1000,hub2.getAantalVaccins());
+    hub2.substractVaccins(500);
+    EXPECT_EQ(500,hub2.getAantalVaccins());
+    EXPECT_NE(2412,hub2.getAantalVaccins());
+    hub2.substractVaccins(250);
+    EXPECT_NE(0,hub2.getAantalVaccins());
+    EXPECT_EQ(250,hub2.getAantalVaccins());
+    hub2.substractVaccins(250);
     EXPECT_EQ(0,hub2.getAantalVaccins());
 }
 
@@ -63,12 +104,23 @@ TEST_F(HubDomainTest, isLeveringsDag){
     EXPECT_FALSE(hub2.isLeveringsDag(3));
     EXPECT_TRUE(hub.isLeveringsDag(7));
     EXPECT_FALSE(hub.isLeveringsDag(5));
+    hub2.setInterval(0);
+    while(hub2.getInterval() != 6){
+        EXPECT_FALSE(hub.isLeveringsDag(8));
+        hub2.setInterval(hub2.getInterval()+ 1);
+    }
+    hub2.setInterval(hub2.getInterval()+1);
+    EXPECT_TRUE(hub2.isLeveringsDag(8));
 }
 TEST_F(HubDomainTest, notDone){
     vac.setAantalInwoners(1000);
     hub2.addcentrum(&vac);
+    vac.setCapaciteit(1000);
+    EXPECT_TRUE(hub2.notDone());
+    EXPECT_FALSE(hub.notDone());
+    vac.setAantalVaccins(1000);
+    vac.vaccineren();
     EXPECT_FALSE(hub2.notDone());
-    EXPECT_TRUE(hub.notDone());
 }
 
 TEST_F(HubDomainTest, aantalOngevaccineerden){
