@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : TicTacToeMain.cpp
-// Author      : Serge Demeyer
+// Name        : ProjectMain.cpp
+// Author      : Sam Roggeman - Said Yandarbiev
 // Version     :
-// Copyright   : Project Software Engineering - BA1 Informatica - Serge Demeyer - University of Antwerp
-// Description : TicTactToe in C++, Ansi-style
+// Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
+// Description : Project Main in C++, Ansi-style
 //============================================================================
 
 #include <iostream>

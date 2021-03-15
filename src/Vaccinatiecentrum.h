@@ -1,6 +1,10 @@
-//
-// Created by User on 1/03/2021.
-//
+//============================================================================
+// Name        : Vaccinatiecentrum.h
+// Author      : Sam Roggeman - Said Yandarbiev
+// Version     :
+// Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
+// Description : Vaccinatiecentrum in C++, Ansi-style
+//============================================================================
 
 #ifndef PROJECT_VACCINATIECENTRUM_H
 #define PROJECT_VACCINATIECENTRUM_H

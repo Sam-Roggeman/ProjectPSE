@@ -1,6 +1,10 @@
-//
-// Created by User on 1/03/2021.
-//
+//============================================================================
+// Name        : ProjectInputTests.cpp
+// Author      : Sam Roggeman - Said Yandarbiev
+// Version     :
+// Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
+// Description : Input tests in C++, Ansi-style
+//============================================================================
 #include "gtest/gtest.h"
 #include "Project.h"
 class ProjectTest: public ::testing::Test {

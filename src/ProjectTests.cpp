@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : TicTacToeTests.cpp
-// Author      : Serge Demeyer
+// Name        : Project.cpp
+// Author      : Sam Roggeman - Said Yandarbiev
 // Version     :
-// Copyright   : Project Software Engineering - BA1 Informatica - Serge Demeyer - University of Antwerp
-// Description : TicTactToe in C++, Ansi-style
+// Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
+// Description : Main test in C++, Ansi-style
 //============================================================================
 
 #include <gtest/gtest.h>

@@ -1,6 +1,10 @@
-//
-// Created by said2 on 1-3-2021.
-//
+//============================================================================
+// Name        : Hub.h
+// Author      : Sam Roggeman - Said Yandarbiev
+// Version     :
+// Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
+// Description : Hub simulation in C++, Ansi-style
+//============================================================================
 
 #ifndef PROJECT_HUB_H
 #define PROJECT_HUB_H
@@ -19,7 +23,7 @@ private:
     int interval;
     int transport;
     std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
-public:
+public: //TODO comments
     /*Maakt een hub object aan, zonder de membervariabelen te initializeren
      *@returns hub object
      * */

@@ -1,6 +1,10 @@
-//
-// Created by said2 on 1-3-2021.
-//
+//============================================================================
+// Name        : Hub.cpp
+// Author      : Sam Roggeman - Said Yandarbiev
+// Version     :
+// Copyright   : Project Software Engineering - BA1 Informatica - Sam Roggeman - Said Yandarbiev - University of Antwerp
+// Description : Hub simulation in C++, Ansi-style
+//============================================================================
 
 #include "Hub.h"
 
