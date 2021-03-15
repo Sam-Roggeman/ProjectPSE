@@ -79,9 +79,11 @@ TEST_F(HubDomainTest, aantalOngevaccineerden){
     EXPECT_EQ(0, hub.aantalOngevaccineerden());
     EXPECT_EQ(1000,hub2.aantalOngevaccineerden());
 }
-//TODO
-//    void substractVaccins(int vaccins);
-//    void leveringToHub();
-//    bool isLeveringsDag(int dag);
-//    bool notDone();
-//    int aantalOngevaccineerden();
+/*TODO
+ * Vaccinatiecentrum:
+     * aantalOngevaccineerden() const;
+     * addGevaccineerden(int aantal_gevaccineerden);
+     * substractVaccins(int aantal);
+     * void addVaccins(int aantal);
+
+*/
