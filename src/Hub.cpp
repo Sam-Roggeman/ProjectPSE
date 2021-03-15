@@ -157,7 +157,7 @@ int Hub::getLevering() {
 
 bool Hub::completlyInitialized() const {
     bool out = true;
-    if (this != _initCheck){
+    if (aantal_vaccins<0||levering<0||interval<0||transport<0){
         out = false;
     }
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
