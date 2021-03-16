@@ -1,8 +1,10 @@
 var searchData=
 [
-  ['removeattribute_72',['RemoveAttribute',['../class_ti_xml_element.html#a56979767deca794376b1dfa69a525b2a',1,'TiXmlElement']]],
-  ['removechild_73',['RemoveChild',['../class_ti_xml_node.html#ae19d8510efc90596552f4feeac9a8fbf',1,'TiXmlNode']]],
-  ['replacechild_74',['ReplaceChild',['../class_ti_xml_node.html#a543208c2c801c84a213529541e904b9f',1,'TiXmlNode']]],
-  ['rootelement_75',['RootElement',['../class_ti_xml_document.html#ab54e3a93279fcf0ac80f06ed9c52f04a',1,'TiXmlDocument']]],
-  ['row_76',['Row',['../class_ti_xml_base.html#ad0cacca5d76d156b26511f46080b442e',1,'TiXmlBase']]]
+  ['queryboolattribute_82',['QueryBoolAttribute',['../class_ti_xml_element.html#a5789b1488af75b6ae37a749700495ceb',1,'TiXmlElement']]],
+  ['querydoubleattribute_83',['QueryDoubleAttribute',['../class_ti_xml_element.html#ae04bad29ddb281a7e6c662b3882e9928',1,'TiXmlElement']]],
+  ['querydoublevalue_84',['QueryDoubleValue',['../class_ti_xml_attribute.html#a6fa41b710c1b79de37a97004aa600c06',1,'TiXmlAttribute']]],
+  ['queryfloatattribute_85',['QueryFloatAttribute',['../class_ti_xml_element.html#a5591929834178699b4561ab6ab460068',1,'TiXmlElement']]],
+  ['queryintattribute_86',['QueryIntAttribute',['../class_ti_xml_element.html#a5c0f739e0f6f5905a201364532e54a60',1,'TiXmlElement']]],
+  ['queryintvalue_87',['QueryIntValue',['../class_ti_xml_attribute.html#a6caa8090d2fbb7966700a16e45ed33de',1,'TiXmlAttribute']]],
+  ['queryunsignedattribute_88',['QueryUnsignedAttribute',['../class_ti_xml_element.html#ab75c83543d4ace62f4c40d7e8e392fc3',1,'TiXmlElement']]]
 ];
