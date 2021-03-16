@@ -128,7 +128,7 @@ void Hub::vaccineren(std::ostream &out) {
         int gevaccineerden = centrum->getAantalGevaccineerden();
         centrum->vaccineren(out);
         ENSURE(centrum->getAantalVaccins()<= aantal_vaccins_start, "Aantal vaccins is gestegen na vaccineren" );
-        ENSURE(centrum->getAantalGevaccineerden()>= gevaccineerden, "Gevaccineerden is gezakt na vaccineren" );
+        ENSURE(centrum->getAantalGevaccineerden() >= gevaccineerden, "Gevaccineerden is gezakt na vaccineren" );
     }
 }
 
