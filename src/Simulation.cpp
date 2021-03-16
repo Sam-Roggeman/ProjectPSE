@@ -158,12 +158,11 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
     REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
     REQUIRE(hub->completelyInitialized(), "Foutieve hub");
 //    1.  WHILE not done
-    int current_day = 0;
     while (hub->notDone()){
-        out << "DAG " << current_day << ":" << std::endl;
+        out << "DAG " << dag << ":" << std::endl;
         hub->outputHub(out);
 //    1.1 IF er vaccins geleverd worden op de huidige dag
-        if (hub->isLeveringsDag(current_day) && current_day != 0){
+        if (hub->isLeveringsDag(dag) && dag != 0){
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
             hub->leveringToHub();
         }
@@ -175,7 +174,7 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 //    1.3.1 voer use case 3.2 uit
         hub->vaccineren(out);
         out << std::endl;
-        current_day += 1;
+        nextDay();
     }
 }
 
