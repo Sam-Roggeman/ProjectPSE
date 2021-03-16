@@ -24,35 +24,11 @@ using namespace std;
 
 
 int main(int argc, char **argv) {
-    ofstream o;
-//    o.open("a.txt");
+//    ofstream o;
+//    o.open("test.txt");
     Hub h = Hub();
     Simulation s = Simulation(&h);
-//    hub.addcentrum(&v);
-//    o.open("./testOutput/testFiles");
-
-//    initializeSimulation("./testInput/test.xml", hub);
-
-//    outputSimulation(hub, o);
-//    autoSimulationUntilDone(hub);
-//    autoSimulation(hub,0,5);
-//    o.close();
-    Vaccinatiecentrum v;
-    v.setNaamCentrum("a");
-    v.setAdresCentrum("A");
-    s.addcentrum(&v);
-    s.outputSimulation();
-    //    o.open("./testOutput/testFiles");
-//    s.outputSimulation(o);
-//    o.close();
-//    v.setCapaciteit(9000);
-//    v.setAantalInwoners(2000);
-//    o.open("./testOutput/outputSimulation2.txt");
-//    s.outputSimulation(o);
-//    o.close();
-//    o.open("./testOutput/outputSimulation3.txt");
-//    v.setAantalGevaccineerden(2000);
-//    s.outputSimulation(o);
+    s.initializeSimulation("./testInput/test.xml", std::cerr);
 //    o.close();
     return 0;
 }
