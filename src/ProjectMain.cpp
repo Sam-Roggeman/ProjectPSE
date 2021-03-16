@@ -14,6 +14,7 @@
 #include <fstream>
 #include "DesignByContract.h"
 #include "Project.h"
+#include "Simulation.h"
 
 
 using namespace std;
@@ -25,8 +26,8 @@ using namespace std;
 int main(int argc, char **argv) {
     ofstream o;
 //    o.open("a.txt");
-    Hub hub;
-    Vaccinatiecentrum v;
+    Hub h = Hub();
+    Simulation s = Simulation(&h);
 //    hub.addcentrum(&v);
 //    o.open("./testOutput/testFiles");
 
@@ -36,22 +37,23 @@ int main(int argc, char **argv) {
 //    autoSimulationUntilDone(hub);
 //    autoSimulation(hub,0,5);
 //    o.close();
-
-    hub.addcentrum(&v);
+    Vaccinatiecentrum v;
+    s.addcentrum(&v);
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
-    o.open("./testOutput/testFiles");
-    outputSimulation(hub, o);
-    o.close();
-    v.setCapaciteit(9000);
-    v.setAantalInwoners(2000);
-    o.open("./testOutput/outputSimulation2.txt");
-    outputSimulation(hub, o);
-    o.close();
-    o.open("./testOutput/outputSimulation3.txt");
-    v.setAantalGevaccineerden(2000);
-    outputSimulation(hub, o);
-    o.close();
+    s.outputSimulation();
+    //    o.open("./testOutput/testFiles");
+//    s.outputSimulation(o);
+//    o.close();
+//    v.setCapaciteit(9000);
+//    v.setAantalInwoners(2000);
+//    o.open("./testOutput/outputSimulation2.txt");
+//    s.outputSimulation(o);
+//    o.close();
+//    o.open("./testOutput/outputSimulation3.txt");
+//    v.setAantalGevaccineerden(2000);
+//    s.outputSimulation(o);
+//    o.close();
     return 0;
 }
 

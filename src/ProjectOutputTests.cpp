@@ -13,6 +13,7 @@
 #include "Project.h"
 #include "Hub.h"
 #include "TicTacToeUtils.h"
+#include "Simulation.h"
 
 class HubOutputTest: public ::testing::Test {
 protected:
@@ -23,30 +24,30 @@ protected:
 
     virtual void TearDown() {
     }
-
     Hub hub;
     Vaccinatiecentrum v;
 };
 
 TEST_F(HubOutputTest, outputSimulation){
     hub.addcentrum(&v);
+    Simulation s = Simulation(&hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
     o.open("./testOutput/testOutput/outputSimulation1.txt");
-    outputSimulation(hub, o);
+    s.outputSimulation(o);
     EXPECT_TRUE(FileCompare("./testOutput/testFiles/outputSimulation1.txt",
                             "./testOutput/testOutput/outputSimulation1.txt"));
     o.clear();
     v.setCapaciteit(9000);
     v.setAantalInwoners(2000);
     o.open("testOutput/testOutput/outputSimulation2.txt");
-    outputSimulation(hub, o);
+    s.outputSimulation( o);
     EXPECT_TRUE(FileCompare("testOutput/testFiles/outputSimulation2.txt",
                             "testOutput/testOutput/outputSimulation2.txt"));
     o.clear();
     o.open("testOutput/testOutput/outputSimulation3.txt");
-    outputSimulation(hub, o);
+    s.outputSimulation( o);
     v.setAantalGevaccineerden(1000);
     EXPECT_TRUE(FileCompare("testOutput/testFiles/outputSimulation3.txt",
                             "testOutput/testOutput/outputSimulation3.txt"));
