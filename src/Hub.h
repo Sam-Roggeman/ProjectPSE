@@ -182,6 +182,13 @@ public: //TODO comments
      * */
     bool completlyInitialized() const;
 
+    /**cleart de hub
+     *@pre this->correctlyInitialized
+     * @post getTransport() >= 0
+     * @post getInterval() >= 0
+     * @post getAantalVaccins() >=0
+     * @post getLevering() >= 0
+     * */
     void clear();
 };
 
