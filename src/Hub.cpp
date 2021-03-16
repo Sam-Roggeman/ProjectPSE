@@ -195,14 +195,14 @@ int Hub::getLevering() {
     return levering;
 }
 
-bool Hub::completlyInitialized() const {
-    REQUIRE(this->correctlyInitialized(),"de hub was niet correct geinitalizeerd bij oproep van completlyInitialized");
+bool Hub::completelyInitialized() const {
+    REQUIRE(this->correctlyInitialized(),"de hub was niet correct geinitalizeerd bij oproep van completelyInitialized");
     bool out = true;
     if (aantal_vaccins<0||levering<0||interval<0||transport<0){
         out = false;
     }
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
-        if (!it->second->completlyInitialized()){
+        if (!it->second->completelyInitialized()){
             out = false;
         }
     }

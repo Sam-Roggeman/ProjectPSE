@@ -163,7 +163,7 @@ public:
      * */
     void vaccineren(std::ostream& out);
 
-    bool completlyInitialized() const;
+    bool completelyInitialized() const;
 };
 
 

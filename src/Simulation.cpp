@@ -4,21 +4,28 @@
 #include "Simulation.h"
 
 Simulation::Simulation(Hub *hub1) {
+    REQUIRE(hub1->correctlyInitialized(),"Foutieve hub");
     hub = hub1;
     _initcheck = this;
     dag =0;
+    ENSURE(this->getHub() != NULL, "Geen hub toegevoegd");
+    ENSURE(this->getHub()->correctlyInitialized(), "Foutieve hub");
 }
 
 
 const Hub * Simulation::getHub() const {
+    REQUIRE(correctlyInitialized(),"Foutieve simulatie");
+    REQUIRE(hub->correctlyInitialized(),"Foutieve hub");
     return hub;
 }
 
-bool Simulation::correctlyInitialized(){
+bool Simulation::correctlyInitialized() const {
     return this == _initcheck;
 }
 
 void Simulation::setHub(Hub *h) {
+    REQUIRE(h->correctlyInitialized(),"Foutieve hub");
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     Simulation::hub = h;
 }
 
@@ -88,7 +95,7 @@ int Simulation::initializeSimulation(const char *filename, std::ostream &errstre
             errstream << "element niet herkend" << std::endl;
         }
     }
-    ENSURE(hub->completlyInitialized(),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    ENSURE(hub->completelyInitialized(), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     ENSURE((hubcounter < 2),"Je mag maar 1 hub hebben");
     ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     ENSURE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
@@ -97,21 +104,25 @@ int Simulation::initializeSimulation(const char *filename, std::ostream &errstre
 }
 
 void Simulation::outputSimulation(std::ostream &out) {
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     hub->outputHub(out);
 }
 
 void Simulation::outputSimulation() {
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     outputSimulation(std::cout);
 }
 
 void Simulation::autoSimulation(int start, int eind) {
+    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     autoSimulation(start, eind, std::cout);
 }
 
 void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
 //    1.  WHILE huidige dag<eind dag
 
     for (int current = start; current < eind; current++) {
@@ -135,6 +146,8 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 }
 
 void Simulation::autoSimulationUntilDone() {
+    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
+    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
     autoSimulationUntilDone(std::cout);
 }
 
@@ -142,7 +155,7 @@ void Simulation::autoSimulationUntilDone() {
 void Simulation::autoSimulationUntilDone(std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-
+    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
 //    1.  WHILE not done
     int current_day = 0;
     while (hub->notDone()){
@@ -166,22 +179,29 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 }
 
 void Simulation::addcentrum(Vaccinatiecentrum *v) {
+    REQUIRE(v->correctlyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
+    REQUIRE(v->completelyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     hub->addcentrum(v);
 }
 
 void Simulation::nextDay(){
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     dag += 1;
 }
 
 int Simulation::getDag() const {
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(dag >= 0, "De dag mag niet negatief zijn");
     return dag;
 }
 
 void Simulation::setDag(int d) {
+    REQUIRE(d > 0, "De dag mag niet negatief zijn");
     Simulation::dag = d;
 }
 
 void Simulation::clear() {
+    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     hub->clear();
 }
 

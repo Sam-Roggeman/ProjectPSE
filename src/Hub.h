@@ -95,7 +95,7 @@ public: //TODO comments
      * */
     void substractVaccins(int vaccins);
 
-    /**kijkt na of de hub correct geinitializeerd is
+    /**kijkt na of de hub correct geinitialiseerd is
      * @return bool true als geinitializeerd
      * */
     bool correctlyInitialized() const;
@@ -180,7 +180,7 @@ public: //TODO comments
      * @return true als compleet geinitalizeerd
      * @pre this->correctlyInitialized()
      * */
-    bool completlyInitialized() const;
+    bool completelyInitialized() const;
 
     void clear();
 };

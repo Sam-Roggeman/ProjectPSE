@@ -252,7 +252,7 @@ void Vaccinatiecentrum::vaccineren(std::ostream& out) {
             this->naam_centrum << "." << std::endl;
 }
 
-bool Vaccinatiecentrum::completlyInitialized() const {
+bool Vaccinatiecentrum::completelyInitialized() const {
     if (this->getCapaciteit()<0){
         return false;
     }

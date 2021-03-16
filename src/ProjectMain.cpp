@@ -38,9 +38,9 @@ int main(int argc, char **argv) {
 //    autoSimulation(hub,0,5);
 //    o.close();
     Vaccinatiecentrum v;
-    s.addcentrum(&v);
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
+    s.addcentrum(&v);
     s.outputSimulation();
     //    o.open("./testOutput/testFiles");
 //    s.outputSimulation(o);
