@@ -52,8 +52,8 @@ TEST_F(ProjectTest, verkeerde_input){
     EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar2.xml", hub, ofs));
     EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar3.xml", hub, ofs));
     EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar4.xml", hub, ofs));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar5.xml", hub, ofs));
-    EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar6.xml", hub, ofs));
+    ASSERT_DEATH(initializeSimulation("./testInput/onherkenbaar5.xml", hub, ofs), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    ASSERT_DEATH(initializeSimulation("./testInput/onherkenbaar6.xml", hub, ofs), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar7.xml", hub, ofs));
     EXPECT_EQ(0, initializeSimulation("./testInput/onherkenbaar8.xml", hub, ofs));
 
@@ -65,11 +65,11 @@ TEST_F(ProjectTest, verkeerde_input){
 }
 //inconsistente simulaties
 TEST_F(ProjectTest,inconsistent1){
-    ASSERT_ANY_THROW(initializeSimulation("./testInput/Inconsistentesim.xml", hub, ofs));
+    ASSERT_DEATH(initializeSimulation("./testInput/Inconsistentesim.xml", hub, ofs),"Je mag maar 1 hub hebben");
 }
 TEST_F(ProjectTest,inconsistent2){
-    ASSERT_ANY_THROW(initializeSimulation("./testInput/Inconsistentesim1.xml", hub, ofs));
+    ASSERT_DEATH(initializeSimulation("./testInput/Inconsistentesim1.xml", hub, ofs),"Je moet minstens 1 vaccinatiecentrum hebben");
 }
 TEST_F(ProjectTest,inconsistent3){
-    EXPECT_ANY_THROW(initializeSimulation("./testInput/Inconsistentesim2.xml", hub, ofs));
+    ASSERT_DEATH(initializeSimulation("./testInput/Inconsistentesim2.xml", hub, ofs),"Je moet minstens 1 Hub hebben");
 }
