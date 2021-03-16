@@ -156,7 +156,6 @@ TEST_F(HubDomainTest, isLeveringsDag){
 TEST_F(HubDomainTest, notDone){
     //Initialisering alle waardes
     vac.setAantalInwoners(1000);
-    hub2.addcentrum(&vac);
     vac.setCapaciteit(1000);
 
     //Testen op de return waarde van de functie
@@ -176,7 +175,6 @@ TEST_F(HubDomainTest, notDone){
 TEST_F(HubDomainTest, aantalOngevaccineerden){
     //Initialisering alle waardes
     vac.setAantalInwoners(1000);
-    hub2.addcentrum(&vac);
     vac.setCapaciteit(1000);
     hub2.vaccineren(ofs);
 

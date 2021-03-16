@@ -181,3 +181,7 @@ void Simulation::setDag(int d) {
     Simulation::dag = d;
 }
 
+void Simulation::clear() {
+    hub->clear();
+}
+

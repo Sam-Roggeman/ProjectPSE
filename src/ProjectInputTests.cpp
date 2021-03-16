@@ -38,7 +38,9 @@ TEST_F (ProjectTest, Juistteruggeven){
     Simulation s = Simulation(&hub);
 
     EXPECT_EQ(0, s.initializeSimulation("./testInput/test.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/Juist.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/Juist1.xml",  ofs));
 }
 
@@ -47,26 +49,42 @@ TEST_F(ProjectTest, verkeerde_input){
 
     //file not found
     EXPECT_EQ(1, s.initializeSimulation("./testInput/abc.xml",  ofs));
+    s.clear();
     //verkeerde xml constructie
     EXPECT_EQ(1, s.initializeSimulation("./testInput/test1.xml",  ofs));
+    s.clear();
     EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie.xml",  ofs));
+    s.clear();
     EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie1.xml",  ofs));
+    s.clear();
     EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie2.xml",  ofs));
+    s.clear();
     EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie3.xml",  ofs));
+    s.clear();
     EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie4.xml",  ofs));
     //onherkenbaar element
     EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar1.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar2.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar3.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar4.xml",  ofs));
+    s.clear();
     ASSERT_DEATH(s.initializeSimulation("./testInput/onherkenbaar5.xml",  ofs), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    s.clear();
     ASSERT_DEATH(s.initializeSimulation("./testInput/onherkenbaar6.xml",  ofs), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar7.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar8.xml",  ofs));
+    s.clear();
 
     //ongeldige informatie
     EXPECT_EQ(0, s.initializeSimulation("./testInput/ongeldigeinfo1.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/ongeldigeinfo2.xml",  ofs));
+    s.clear();
     EXPECT_EQ(0, s.initializeSimulation("./testInput/ongeldigeinfo3.xml",  ofs));
 
 }
