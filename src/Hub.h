@@ -23,7 +23,7 @@ private:
     int interval;
     int transport;
     std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
-public: //TODO comments
+public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
      * @post this.levering = 0

@@ -12,6 +12,7 @@
 #include <gtest/gtest.h>
 #include "Project.h"
 #include "Hub.h"
+#include "Simulation.h"
 
 class HubDomainTest: public ::testing::Test {
 protected:
@@ -36,7 +37,6 @@ protected:
 /**
 Tests the default constructor.
 */
-//Tests voor de hub Constructor
 TEST_F(HubDomainTest, HubDefaultConstructor) {
     EXPECT_TRUE(hub.correctlyInitialized());
     // verify post-condition
@@ -215,4 +215,23 @@ TEST_F(HubDomainTest, addVaccins){
     v.vaccineren(ofs);
     EXPECT_EQ(0,v.getAantalVaccins());
     EXPECT_NE(500,v.getAantalVaccins());
+}
+
+//Tests voor de functie clear
+TEST_F(HubDomainTest, clear){
+    Simulation s = Simulation(&hub);
+    //Initialisering alle waardes
+    s.initializeSimulation("./testInput/test.xml", ofs);
+    EXPECT_EQ(0,s.getDag());
+    EXPECT_EQ(93000,s.getHub()->getAantalVaccins());
+    EXPECT_EQ(2000,s.getHub()->getTransport());
+    EXPECT_EQ(6,s.getHub()->getInterval());
+    s.clear();
+    EXPECT_EQ(0,s.getDag());
+    EXPECT_EQ(0,s.getHub()->getAantalVaccins());
+    EXPECT_EQ(0,s.getHub()->getTransport());
+    EXPECT_EQ(0,s.getHub()->getInterval());
+
+
+
 }
