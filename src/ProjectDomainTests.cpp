@@ -19,6 +19,8 @@ protected:
 
     virtual void SetUp() {
         ofs.open("/dev/null");
+        hub.addcentrum(&v);
+        hub2.addcentrum(&vac);
     }
 
     virtual void TearDown() {
