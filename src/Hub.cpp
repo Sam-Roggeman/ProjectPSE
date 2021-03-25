@@ -78,6 +78,7 @@ void Hub::transportToCentra(std::ostream& out) {
         }
         if (tot_lading > 2*centrum->getCapaciteit() ){
             std::cerr << "2* capaciteit overeschreven " << std::endl;
+            //TODO err
             return;
         }
         if (tot_lading <= this->aantal_vaccins){
@@ -87,6 +88,7 @@ void Hub::transportToCentra(std::ostream& out) {
                     centrum->getNaamCentrum() << "." << std::endl;
         }
     }
+    //TODO posts
 }
 
 void Hub::substractVaccins(int vaccins) {

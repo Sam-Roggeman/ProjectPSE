@@ -52,5 +52,4 @@ TEST_F(HubOutputTest, outputSimulation){
     EXPECT_TRUE(FileCompare("testOutput/testFiles/outputSimulation3.txt",
                             "testOutput/testOutput/outputSimulation3.txt"));
     o.clear();
-
 }

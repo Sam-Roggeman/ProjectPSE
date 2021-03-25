@@ -33,7 +33,7 @@ void Simulation::setHub(Hub *h) {
     Simulation::hub = h;
 }
 
-int Simulation::initializeSimulation(const char *filename, std::ostream &errstream) {
+int Simulation::initializeSimulation(const char *filename, std::ostream &errstream) { //TODO aparte klasse
     this->clear();
     int hubcounter = 0;
     int vaccinatiecentracounter = 0;

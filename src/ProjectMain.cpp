@@ -29,8 +29,8 @@ int main(int argc, char **argv) {
     Hub h = Hub();
     Simulation s = Simulation(&h);
     s.initializeSimulation("./testInput/test.xml", std::cerr);
-    s.autoSimulationUntilDone();
-//    s.autoSimulation(0,5);
+//    s.autoSimulationUntilDone();
+    s.autoSimulation(0,5);
 //    o.close();
     return 0;
 }
