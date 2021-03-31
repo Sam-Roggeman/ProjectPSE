@@ -48,7 +48,7 @@ public:
      * @pre aantal_vaccins1 >= 0
      * @pre this->correctlyinitialized()
      * */
-    void setAantalVaccins(int aantal_vaccins1);
+    void setAantalVaccins(const int aantal_vaccins1);
 
 
     /**Geeft het aantal dagen tussen twee leveringen
@@ -62,7 +62,7 @@ public:
      * @pre interval1 >= 0
      * @pre this->correctlyinitialized()
      * */
-    void setInterval(int interval1);
+    void setInterval(const int interval1);
 
     /**geeft het aantal vaccins per transport
      * @returns het aantal vaccins dat in een transport past
@@ -75,16 +75,17 @@ public:
      * @pre transport1 >= 0
      * @pre this->correctlyinitialized()
      * */
-    void setTransport(int transport1);
+    void setTransport(const int transport1);
 
     /**voegt een centrum toe aan de hub
      * @param vaccinatiecentrum: het toe te voegen vaccinatiecentrum
      * @pre this->correctlyinitialized()
      * @pre vaccinatiecentrum->correctlyinitialized()
      * @pre vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end()
+     * @post vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
      * @post this->vaccinatiecentra.size() += 1
      * */
-    void addcentrum(Vaccinatiecentrum* vaccinatiecentrum);
+    void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
 
     /**trekt vaccins van aantal vaccins in de hub
      * @param vaccins: het aantal vaccins dat afgetrokken moet worden
@@ -93,7 +94,7 @@ public:
      * @post aantal_vaccins -= vaccins
      * @post aantal_vaccins >= 0
      * */
-    void substractVaccins(int vaccins);
+    void substractVaccins(const int vaccins);
 
     /**kijkt na of de hub correct geinitialiseerd is
      * @return bool true als geinitializeerd
@@ -104,7 +105,7 @@ public:
     * @param out: de stream waar de output heen gaat
     * @pre this->correctlyInitialized()
     * */
-    void outputHub(std::ostream &out) const;
+    void outputHub(std::ostream& out) const;
 
     /**output de hub naar std::cout
      * @pre this->correctlyInitialized()
@@ -113,17 +114,23 @@ public:
 
     /**transport vaccins vanuit de hub naar alle centra, output in std::out
      * @pre this->correctlyInitialized()
+     * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start
+     * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
     void transportToCentra();
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
      * @pre this->correctlyInitialized()
+     * @post voor centrum : centra geldt dat aantal_vaccins_centrum >= aantal_vaccins_centrum_start
+     * @post voor centrum : centra geldt dat aantal_vaccins_centrum <= 2* capaciteit
+     * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(std::ostream &out);
+    void transportToCentra(std::ostream& out);
 
     /**er wordt een lading aan de hub geleverd
      * @pre this->correctlyInitialized()
+     * @post aantal_vaccins == aantal_vaccins_start + levering
      * */
     void leveringToHub();
 
@@ -133,7 +140,7 @@ public:
      * @pre dag >=0
      * @pre this->correctlyInitialized()
      */
-    bool isLeveringsDag(int dag);
+    bool isLeveringsDag(const int dag) const;
 
     /**alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt
@@ -141,7 +148,7 @@ public:
      * @post voor elk centrum geldt dat aantal_vaccins <= aantal_vaccins_start
      * @post voor elk centrum geldt dat gevaccineerden >= gevaccineerden_start
      * * */
-    void vaccineren(std::ostream &out);
+    void vaccineren(std::ostream& out);
 
     /**alle centra van de hub voeren vaccinaties uit, output gaat naar std::out
      * @pre this->correctlyInitialized()
@@ -156,25 +163,25 @@ public:
      * @pre this->correctlyInitialized()
      * @post this->levering == levering1
     * */
-    void setLevering(int levering1);
+    void setLevering(const int levering1);
 
     /**Vraagt de grote van eenlevering op
      * @return de grote van een levering
      * @pre this->correctlyInitialized()
      * */
-    int getLevering();
+    int getLevering() const;
 
     /**checkt of het vaccineren klaar is (iedereen is gevaccineerd)
      * @return true als er 0 ongevaccineerden meer zijn
      * @pre this->correctlyInitialized()
      * */
-    bool notDone();
+    bool notDone() const;
 
     /**berekent het aantal ongevaccineerden
      * @return som van alle ongevaccineerden in alle centra
      * @pre this->correctlyInitialized()
      * */
-    int aantalOngevaccineerden();
+    int aantalOngevaccineerden() const;
 
     /**kijkt na of de hub compleet geinitializeerd is
      * @return true als compleet geinitalizeerd

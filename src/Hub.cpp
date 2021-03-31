@@ -67,28 +67,30 @@ void Hub::transportToCentra() {
 void Hub::transportToCentra(std::ostream& out) {
     REQUIRE(this->correctlyInitialized(), "Hub is niet geinitializeerd bij oproep van transportToCentra");
     Vaccinatiecentrum* centrum;
+    int aantal_ladingen;
+    int tot_lading;
+    int aantal_vaccins_hub_start = this->aantal_vaccins;
+    int aantal_vaccins_centrum_start;
 
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
-        int aantal_ladingen = 0;
-        int tot_lading = 0;
+        aantal_ladingen = 0;
+        tot_lading = 0;
         centrum = it->second;
+        aantal_vaccins_centrum_start = centrum->getAantalVaccins();
         while (centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins()){
             tot_lading += this->transport;
             aantal_ladingen++;
         }
-        if (tot_lading > 2*centrum->getCapaciteit() ){
-            std::cerr << "2* capaciteit overeschreven " << std::endl;
-            //TODO err
-            return;
-        }
+        ENSURE(tot_lading > 2*centrum->getCapaciteit(), "2* capaciteit overeschreven van centrum overschreven");
         if (tot_lading <= this->aantal_vaccins){
             centrum->addVaccins(tot_lading);
             this->substractVaccins(tot_lading);
             out << "Er werden " << aantal_ladingen << " ladingen (" << tot_lading <<" vaccins) getransporteerd naar " <<
                     centrum->getNaamCentrum() << "." << std::endl;
         }
+        ENSURE(centrum->getAantalVaccins()>=aantal_vaccins_centrum_start, "Aantal vaccins in centrum is gezakt na transport naar centra");
     }
-    //TODO posts
+    ENSURE(this->aantal_vaccins<=aantal_vaccins_hub_start, "Aantal vaccins in hub gestegen na transport naar centra");
 }
 
 void Hub::substractVaccins(int vaccins) {
@@ -102,7 +104,7 @@ void Hub::substractVaccins(int vaccins) {
 }
 
 
-bool Hub::isLeveringsDag(int dag) {
+bool Hub::isLeveringsDag(int dag) const {
     REQUIRE(this->correctlyInitialized(),"Hub was niet geinitializeerd bij oproep van isLeveringDag");
     REQUIRE(dag >= 0, "Dag kan geen negatieve getal zijn");
     if (dag % (interval+1) == 0)
@@ -157,7 +159,7 @@ void Hub::setTransport(int transport1) {
     Hub::transport = transport1;
 }
 
-void Hub::addcentrum(Vaccinatiecentrum *vaccinatiecentrum) {
+void Hub::addcentrum(Vaccinatiecentrum * const vaccinatiecentrum) {
     REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van addcentrum");
     REQUIRE(vaccinatiecentrum->correctlyInitialized(),
             "Het vaccinatiecentrum object was niet geinitializeerd oproeping van addcentrum");
@@ -166,6 +168,8 @@ void Hub::addcentrum(Vaccinatiecentrum *vaccinatiecentrum) {
     unsigned int s1 = this->vaccinatiecentra.size();
     vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
 
+    ENSURE(vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end(),
+            "Naam van centrum komt niet voor in centra op het einde van addcentrum");
     ENSURE(s1+1 == this->vaccinatiecentra.size(),"lijst met vaccinatiecentra is niet verhoogd");
 }
 
@@ -175,7 +179,7 @@ void Hub::setLevering(int levering1) {
     ENSURE(levering == levering1,"Levering is niet gewijzigd naar levering1 na setLevering");
 }
 
-bool Hub::notDone(){
+bool Hub::notDone()const{
     REQUIRE(this->correctlyInitialized(),"De hub was niet geinitializeerd bij oproep van notDone");
     if (this->aantalOngevaccineerden() > 0){
         return true;
@@ -183,7 +187,7 @@ bool Hub::notDone(){
     return false;
 }
 
-int Hub::aantalOngevaccineerden() {
+int Hub::aantalOngevaccineerden() const{
     REQUIRE(this->correctlyInitialized(),"de hub was niet correct geinitalizeerd bij oproep van aantalOngevaccineerden");
     int ongevaccineerden = 0;
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
@@ -192,7 +196,7 @@ int Hub::aantalOngevaccineerden() {
     return ongevaccineerden;
 }
 
-int Hub::getLevering() {
+int Hub::getLevering() const {
     REQUIRE(this->correctlyInitialized(),"de hub was niet correct geinitalizeerd bij oproep van getLevering");
     return levering;
 }

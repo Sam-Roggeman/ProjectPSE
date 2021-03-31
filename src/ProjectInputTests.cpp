@@ -10,6 +10,8 @@
 #include "Project.h"
 #include "Simulation.h"
 #include "Hub.h"
+#include "simulationImporter.h"
+
 class ProjectTest: public ::testing::Test {
 protected:
     // You should make the members protected s.t. they can be
@@ -37,70 +39,70 @@ protected:
 TEST_F (ProjectTest, Juistteruggeven){
     Simulation s = Simulation(&hub);
 
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/test.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/test.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/Juist.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/Juist.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/Juist1.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/Juist1.xml",  ofs, s));
 }
 
 TEST_F(ProjectTest, verkeerde_input){
     Simulation s = Simulation(&hub);
 
     //file not found
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/abc.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/abc.xml",  ofs, s));
     s.clear();
     //verkeerde xml constructie
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/test1.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/test1.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie1.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie1.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie2.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie2.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie3.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie3.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(1, s.initializeSimulation("./testInput/verkeerdeconstructie4.xml",  ofs));
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie4.xml",  ofs, s));
     //onherkenbaar element
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar1.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar1.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar2.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar2.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar3.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar3.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar4.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar4.xml",  ofs, s));
     s.clear();
-    ASSERT_DEATH(s.initializeSimulation("./testInput/onherkenbaar5.xml",  ofs), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar5.xml",  ofs, s), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     s.clear();
-    ASSERT_DEATH(s.initializeSimulation("./testInput/onherkenbaar6.xml",  ofs), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar6.xml",  ofs, s), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar7.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar7.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/onherkenbaar8.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar8.xml",  ofs, s));
     s.clear();
 
     //ongeldige informatie
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/ongeldigeinfo1.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo1.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/ongeldigeinfo2.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo2.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, s.initializeSimulation("./testInput/ongeldigeinfo3.xml",  ofs));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo3.xml",  ofs, s));
 
 }
 //inconsistente simulaties
 TEST_F(ProjectTest,inconsistent1){
     Simulation s = Simulation(&hub);
 
-    ASSERT_DEATH(s.initializeSimulation("./testInput/Inconsistentesim.xml",  ofs),"Je mag maar 1 hub hebben");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim.xml",  ofs, s),"Je mag maar 1 hub hebben");
 }
 TEST_F(ProjectTest,inconsistent2){
     Simulation s = Simulation(&hub);
 
-    ASSERT_DEATH(s.initializeSimulation("./testInput/Inconsistentesim1.xml",  ofs),"Je moet minstens 1 vaccinatiecentrum hebben");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  ofs, s),"Je moet minstens 1 vaccinatiecentrum hebben");
 }
 TEST_F(ProjectTest,inconsistent3){
     Simulation s = Simulation(&hub);
 
-    ASSERT_DEATH(s.initializeSimulation("./testInput/Inconsistentesim2.xml",  ofs),"Je moet minstens 1 Hub hebben");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim2.xml",  ofs, s),"Je moet minstens 1 Hub hebben");
 }

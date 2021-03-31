@@ -253,6 +253,8 @@ void Vaccinatiecentrum::vaccineren(std::ostream& out) {
 }
 
 bool Vaccinatiecentrum::completelyInitialized() const {
+    REQUIRE(this->correctlyInitialized(),
+            "Vaccinatiecentrum wasn't initialized when calling completelyInitialized");
     if (this->getCapaciteit()<0){
         return false;
     }

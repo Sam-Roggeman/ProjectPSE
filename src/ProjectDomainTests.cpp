@@ -13,6 +13,7 @@
 #include "Project.h"
 #include "Hub.h"
 #include "Simulation.h"
+#include "simulationImporter.h"
 
 class HubDomainTest: public ::testing::Test {
 protected:
@@ -221,7 +222,7 @@ TEST_F(HubDomainTest, addVaccins){
 TEST_F(HubDomainTest, clear){
     Simulation s = Simulation(&hub);
     //Initialisering alle waardes
-    s.initializeSimulation("./testInput/test.xml", ofs);
+    simulationImporter::importSimulation("./testInput/test.xml", ofs,s);
     EXPECT_EQ(0,s.getDag());
     EXPECT_EQ(93000,s.getHub()->getAantalVaccins());
     EXPECT_EQ(2000,s.getHub()->getTransport());

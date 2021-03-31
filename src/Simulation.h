@@ -44,18 +44,7 @@ public:
      */
     Simulation(Hub* hub1);
 
-    /**Initialiseert een simulatie uit een xml file
-     *
-     * @param filename: De file waar de simulatie die uitgevoerd moet worden instaat
-     * @param errstream De outputstream waar de errors naartoe gestuurd worden
-     * @return Een 0 als er niks verkeerd is gegaan en een 1 als er iets fouts is gegaan
-     * @pre root != NULL
-     * @post hub->completelyInitialized()
-     * @post hubcounter < 2
-     * @post vaccinatiecentracounter > 0
-     * @post hubcounter > 0
-     */
-    int initializeSimulation(const char *filename, std::ostream &errstream);
+
     /**Een functie die alles in de hub en het vaccinatiecentrum output door cout
      * @pre this.correctlyInitialized()
      */
@@ -103,7 +92,7 @@ public:
      * @pre this.correctlyInitialized()
      * @pre hub->correctlyInitialized()
      */
-    const Hub * getHub() const;
+    Hub * getHub() const;
 
     /**Zet de gegeven hub in als de hub van de simulatie
      *

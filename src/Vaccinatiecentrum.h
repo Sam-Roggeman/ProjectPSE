@@ -163,6 +163,10 @@ public:
      * */
     void vaccineren(std::ostream& out);
 
+    /**kijkt na of een centrum volledig geinitializeerd is
+     * @pre this.correctlyInitialized()
+     *  @return true als completelyInitialized (strikt positieve capaciteit, een naam, een adres en strikt positief aantal inwoners)
+     * */
     bool completelyInitialized() const;
 };
 

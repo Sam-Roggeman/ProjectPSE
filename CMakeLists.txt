@@ -27,7 +27,9 @@ set(RELEASE_SOURCE_FILES
         src/Hub.h
         src/Vaccinatiecentrum.cpp
         src/Vaccinatiecentrum.h
-        src/Simulation.cpp src/Simulation.h)
+        src/Simulation.cpp
+        src/Simulation.h
+        src/simulationImporter.cpp src/simulationImporter.h)
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
@@ -50,7 +52,9 @@ set(DEBUG_SOURCE_FILES
         src/Hub.h
         src/TicTacToeUtils.h
         src/TicTacToeUtils.cpp
-        src/Simulation.cpp src/Simulation.h)
+        src/Simulation.cpp
+        src/Simulation.h
+        src/simulationImporter.cpp src/simulationImporter.h)
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})
