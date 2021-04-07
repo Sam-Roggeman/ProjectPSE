@@ -9,6 +9,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     int vaccinatiecentracounter = 0;
     Vaccinatiecentrum* centrum;
     TiXmlDocument doc;
+    VaccinType* bedrijf;
     //open xml file indien: ASCII bestand met daarop een beschrijving van de vaccinatiecentra
 
     if (!doc.LoadFile(filename)) {
@@ -50,14 +51,21 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
             for (TiXmlElement *hub_elem = cdElement->FirstChildElement(); hub_elem != NULL; hub_elem = hub_elem->NextSiblingElement()) {
                 elem_name = hub_elem->Value();
                 //herken het element
-                if (elem_name == "levering") {
-                    sim.getHub()->setLevering(atoi(hub_elem->FirstChild()->Value()));
-                    sim.getHub()->leveringToHub();
-                } else if (elem_name == "interval") {
-                    sim.getHub()->setInterval(atoi(hub_elem->FirstChild()->Value()));
-                } else if (elem_name == "transport") {
-                    sim.getHub()->setTransport(std::atoi(hub_elem->FirstChild()->Value()));
-                } else if (elem_name == "CENTRA"){
+                if(elem_name == "VACCIN"){
+                    bedrijf = new VaccinType();
+                    for (TiXmlElement *vac_elem = hub_elem->FirstChildElement(); vac_elem != NULL; vac_elem = vac_elem->NextSiblingElement()) {
+                        std::string vac_name = vac_elem->Value();
+                        if (vac_name == "levering") {
+                            bedrijf->setLevering(atoi(hub_elem->FirstChild()->Value()));
+                            bedrijf->leveringVanType();
+                        } else if (vac_name == "interval") {
+                            bedrijf->setInterval(atoi(hub_elem->FirstChild()->Value()));
+                        } else if (vac_name == "transport") {
+                            bedrijf->setTransport(std::atoi(hub_elem->FirstChild()->Value()));
+                        }
+                    }
+                    sim.getHub()->addType(bedrijf);
+                }else if (elem_name == "CENTRA"){
                     continue;
                 }
                     //element is niet herkent

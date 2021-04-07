@@ -10,21 +10,13 @@
 
 Hub::Hub() {
     _initCheck = this;
-    this->interval = 0;
-    this->levering = 0;
-    this->transport = 0;
-    aantal_vaccins = 0;
     ENSURE(this->getLevering() == 0, "levering is niet 0 op het einde van de default constructor");
     ENSURE(this->getAantalVaccins() == 0, "aantal vaccins is niet 0 op het einde van de default constructor");
     ENSURE(this->getInterval() == 0, "interval is niet 0 op het einde van de default constructor");
     ENSURE(this->getTransport() == 0, "transport is niet 0 op het einde van de default constructor");
     ENSURE(this->correctlyInitialized(),
            "Het hub object was niet goed geinitializeerd bij het einde van de constructor");
-}
-
-int Hub::getAantalVaccins() const {
-    REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van getAantalVaccins");
-    return aantal_vaccins;
+    //TODO this->types.size == 0
 }
 
 bool Hub::correctlyInitialized() const {
@@ -111,13 +103,6 @@ bool Hub::isLeveringsDag(int dag) const {
         return true;
     else
         return false;
-}
-
-void Hub::leveringToHub() {
-    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van leveringToHub");
-    int old = aantal_vaccins;
-    aantal_vaccins += levering;
-    ENSURE(old == aantal_vaccins - levering, "Vaccins is incorrect afgetrokken van de hub");
 }
 
 void Hub::vaccineren() {
@@ -232,6 +217,18 @@ void Hub::clear() {
     ENSURE(getLevering() == 0,"Levering was niet 0 op het einde van clear");
     ENSURE(getInterval() == 0,"Interval was niet 0 op het einde van clear");
     ENSURE(getAantalVaccins() == 0,"Aantal vaccins was niet 0 op het einde van clear");
+}
+
+void Hub::addType(VaccinType *bedrijf1) {
+    //TODO:
+    // bedrijf1->correctlyinitialized
+    // bedrijf1->completlyinitialized
+    // this->types.find(bedrijf1.getName) == this->types.end
+    types[bedrijf1->getName()]=bedrijf1;
+    //TODO:
+    // this->types.find(bedrijf1.getName) != this->types.end
+    // this->types.size  == types.size_start +1
+
 }
 
 

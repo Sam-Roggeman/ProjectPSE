@@ -54,7 +54,7 @@ set(DEBUG_SOURCE_FILES
         src/TicTacToeUtils.cpp
         src/Simulation.cpp
         src/Simulation.h
-        src/simulationImporter.cpp src/simulationImporter.h)
+        src/simulationImporter.cpp src/simulationImporter.h src/VaccinType.cpp src/VaccinType.h)
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})

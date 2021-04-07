@@ -20,8 +20,13 @@
 using namespace std;
 
 
+//todo sam:
+// move van hub->bedrijf + fix hub
 
+//todo said:
+// contracten bedrijf
 
+//todo
 
 int main(int argc, char **argv) {
 //    ofstream o;

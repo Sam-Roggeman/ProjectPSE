@@ -12,17 +12,15 @@
 #include "vector"
 #include <map>
 #include "DesignByContract.h"
+#include "VaccinType.h"
 
 
 class Hub {
 
 private:
     Hub * _initCheck;
-    int aantal_vaccins;
-    int levering;
-    int interval;
-    int transport;
     std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
+    std::map<std::string, VaccinType*> types;
 public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
@@ -37,12 +35,15 @@ public:
 
 //GETTERS SETTERS
 
+
+    //todo move to bedrijf
     /**Geeft het aantal vaccins in de hub terug
      *@returns aantal vaccins in de hub
      * @pre this->correctlyInitialized
      * */
     int getAantalVaccins() const;
 
+    //todo move to bedrijf
     /**Zet het aantal vaccins in de hub op aantal_vaccins1
      * @param aantal_vaccins1 het nieuwe aantal vaccins in de hub
      * @pre aantal_vaccins1 >= 0
@@ -51,12 +52,14 @@ public:
     void setAantalVaccins(const int aantal_vaccins1);
 
 
+    //todo move to bedrijf
     /**Geeft het aantal dagen tussen twee leveringen
      * @returns het interval
      * @pre this->correctlyinitialized()
      * */
     int getInterval() const;
 
+    //todo move to bedrijf
     /**zet het aantal dagen tussen twee leveringen
      * @param het interval tussen twee leveringen
      * @pre interval1 >= 0
@@ -64,12 +67,14 @@ public:
      * */
     void setInterval(const int interval1);
 
+    //todo move to bedrijf
     /**geeft het aantal vaccins per transport
      * @returns het aantal vaccins dat in een transport past
      * @pre this->correctlyinitialized()
      * */
     int getTransport() const;
 
+    //todo move to bedrijf
     /**zet het aantal vaccins dat per transport past op de param transport1
      * @param transport1 het aantal vaccins dat in het transport past
      * @pre transport1 >= 0
@@ -87,6 +92,7 @@ public:
      * */
     void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
 
+    //todo move to bedrijf
     /**trekt vaccins van aantal vaccins in de hub
      * @param vaccins: het aantal vaccins dat afgetrokken moet worden
      * @pre vaccins >=0
@@ -128,12 +134,11 @@ public:
      * */
     void transportToCentra(std::ostream& out);
 
-    /**er wordt een lading aan de hub geleverd
-     * @pre this->correctlyInitialized()
-     * @post aantal_vaccins == aantal_vaccins_start + levering
-     * */
-    void leveringToHub();
+    //todo move to bedrijf
 
+
+
+    //todo move to bedrijf
     /**kijkt na of het momenteel een leveringsdag is
      * @param dag: het nummer van de huidige dag
      * @returns true als er geleverd wordt aan de hub
@@ -157,6 +162,7 @@ public:
      * */
     void vaccineren();
 
+    //TODO delete
     /**Veranderd het aantal vaccins dat geleverd wordt op leveringsdag
      * @param int: het aantal vaccins dat aan de
      * @pre levering >= 0
@@ -165,6 +171,7 @@ public:
     * */
     void setLevering(const int levering1);
 
+    //TODO delete
     /**Vraagt de grote van eenlevering op
      * @return de grote van een levering
      * @pre this->correctlyInitialized()
@@ -197,6 +204,8 @@ public:
      * @post getLevering() >= 0
      * */
     void clear();
+
+    void addType(VaccinType *bedrijf1);
 };
 
 
