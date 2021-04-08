@@ -16,7 +16,7 @@ Hub::Hub() {
     ENSURE(this->getTransport() == 0, "transport is niet 0 op het einde van de default constructor");
     ENSURE(this->correctlyInitialized(),
            "Het hub object was niet goed geinitializeerd bij het einde van de constructor");
-    //TODO this->types.size == 0
+    ENSURE(this->types.size() == 0, "De map types is niet correct geinitialiseerd");
 }
 
 bool Hub::correctlyInitialized() const {
@@ -220,15 +220,13 @@ void Hub::clear() {
 }
 
 void Hub::addType(VaccinType *bedrijf1) {
-    //TODO:
-    // bedrijf1->correctlyinitialized
-    // bedrijf1->completlyinitialized
-    // this->types.find(bedrijf1.getName) == this->types.end
+    REQUIRE(bedrijf1->correctlyInitialized(), "Het object Vaccintype is niet correct geinitialiseerd");
+    REQUIRE(bedrijf1->completelyinitialized(), "Het object Vaccintype is niet juist geinitialiseerd");
+    REQUIRE(this->types.find(bedrijf1->getName()) == this->types.end(), "Er bestaat al een vaccintype met dezelfde naam");
+    int startsize = types.size();
     types[bedrijf1->getName()]=bedrijf1;
-    //TODO:
-    // this->types.find(bedrijf1.getName) != this->types.end
-    // this->types.size  == types.size_start +1
-
+    REQUIRE(this->types.find(bedrijf1->getName()) != this->types.end(), "Het Vaccintype is niet juist toegevoegd aan de types map");
+    ENSURE(this->types.size() == startsize + 1, "Er is geen Vaccintype toegevoegd aan de map types");
 }
 
 

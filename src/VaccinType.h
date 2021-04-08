@@ -32,10 +32,7 @@ public:
 
     void setInterval(int interval);
 
-    //TODO correctlyinitialized
-    //TODO completlyinitialized
-    //TODO isLeveringsDag
-
+    void setAantalVaccins(const int aantal_vaccins1);
     VaccinType();
 
     /**Geeft het aantal vaccins in de hub terug
@@ -53,6 +50,10 @@ public:
      * */
     void substractVaccins(const int vaccins);
 
+    /**Checkt of het object Vaccintype juist is geinitialiseerd
+     *
+     * @return: True als het object juist is geinitialiseerd en False als niet
+     */
     bool correctlyInitialized() const;
 
     /**er wordt een lading aan de hub geleverd
@@ -60,6 +61,19 @@ public:
     * @post aantal_vaccins == aantal_vaccins_start + levering
     * */
     void leveringVanType();
+
+    /**Kijkt na of het object Vaccintype compleet geinitialiseerd is
+    * @return true als compleet geinitaliseerd
+    * @pre this->correctlyInitialized()
+    * */
+    bool completelyinitialized();
+
+    /**Deze functie kijkt of de gegeven dag een leveringsdag is
+     *
+     * @param dag: De meegegeven dag waarop wordt getest of het de leveringsdag is
+     * @return: True als dag een leveringsdag is en False als niet
+     */
+    bool isLeveringsDag(const int dag) const;
 };
 
 

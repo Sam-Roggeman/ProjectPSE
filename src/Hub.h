@@ -134,7 +134,6 @@ public:
      * */
     void transportToCentra(std::ostream& out);
 
-    //todo move to bedrijf
 
 
 
@@ -190,7 +189,7 @@ public:
      * */
     int aantalOngevaccineerden() const;
 
-    /**kijkt na of de hub compleet geinitializeerd is
+    /**Kijkt na of de hub compleet geinitializeerd is
      * @return true als compleet geinitalizeerd
      * @pre this->correctlyInitialized()
      * */

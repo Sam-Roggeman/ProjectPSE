@@ -21,51 +21,51 @@ void VaccinType::substractVaccins(int vaccins) {
 
 
 const std::string &VaccinType::getName() const {
-    //TODO correctlyinitialized
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
     return name;
 }
 
 void VaccinType::setName(const std::string &name1) {
-    //TODO correctlyinitialized
-    //TODO name.size >0
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
+    REQUIRE(name1.size() > 0, "Er is geen geldige naam ingegeven");
     VaccinType::name = name1;
-    //TODO this->name == name1
+    ENSURE(this->name == name1, "De naam is verkeerd geinitialiseerd");
 }
 
 int VaccinType::getLevering() const {
-    //TODO correctlyinitialized
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
     return levering;
 }
 
 void VaccinType::setLevering(int levering1) {
-    //TODO correctlyinitialized
-    //TODO levering1 >= 0
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
+    REQUIRE(levering1 >= 0, "De levering kan niet negatief zijn");
     VaccinType::levering = levering1;
-    //TODO this->levering == levering
+    ENSURE(this->levering == levering1, "De levering is verkeerd geinitialiseerd");
 }
 
 int VaccinType::getTransport() const {
-    //TODO correctlyinitialized
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
     return transport;
 }
 
 void VaccinType::setTransport(int transport1) {
-    //TODO correctlyinitialized
-    //TODO transport1 >= 0
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
+    REQUIRE(transport1 >= 0, "De transport kan niet negatief zijn");
     VaccinType::transport = transport1;
-    //TODO this->transport == transport1
+    ENSURE(this->transport == transport1, "De transport is verkeerd geinitialiseerd");
 }
 
 int VaccinType::getInterval() const {
-    //TODO correctlyinitialized
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
     return interval;
 }
 
 void VaccinType::setInterval(int interval1) {
-    //TODO interval1 >= 0
-    //TODO correctlyinitialized
+    REQUIRE(interval1 >= 0, "Het interval kan niet negatief zijn");
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype is verkeerd geinitialiseerd");
     VaccinType::interval = interval1;
-    //TODO this->interval == interval1
+    ENSURE(this->interval == interval1, "Het interval kan niet negatief zijn");
 }
 
 VaccinType::VaccinType() {
@@ -75,15 +75,12 @@ VaccinType::VaccinType() {
     this->interval = 0;
     this->init_check = this;
 
-    //TODO:
-    // this->name == ""
-    // this->levering == 0
-    // this->interval == 0
-    // this->transport == 0
-    // this-> levering == 0
-    // this->correctlyinitialized
-
-
+    ENSURE(this->name == "", "De naam is verkeerd geinitialiseerd");
+    ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->interval == 0, "Het interval is verkeerd geinitialiseerd");
+    ENSURE(this->transport == 0, "De transport is verkeerd geinitialiseerd");
+    ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->correctlyInitialized(), "Het object Vaccintype is verkeerd geinitialiseerd");
 }
 
 bool VaccinType::correctlyInitialized() const {
@@ -96,4 +93,26 @@ void VaccinType::leveringVanType() {
     aantal_vaccins += levering;
     ENSURE(old == aantal_vaccins - levering, "Vaccins is incorrect afgetrokken van de hub");
 
+}
+
+bool VaccinType::completelyinitialized(){
+    REQUIRE(this->correctlyInitialized(),"Het object Vaccintype was niet correct geinitalizeerd bij oproep van completelyInitialized");
+    bool out = true;
+    if (aantal_vaccins<0||levering<0||interval<0||transport<0){
+        out = false;
+    }
+    return out;
+}
+
+bool VaccinType::isLeveringsDag(const int dag) const {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van isLeveringDag");
+    REQUIRE(dag >= 0, "Dag kan geen negatieve getal zijn");
+    if (dag % (interval+1) == 0)
+        return true;
+    else
+        return false;
+}
+
+void VaccinType::setAantalVaccins(const int aantal_vaccins1) {
+    aantal_vaccins = aantal_vaccins1;
 }
