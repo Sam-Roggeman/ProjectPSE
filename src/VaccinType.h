@@ -14,9 +14,19 @@ class VaccinType {
     int transport;
     int interval;
     int aantal_vaccins;
+    int hernieuwing;
+    int temperatuur;
     VaccinType* init_check;
 public:
     const std::string &getName() const;
+
+    void sethernieuwing(const int h);
+
+    int gethernieuwing();
+
+    void settemperatuur(const int t);
+
+    int getGettemperatuur() const;
 
     void setName(const std::string &name);
 

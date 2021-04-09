@@ -45,69 +45,69 @@ void Simulation::outputSimulation() {
     outputSimulation(std::cout);
 }
 
-void Simulation::autoSimulation(int start, int eind) {
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
-    autoSimulation(start, eind, std::cout);
-}
+//void Simulation::autoSimulation(int start, int eind) {
+//    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
+//    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+//    autoSimulation(start, eind, std::cout);
+//}
 
-void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
-// Het systeem bevat een simulatie met de verschillende vaccinatiecentra
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
-//    1.  WHILE huidige dag<eind dag
+//void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
+//// Het systeem bevat een simulatie met de verschillende vaccinatiecentra
+//    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
+//    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+////    1.  WHILE huidige dag<eind dag
+//
+//    for (int current = start; current < eind; current++) {
+//        out << "DAG " << current << ":" << std::endl;
+//        hub->outputHub(out);
+////    1.1 IF er vaccins geleverd worden op de huidige dag
+//        if (hub->isLeveringsDag(current) && current != 0){
+////    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
+//            hub->leveringToHub();
+//        }
+//
+////    1.2 FOR elk centrum verbonden met de hub
+////    1.2.1 voer use case 3.1 uit
+//        hub->transportToCentra(astrazeneca, out);
+////    1.3 FOR elk centrum
+////    1.3.1 voer use case 3.2 uit
+//        hub->vaccineren(out);
+//        out << std::endl;
+//    }
+//
+//}
 
-    for (int current = start; current < eind; current++) {
-        out << "DAG " << current << ":" << std::endl;
-        hub->outputHub(out);
-//    1.1 IF er vaccins geleverd worden op de huidige dag
-        if (hub->isLeveringsDag(current) && current != 0){
-//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
-            hub->leveringToHub();
-        }
-
-//    1.2 FOR elk centrum verbonden met de hub
-//    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra(astrazeneca, out);
-//    1.3 FOR elk centrum
-//    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(out);
-        out << std::endl;
-    }
-
-}
-
-void Simulation::autoSimulationUntilDone() {
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
-    autoSimulationUntilDone(std::cout);
-}
+//void Simulation::autoSimulationUntilDone() {
+//    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
+//    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
+//    autoSimulationUntilDone(std::cout);
+//}
 
 
-void Simulation::autoSimulationUntilDone(std::ostream &out) {
-// Het systeem bevat een simulatie met de verschillende vaccinatiecentra
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
-//    1.  WHILE not done
-    while (hub->notDone()){
-        out << "DAG " << dag << ":" << std::endl;
-        hub->outputHub(out);
-//    1.1 IF er vaccins geleverd worden op de huidige dag
-        if (hub->isLeveringsDag(dag) && dag != 0){
-//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
-            hub->leveringToHub();
-        }
-
-//    1.2 FOR elk centrum verbonden met de hub
-//    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra(astrazeneca, out);
-//    1.3 FOR elk centrum
-//    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(out);
-        out << std::endl;
-        nextDay();
-    }
-}
+//void Simulation::autoSimulationUntilDone(std::ostream &out) {
+//// Het systeem bevat een simulatie met de verschillende vaccinatiecentra
+//    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
+//    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
+////    1.  WHILE not done
+//    while (hub->notDone()){
+//        out << "DAG " << dag << ":" << std::endl;
+//        hub->outputHub(out);
+////    1.1 IF er vaccins geleverd worden op de huidige dag
+//        if (hub->isLeveringsDag(dag) && dag != 0){
+////    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
+//            hub->leveringToHub();
+//        }
+//
+////    1.2 FOR elk centrum verbonden met de hub
+////    1.2.1 voer use case 3.1 uit
+//        hub->transportToCentra(astrazeneca, out);
+////    1.3 FOR elk centrum
+////    1.3.1 voer use case 3.2 uit
+//        hub->vaccineren(out);
+//        out << std::endl;
+//        nextDay();
+//    }
+//}
 
 void Simulation::addcentrum(Vaccinatiecentrum *v) {
     REQUIRE(v->correctlyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
@@ -134,5 +134,12 @@ void Simulation::setDag(int d) {
 void Simulation::clear() {
     REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     hub->clear();
+}
+
+void Simulation::impressie(std::ostream &out) {
+    //TODO:
+    // this.correctlyinitialized
+    // this.completelyinitialized
+    this->getHub()->impressie(out);
 }
 

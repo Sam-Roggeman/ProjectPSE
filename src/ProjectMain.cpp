@@ -15,7 +15,7 @@
 #include "DesignByContract.h"
 #include "Project.h"
 #include "Simulation.h"
-
+#include "simulationImporter.h"
 
 using namespace std;
 
@@ -29,14 +29,18 @@ using namespace std;
 //todo
 
 int main(int argc, char **argv) {
-//    ofstream o;
-//    o.open("test.txt");
+
+    ofstream o;
+    o.open("test.txt");
     Hub h = Hub();
     Simulation s = Simulation(&h);
-    s.initializeSimulation("./testInput/test.xml", std::cerr);
-    s.autoSimulationUntilDone();
+    simulationImporter::importSimulation("./testOutput/t.xml",  std::cout, s);
+    h.outputHub();
+    s.impressie(std::cout);
+//    s.initializeSimulation("./testInput/test.xml", std::cerr);
+//    s.autoSimulationUntilDone();
 //    s.autoSimulation(0,5);
-//    o.close();
+    o.close();
     return 0;
 }
 

@@ -74,12 +74,18 @@ VaccinType::VaccinType() {
     this->transport = 0;
     this->interval = 0;
     this->init_check = this;
+    this->aantal_vaccins = 0;
+    this->hernieuwing = 0;
+    this->temperatuur = 27;
 
     ENSURE(this->name == "", "De naam is verkeerd geinitialiseerd");
     ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
     ENSURE(this->interval == 0, "Het interval is verkeerd geinitialiseerd");
     ENSURE(this->transport == 0, "De transport is verkeerd geinitialiseerd");
     ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->aantal_vaccins == 0, "Het aantal_vaccins is verkeerd geinitialiseerd");
+    ENSURE(this->hernieuwing == 0, "De hernieuwing is verkeerd geinitialiseerd");
+    ENSURE(this->temperatuur == 27, "De temperatuur is verkeerd geinitialiseerd");
     ENSURE(this->correctlyInitialized(), "Het object Vaccintype is verkeerd geinitialiseerd");
 }
 
@@ -115,4 +121,20 @@ bool VaccinType::isLeveringsDag(const int dag) const {
 
 void VaccinType::setAantalVaccins(const int aantal_vaccins1) {
     aantal_vaccins = aantal_vaccins1;
+}
+
+int VaccinType::getGettemperatuur() const {
+    return temperatuur;
+}
+
+void VaccinType::sethernieuwing(const int h) {
+    hernieuwing = h;
+}
+
+int VaccinType::gethernieuwing() {
+    return hernieuwing;
+}
+
+void VaccinType::settemperatuur(const int t) {
+    temperatuur = t;
 }

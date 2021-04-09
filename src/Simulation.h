@@ -125,6 +125,8 @@ public:
      * @pre this.correctlyInitialized()
      */
     void clear();
+
+    void impressie(std::ostream &out);
 };
 
 

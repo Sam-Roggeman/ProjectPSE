@@ -277,4 +277,40 @@ bool Vaccinatiecentrum::completelyInitialized() const {
     return true;
 }
 
+int Vaccinatiecentrum::getAantalVac()const{
+    int aantal_vac = 0 ;
+    for(std::map<std::string,int>::const_iterator it = vaccins.begin(); it != vaccins.end(); it++){
+        aantal_vac += it->second;
+    }
+    return aantal_vac;
+}
+
+void Vaccinatiecentrum::impressie(std::ostream &out) {
+    //TODO:
+    // this.correctlyinitialized
+    // this.completelyinitialized
+    int vac_verhouding = 100*this->getAantalVac()/(this->getCapaciteit()*2);
+    int gevac_verhouding = 100*this->getAantalGevaccineerden()/this->getAantalInwoners();
+    out << this->getNaamCentrum() << ':' << std::endl << '\t' << "- vaccins\t\t";
+
+    out << '[';
+    for(int i = 0; i < vac_verhouding%5; i++){
+       out << '=';
+    }
+    for(int i = vac_verhouding%5; i < 20; i++ ){
+        out << " ";
+    }
+    out << ']' << " " << vac_verhouding << '%' << std::endl;
+
+    out << '\t' << "- gevaccineerd\t";
+    out << '[';
+    for(int i = 0; i < gevac_verhouding%5; i++){
+        out << '=';
+    }
+    for(int i = gevac_verhouding%5; i < 20; i++ ){
+        out << " ";
+    }
+    out << ']' << " " << gevac_verhouding << '%' << std::endl;
+}
+
 

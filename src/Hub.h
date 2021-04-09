@@ -13,6 +13,7 @@
 #include <map>
 #include "DesignByContract.h"
 #include "VaccinType.h"
+#include <string>
 
 
 class Hub {
@@ -29,7 +30,6 @@ public:
      *@post this->vaccinatiecentra.size == 0
      * */
     Hub();
-
 
 //GETTERS SETTERS
 
@@ -129,6 +129,10 @@ public:
      * @post this->types.size_start +1 == this->types.size
      */
     void addType(VaccinType *type);
+
+    int get_aantal_vac() const;
+
+    void impressie(std::ostream &out);
 };
 
 

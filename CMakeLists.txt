@@ -29,7 +29,9 @@ set(RELEASE_SOURCE_FILES
         src/Vaccinatiecentrum.h
         src/Simulation.cpp
         src/Simulation.h
-        src/simulationImporter.cpp src/simulationImporter.h)
+        src/simulationImporter.cpp src/simulationImporter.h
+        src/VaccinType.cpp
+        src/VaccinType.h)
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES

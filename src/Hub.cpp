@@ -17,7 +17,6 @@ Hub::Hub() {
 }
 
 bool Hub::correctlyInitialized() const {
-    bool out = true;
     if (this != _initCheck){
         return false;
     }
@@ -35,26 +34,27 @@ bool Hub::correctlyInitialized() const {
 }
 
 //todo output hub
-//void Hub::outputHub() const {
-//    outputHub(std::cout);
-//}
+void Hub::outputHub() const {
+    outputHub(std::cout);
+}
 
 //todo output hub
-//void Hub::outputHub(std::ostream& out) const {
-//    REQUIRE(this->correctlyInitialized(), "foutieve hub");
-//    out << "Hub (" << this->aantal_vaccins <<" vaccins)"<< std::endl;
-//    for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
-//            it != this->vaccinatiecentra.end(); it++){
-//        Vaccinatiecentrum* centrum = it->second;
-//        out << "\t-> " << centrum->getNaamCentrum() <<" ("<< centrum->getAantalVaccinsVanType() << " vaccins)"<<std::endl;
-//    }
-//    for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
-//         it != this->vaccinatiecentra.end(); it++){
-//        Vaccinatiecentrum* centrum = it->second;
-//        out << centrum->getNaamCentrum() <<": "<< centrum->getAantalGevaccineerden() << " gevaccineerd"<< ", nog " <<
-//                centrum->aantalOngevaccineerden() <<" inwoners niet gevaccineerd" <<std::endl;
-//    }
-//}
+void Hub::outputHub(std::ostream& out) const {
+    REQUIRE(this->correctlyInitialized(), "foutieve hub");
+
+    out << "Hub (" << this->get_aantal_vac() <<" vaccins)"<< std::endl;
+    for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
+            it != this->vaccinatiecentra.end(); it++){
+        Vaccinatiecentrum* centrum = it->second;
+        out << "\t-> " << centrum->getNaamCentrum() <<" ("<< centrum->getAantalVac() << " vaccins)"<<std::endl;
+    }
+    for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin();
+         it != this->vaccinatiecentra.end(); it++){
+        Vaccinatiecentrum* centrum = it->second;
+        out << centrum->getNaamCentrum() <<": "<< centrum->getAantalGevaccineerden() << " gevaccineerd"<< ", nog " <<
+                centrum->aantalOngevaccineerden() <<" inwoners niet gevaccineerd" <<std::endl;
+    }
+}
 
 void Hub::transportToCentra(std::string naam_type) {
     transportToCentra(naam_type, std::cout);
@@ -166,10 +166,28 @@ void Hub::addType(VaccinType *type) {
     REQUIRE(type->correctlyInitialized(), "Het object Vaccintype is niet correct geinitialiseerd");
     REQUIRE(type->completelyInitialized(), "Het object Vaccintype is niet juist geinitialiseerd");
     REQUIRE(this->types.find(type->getName()) == this->types.end(), "Er bestaat al een vaccintype met dezelfde naam");
-    int startsize = types.size();
+    unsigned int startsize = types.size();
     types[type->getName()]=type;
     ENSURE(this->types.find(type->getName()) != this->types.end(), "Het Vaccintype is niet juist toegevoegd aan de types map");
     ENSURE(this->types.size() == startsize + 1, "Er is geen Vaccintype toegevoegd aan de map types na addType");
+}
+
+int Hub::get_aantal_vac() const {
+    REQUIRE(this->correctlyInitialized(), "Hub is verkeerd geinitialiseerd");
+    int aantal_vac = 0;
+    for(std::map<std::string,VaccinType*>::const_iterator it = types.begin(); it != types.end(); it++){
+        aantal_vac += it->second->getAantalVaccins();
+    }
+    return aantal_vac;
+}
+
+void Hub::impressie(std::ostream &out) {
+    //TODO:
+    // this.correctlyinitialized
+    // this.completelyinitialized
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
+        it->second->impressie(out);
+    }
 }
 
 

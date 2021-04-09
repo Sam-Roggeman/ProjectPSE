@@ -172,6 +172,10 @@ public:
      *  @return true als completelyInitialized (strikt positieve capaciteit, een naam, een adres en strikt positief aantal inwoners)
      * */
     bool completelyInitialized() const;
+
+    int getAantalVac()const;
+
+    void impressie(std::ostream &out);
 };
 
 

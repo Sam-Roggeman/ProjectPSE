@@ -56,12 +56,23 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                     for (TiXmlElement *vac_elem = hub_elem->FirstChildElement(); vac_elem != NULL; vac_elem = vac_elem->NextSiblingElement()) {
                         std::string vac_name = vac_elem->Value();
                         if (vac_name == "levering") {
-                            bedrijf->setLevering(atoi(hub_elem->FirstChild()->Value()));
+                            bedrijf->setLevering(atoi(vac_elem->FirstChild()->Value()));
                             bedrijf->leveringVanTypeToHub();
                         } else if (vac_name == "interval") {
-                            bedrijf->setInterval(atoi(hub_elem->FirstChild()->Value()));
+                            bedrijf->setInterval(atoi(vac_elem->FirstChild()->Value()));
                         } else if (vac_name == "transport") {
-                            bedrijf->setTransport(std::atoi(hub_elem->FirstChild()->Value()));
+                            bedrijf->setTransport(std::atoi(vac_elem->FirstChild()->Value()));
+                        }else if(vac_name == "type"){
+                            bedrijf->setName(vac_elem->FirstChild()->Value());
+                        }
+                        else if(vac_name == "hernieuwing"){
+                            bedrijf->sethernieuwing(std::atoi(vac_elem->FirstChild()->Value()));
+                        }
+                        else if(vac_name == "temperatuur"){
+                            bedrijf->settemperatuur(std::atoi(vac_elem->FirstChild()->Value()));
+                        }
+                        else{
+                            errstream << "element" << vac_name << "niet herkend" << std::endl;
                         }
                     }
                     sim.getHub()->addType(bedrijf);

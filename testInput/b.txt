@@ -1,0 +1,95 @@
+DAG 0:
+Hub (93000 vaccins)
+	-> AED Studios (0 vaccins)
+	-> De Zoerla (0 vaccins)
+	-> Flanders Expo (0 vaccins)
+	-> Park Spoor Oost (0 vaccins)
+AED Studios: 0 gevaccineerd, nog 76935 inwoners niet gevaccineerd
+De Zoerla: 0 gevaccineerd, nog 49451 inwoners niet gevaccineerd
+Flanders Expo: 0 gevaccineerd, nog 257029 inwoners niet gevaccineerd
+Park Spoor Oost: 0 gevaccineerd, nog 540173 inwoners niet gevaccineerd
+Er werden 1 (2000 vaccins) getransporteerd naar AED Studios.
+Er werden 1 (2000 vaccins) getransporteerd naar De Zoerla.
+Er werden 2 (4000 vaccins) getransporteerd naar Flanders Expo.
+Er werden 4 (8000 vaccins) getransporteerd naar Park Spoor Oost.
+Er werden 2000 inwoners gevaccineerd in AED Studios.
+Er werden 1000 inwoners gevaccineerd in De Zoerla.
+Er werden 3000 inwoners gevaccineerd in Flanders Expo.
+Er werden 7500 inwoners gevaccineerd in Park Spoor Oost.
+
+DAG 1:
+Hub (77000 vaccins)
+	-> AED Studios (0 vaccins)
+	-> De Zoerla (1000 vaccins)
+	-> Flanders Expo (1000 vaccins)
+	-> Park Spoor Oost (500 vaccins)
+AED Studios: 2000 gevaccineerd, nog 74935 inwoners niet gevaccineerd
+De Zoerla: 1000 gevaccineerd, nog 48451 inwoners niet gevaccineerd
+Flanders Expo: 3000 gevaccineerd, nog 254029 inwoners niet gevaccineerd
+Park Spoor Oost: 7500 gevaccineerd, nog 532673 inwoners niet gevaccineerd
+Er werden 1 (2000 vaccins) getransporteerd naar AED Studios.
+Er werden 0 (0 vaccins) getransporteerd naar De Zoerla.
+Er werden 1 (2000 vaccins) getransporteerd naar Flanders Expo.
+Er werden 4 (8000 vaccins) getransporteerd naar Park Spoor Oost.
+Er werden 2000 inwoners gevaccineerd in AED Studios.
+Er werden 1000 inwoners gevaccineerd in De Zoerla.
+Er werden 3000 inwoners gevaccineerd in Flanders Expo.
+Er werden 7500 inwoners gevaccineerd in Park Spoor Oost.
+
+DAG 2:
+Hub (65000 vaccins)
+	-> AED Studios (0 vaccins)
+	-> De Zoerla (0 vaccins)
+	-> Flanders Expo (0 vaccins)
+	-> Park Spoor Oost (1000 vaccins)
+AED Studios: 4000 gevaccineerd, nog 72935 inwoners niet gevaccineerd
+De Zoerla: 2000 gevaccineerd, nog 47451 inwoners niet gevaccineerd
+Flanders Expo: 6000 gevaccineerd, nog 251029 inwoners niet gevaccineerd
+Park Spoor Oost: 15000 gevaccineerd, nog 525173 inwoners niet gevaccineerd
+Er werden 1 (2000 vaccins) getransporteerd naar AED Studios.
+Er werden 1 (2000 vaccins) getransporteerd naar De Zoerla.
+Er werden 2 (4000 vaccins) getransporteerd naar Flanders Expo.
+Er werden 4 (8000 vaccins) getransporteerd naar Park Spoor Oost.
+Er werden 2000 inwoners gevaccineerd in AED Studios.
+Er werden 1000 inwoners gevaccineerd in De Zoerla.
+Er werden 3000 inwoners gevaccineerd in Flanders Expo.
+Er werden 7500 inwoners gevaccineerd in Park Spoor Oost.
+
+DAG 3:
+Hub (49000 vaccins)
+	-> AED Studios (0 vaccins)
+	-> De Zoerla (1000 vaccins)
+	-> Flanders Expo (1000 vaccins)
+	-> Park Spoor Oost (1500 vaccins)
+AED Studios: 6000 gevaccineerd, nog 70935 inwoners niet gevaccineerd
+De Zoerla: 3000 gevaccineerd, nog 46451 inwoners niet gevaccineerd
+Flanders Expo: 9000 gevaccineerd, nog 248029 inwoners niet gevaccineerd
+Park Spoor Oost: 22500 gevaccineerd, nog 517673 inwoners niet gevaccineerd
+Er werden 1 (2000 vaccins) getransporteerd naar AED Studios.
+Er werden 0 (0 vaccins) getransporteerd naar De Zoerla.
+Er werden 1 (2000 vaccins) getransporteerd naar Flanders Expo.
+Er werden 3 (6000 vaccins) getransporteerd naar Park Spoor Oost.
+Er werden 2000 inwoners gevaccineerd in AED Studios.
+Er werden 1000 inwoners gevaccineerd in De Zoerla.
+Er werden 3000 inwoners gevaccineerd in Flanders Expo.
+Er werden 7500 inwoners gevaccineerd in Park Spoor Oost.
+
+DAG 4:
+Hub (39000 vaccins)
+	-> AED Studios (0 vaccins)
+	-> De Zoerla (0 vaccins)
+	-> Flanders Expo (0 vaccins)
+	-> Park Spoor Oost (0 vaccins)
+AED Studios: 8000 gevaccineerd, nog 68935 inwoners niet gevaccineerd
+De Zoerla: 4000 gevaccineerd, nog 45451 inwoners niet gevaccineerd
+Flanders Expo: 12000 gevaccineerd, nog 245029 inwoners niet gevaccineerd
+Park Spoor Oost: 30000 gevaccineerd, nog 510173 inwoners niet gevaccineerd
+Er werden 1 (2000 vaccins) getransporteerd naar AED Studios.
+Er werden 1 (2000 vaccins) getransporteerd naar De Zoerla.
+Er werden 2 (4000 vaccins) getransporteerd naar Flanders Expo.
+Er werden 4 (8000 vaccins) getransporteerd naar Park Spoor Oost.
+Er werden 2000 inwoners gevaccineerd in AED Studios.
+Er werden 1000 inwoners gevaccineerd in De Zoerla.
+Er werden 3000 inwoners gevaccineerd in Flanders Expo.
+Er werden 7500 inwoners gevaccineerd in Park Spoor Oost.
+
