@@ -24,63 +24,14 @@ private:
 public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
-     * @post this.levering = 0
-     * @post this.interval = 0
-     * @post this.transport = 0
-     * @post this.aantal_vaccins = 0
      *@post: this->correctlyinitialized()
+     *@post this->types.size == 0
+     *@post this->vaccinatiecentra.size == 0
      * */
     Hub();
 
 
 //GETTERS SETTERS
-
-
-    //todo move to bedrijf
-    /**Geeft het aantal vaccins in de hub terug
-     *@returns aantal vaccins in de hub
-     * @pre this->correctlyInitialized
-     * */
-    int getAantalVaccins() const;
-
-    //todo move to bedrijf
-    /**Zet het aantal vaccins in de hub op aantal_vaccins1
-     * @param aantal_vaccins1 het nieuwe aantal vaccins in de hub
-     * @pre aantal_vaccins1 >= 0
-     * @pre this->correctlyinitialized()
-     * */
-    void setAantalVaccins(const int aantal_vaccins1);
-
-
-    //todo move to bedrijf
-    /**Geeft het aantal dagen tussen twee leveringen
-     * @returns het interval
-     * @pre this->correctlyinitialized()
-     * */
-    int getInterval() const;
-
-    //todo move to bedrijf
-    /**zet het aantal dagen tussen twee leveringen
-     * @param het interval tussen twee leveringen
-     * @pre interval1 >= 0
-     * @pre this->correctlyinitialized()
-     * */
-    void setInterval(const int interval1);
-
-    //todo move to bedrijf
-    /**geeft het aantal vaccins per transport
-     * @returns het aantal vaccins dat in een transport past
-     * @pre this->correctlyinitialized()
-     * */
-    int getTransport() const;
-
-    //todo move to bedrijf
-    /**zet het aantal vaccins dat per transport past op de param transport1
-     * @param transport1 het aantal vaccins dat in het transport past
-     * @pre transport1 >= 0
-     * @pre this->correctlyinitialized()
-     * */
-    void setTransport(const int transport1);
 
     /**voegt een centrum toe aan de hub
      * @param vaccinatiecentrum: het toe te voegen vaccinatiecentrum
@@ -92,17 +43,8 @@ public:
      * */
     void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
 
-    //todo move to bedrijf
-    /**trekt vaccins van aantal vaccins in de hub
-     * @param vaccins: het aantal vaccins dat afgetrokken moet worden
-     * @pre vaccins >=0
-     * @pre this->correctlyInitialized()
-     * @post aantal_vaccins -= vaccins
-     * @post aantal_vaccins >= 0
-     * */
-    void substractVaccins(const int vaccins);
 
-    /**kijkt na of de hub correct geinitialiseerd is
+    /**kijkt na of de hub correct geinitialiseerd is (= zowel hub als centra als types )
      * @return bool true als geinitializeerd
      * */
     bool correctlyInitialized() const;
@@ -123,7 +65,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra();
+    void transportToCentra(std::string naam_type);
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
@@ -132,19 +74,10 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins_centrum <= 2* capaciteit
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(std::ostream& out);
+    void transportToCentra(std::string naam_type, std::ostream &out);
 
 
 
-
-    //todo move to bedrijf
-    /**kijkt na of het momenteel een leveringsdag is
-     * @param dag: het nummer van de huidige dag
-     * @returns true als er geleverd wordt aan de hub
-     * @pre dag >=0
-     * @pre this->correctlyInitialized()
-     */
-    bool isLeveringsDag(const int dag) const;
 
     /**alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt
@@ -160,22 +93,6 @@ public:
      * @post voor elk centrum geldt dat gevaccineerden >= gevaccineerden_start
      * */
     void vaccineren();
-
-    //TODO delete
-    /**Veranderd het aantal vaccins dat geleverd wordt op leveringsdag
-     * @param int: het aantal vaccins dat aan de
-     * @pre levering >= 0
-     * @pre this->correctlyInitialized()
-     * @post this->levering == levering1
-    * */
-    void setLevering(const int levering1);
-
-    //TODO delete
-    /**Vraagt de grote van eenlevering op
-     * @return de grote van een levering
-     * @pre this->correctlyInitialized()
-     * */
-    int getLevering() const;
 
     /**checkt of het vaccineren klaar is (iedereen is gevaccineerd)
      * @return true als er 0 ongevaccineerden meer zijn
@@ -197,14 +114,21 @@ public:
 
     /**cleart de hub
      *@pre this->correctlyInitialized
-     * @post getTransport() >= 0
-     * @post getInterval() >= 0
-     * @post getAantalVaccins() >=0
-     * @post getLevering() >= 0
+     * @post this->types.size == 0
+     * @post this->vaccinatiecentra.size == 0
      * */
     void clear();
 
-    void addType(VaccinType *bedrijf1);
+    /**
+     * voegt een vaccintype toe aan de hub
+     * @param type het type vaccin dat toegevoegd wordt aan de hub
+     * @pre type->completlyInitialized
+     * @pre type->correctlyInitialized
+     * @pre this->types.find(type->getName()) == this->types.end()
+     * @post this->types.find(type->getName()) != this->types.end()
+     * @post this->types.size_start +1 == this->types.size
+     */
+    void addType(VaccinType *type);
 };
 
 

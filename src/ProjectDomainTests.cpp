@@ -71,7 +71,7 @@ TEST_F(HubDomainTest, CentrumDefaultConstructor ){
     EXPECT_EQ("", v.getNaamCentrum());
     EXPECT_EQ("", v.getAdresCentrum());
     EXPECT_EQ(0, v.getAantalGevaccineerden());
-    EXPECT_EQ(0, v.getAantalVaccins());
+    EXPECT_EQ(0, v.getAantalVaccinsVanType(std::string()));
     EXPECT_EQ(0, v.getAantalInwoners());
     EXPECT_EQ(0, v.getCapaciteit());
 
@@ -80,7 +80,7 @@ TEST_F(HubDomainTest, CentrumDefaultConstructor ){
     v.setNaamCentrum("Antwerpen");
     v.setAdresCentrum("vijfstraat 5");
     v.setAantalInwoners(500);
-    v.setAantalVaccins(1300);
+    v.setAantalVaccins(std::string(), 1300);
     v.setAantalGevaccineerden(1240);
 
     //Gelijkheid testen
@@ -88,7 +88,7 @@ TEST_F(HubDomainTest, CentrumDefaultConstructor ){
     EXPECT_EQ("Antwerpen",v.getNaamCentrum());
     EXPECT_EQ("vijfstraat 5", v.getAdresCentrum());
     EXPECT_EQ(500,v.getAantalInwoners());
-    EXPECT_EQ(1300,v.getAantalVaccins());
+    EXPECT_EQ(1300, v.getAantalVaccinsVanType(std::string()));
     EXPECT_EQ(1240,v.getAantalGevaccineerden());
 }
 
@@ -164,8 +164,8 @@ TEST_F(HubDomainTest, notDone){
     EXPECT_FALSE(hub.notDone());
 
     //Initalisering van alle waardes
-    vac.setAantalVaccins(1000);
-    vac.vaccineren(ofs);
+    vac.setAantalVaccins(std::string(), 1000);
+    vac.vaccineren(std::string(), ofs);
 
     //Testen op de return waarde van de functie
     EXPECT_FALSE(hub2.notDone());
@@ -206,16 +206,16 @@ TEST_F(HubDomainTest, addGevaccineerden){
 //Tests voor de functie addVaccins
 TEST_F(HubDomainTest, addVaccins){
     //Initialisering alle waardes
-    v.addVaccins(500);
+    v.addVaccins(500, std::string());
     v.setAantalInwoners(1500);
     v.setCapaciteit(500);
 
     //Returnwaarde vergelijken met verwachtte waarde
-    EXPECT_EQ(500,v.getAantalVaccins());
-    EXPECT_NE(0,v.getAantalVaccins());
-    v.vaccineren(ofs);
-    EXPECT_EQ(0,v.getAantalVaccins());
-    EXPECT_NE(500,v.getAantalVaccins());
+    EXPECT_EQ(500, v.getAantalVaccinsVanType(std::string()));
+    EXPECT_NE(0, v.getAantalVaccinsVanType(std::string()));
+    v.vaccineren(std::string(), ofs);
+    EXPECT_EQ(0, v.getAantalVaccinsVanType(std::string()));
+    EXPECT_NE(500, v.getAantalVaccinsVanType(std::string()));
 }
 
 //Tests voor de functie clear

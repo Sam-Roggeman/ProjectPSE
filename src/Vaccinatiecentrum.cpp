@@ -8,13 +8,13 @@
 
 #include "Vaccinatiecentrum.h"
 
+//todo posts
 /**maakt een vaccinatiecentrum object aan
  * @return vaccinatiecentrum
  * @post this.correctlyInitialized()
  * */
 Vaccinatiecentrum::Vaccinatiecentrum() {
     _initCheck = this;
-    aantal_vaccins = 0;
     aantal_gevaccineerden = 0;
     naam_centrum = "";
     adres_centrum = "";
@@ -24,7 +24,7 @@ Vaccinatiecentrum::Vaccinatiecentrum() {
            "constructor must end in properlyInitialized state");
 }
 
-/**veranderd de naam van het centrum naar naamCentrum
+    /**veranderd de naam van het centrum naar naamCentrum
      * @param naamcentrum: nieuwe naam van het centrum
      * @pre this.correctlyInitialized()
      * */
@@ -90,10 +90,10 @@ int Vaccinatiecentrum::getAantalInwoners() const {
  * @return het aantal vaccins in het centrum
  * @pre this.correctlyInitialized()
  * */
-int Vaccinatiecentrum::getAantalVaccins() const {
+int Vaccinatiecentrum::getAantalVaccinsVanType(std::string naam_type) const {
     REQUIRE(this->correctlyInitialized(),
-            "Vaccinatiecentrum wasn't initialized when calling getAantalVaccins");
-    return aantal_vaccins;
+            "Vaccinatiecentrum wasn't initialized when calling getAantalVaccinsVanType");
+    return this->vaccins.at(naam_type);
 }
 
 /**zet het aantal vaccins in het centrum op aantal
@@ -101,11 +101,13 @@ int Vaccinatiecentrum::getAantalVaccins() const {
  * @pre this.correctlyInitialized()
  * @pre aantal >= 0
  */
-void Vaccinatiecentrum::setAantalVaccins(int aantal) {
+void Vaccinatiecentrum::setAantalVaccins(std::string naam_type, int aantal) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling setAantalVaccins");
     REQUIRE(aantal >= 0, "aantal vaccins moet >= 0");
-    aantal_vaccins = aantal;
+    this->vaccins[naam_type] = aantal;
+    ENSURE(this->vaccins[naam_type] == aantal,
+           "aantal vaccins is niet juist aangepast bij setAantalVaccins in centrum");
 }
 
 /**zet de vaccinatiecapaciteit op capaciteit1
@@ -117,6 +119,8 @@ void Vaccinatiecentrum::setCapaciteit(int aantal) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling setCapaciteit");
     Vaccinatiecentrum::capaciteit = aantal;
+    ENSURE(this->capaciteit == aantal,
+           "aantal vaccins is niet juist aangepast bij setAantalVaccins in centrum");
 }
 
 /**returnt de vaccinatiecapaciteit per dag
@@ -133,12 +137,15 @@ int Vaccinatiecentrum::getCapaciteit() const {
  * @param aantal: het nieuwe aantal gevaccineerden
  * @pre this.correctlyInitialized()
  * @pre aantal >= 0
+ * @post aantal_gevaccineerden = aantal
  * */
 void Vaccinatiecentrum::setAantalGevaccineerden(int aantal) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling setAantalGevaccineerden");
     REQUIRE(aantal >= 0, "aantal gevaccineerden moet >= 0");
     aantal_gevaccineerden = aantal;
+    ENSURE(aantal_gevaccineerden == aantal,
+           "aantal gevaccineerden is niet juist veranderd bij oproep van setAantalGevaccineerden");
 }
 
 /**returt het aantal mensen dat gevaccineerd is
@@ -157,13 +164,13 @@ int Vaccinatiecentrum::getAantalGevaccineerden() const {
  * @pre aantal >= 0
  * @post aantal_vaccins += aantal
  * */
-void Vaccinatiecentrum::addVaccins(int aantal) {
+void Vaccinatiecentrum::addVaccins(int aantal, std::string naam_type) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling addVaccins");
     REQUIRE(aantal >= 0, "Amount of vaccins to add should be >= 0");
-    int old = aantal_vaccins;
-    aantal_vaccins += aantal;
-    ENSURE(aantal_vaccins == old+aantal, "nieuw aantal is niet gelijk aan oud aantal + aantal");
+    int old = vaccins[naam_type];
+    vaccins[naam_type] += aantal;
+    ENSURE(vaccins[naam_type] == old+aantal, "nieuw aantal is niet gelijk aan oud aantal + aantal");
 }
 
 /**substract het aantal van het huidige aantal vaccins
@@ -173,13 +180,13 @@ void Vaccinatiecentrum::addVaccins(int aantal) {
 * @post aantal_vaccins -= aantal
 * @post aantal_vaccins >= 0
 * */
-void Vaccinatiecentrum::substractVaccins(int aantal) {
+void Vaccinatiecentrum::substractVaccins(int aantal, std::string naam_type) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling addGevaccineerden");
     REQUIRE(aantal >= 0, "Amount of vaccins to substract should be >= 0");
-    int old = aantal_vaccins;
-    this->aantal_vaccins -= aantal;
-    ENSURE(aantal_vaccins == old-aantal, "nieuw aantal is niet gelijk aan oud aantal + aantal");
+    int old = vaccins[naam_type];
+    this->vaccins[naam_type] -= aantal;
+    ENSURE(vaccins[naam_type] == old-aantal, "nieuw aantal is niet gelijk aan oud aantal + aantal");
 
 }
 
@@ -221,8 +228,8 @@ bool Vaccinatiecentrum::correctlyInitialized() const {
  * @post aantal_vaccins <= aantal_vaccins_start
  * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
  * */
-void Vaccinatiecentrum::vaccineren() {
-    vaccineren(std::cout);
+void Vaccinatiecentrum::vaccineren(std::string naam_type) {
+    vaccineren(naam_type,std::cout);
 }
 
 /**vaccinaties worden uitgevoerd en output gaat naar out
@@ -231,18 +238,18 @@ void Vaccinatiecentrum::vaccineren() {
  * @post aantal_vaccins <= aantal_vaccins_start
  * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
  * */
-void Vaccinatiecentrum::vaccineren(std::ostream& out) {
+void Vaccinatiecentrum::vaccineren(std::string naam_type, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
     int aantal_gevaccineerden_start = aantal_gevaccineerden;
-    int aantal_vaccins_start = aantal_vaccins;
+    int aantal_vaccins_start = this->vaccins[naam_type];
 
-    int aantal_nieuwe_gevaccineerden = std::min(aantal_vaccins, capaciteit);
+    int aantal_nieuwe_gevaccineerden = std::min(this->vaccins[naam_type], capaciteit);
     aantal_nieuwe_gevaccineerden = std::min(aantal_nieuwe_gevaccineerden, this->aantalOngevaccineerden());
-    this->substractVaccins(aantal_nieuwe_gevaccineerden);
+    this->substractVaccins(aantal_nieuwe_gevaccineerden, std::string());
     this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
 
-    ENSURE(aantal_vaccins <= aantal_vaccins_start,
+    ENSURE(this->vaccins[naam_type] <= aantal_vaccins_start,
            "Aantal vaccins is gestegen na vaccineren");
     ENSURE(aantal_gevaccineerden >= aantal_gevaccineerden_start,
            "Aantal gevaccineerden is gezakt na vaccineren");

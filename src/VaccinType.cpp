@@ -6,7 +6,7 @@
 
 
 int VaccinType::getAantalVaccins() const {
-    REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van getAantalVaccins");
+    REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van getAantalVaccinsVanType");
     return aantal_vaccins;
 }
 void VaccinType::substractVaccins(int vaccins) {
@@ -87,7 +87,7 @@ bool VaccinType::correctlyInitialized() const {
     return (this == init_check);
 }
 
-void VaccinType::leveringVanType() {
+void VaccinType::leveringVanTypeToHub() {
     REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van leveringToHub");
     int old = aantal_vaccins;
     aantal_vaccins += levering;
@@ -95,7 +95,7 @@ void VaccinType::leveringVanType() {
 
 }
 
-bool VaccinType::completelyinitialized(){
+bool VaccinType::completelyInitialized(){
     REQUIRE(this->correctlyInitialized(),"Het object Vaccintype was niet correct geinitalizeerd bij oproep van completelyInitialized");
     bool out = true;
     if (aantal_vaccins<0||levering<0||interval<0||transport<0){
@@ -106,7 +106,7 @@ bool VaccinType::completelyinitialized(){
 
 bool VaccinType::isLeveringsDag(const int dag) const {
     REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van isLeveringDag");
-    REQUIRE(dag >= 0, "Dag kan geen negatieve getal zijn");
+    REQUIRE(dag >= 0, "Dag kan geen negatief getal zijn");
     if (dag % (interval+1) == 0)
         return true;
     else

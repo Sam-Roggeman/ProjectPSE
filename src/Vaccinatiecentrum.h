@@ -13,10 +13,11 @@
 #include "iostream"
 #include <string>
 #include <math.h>
+#include <map>
 
 class Vaccinatiecentrum {
     Vaccinatiecentrum * _initCheck;
-    int aantal_vaccins;
+    std::map<std::string,int> vaccins;
     std::string naam_centrum;
     std::string adres_centrum;
     int aantal_inwoners;
@@ -72,14 +73,15 @@ public:
      * @return het aantal vaccins in het centrum
      * @pre this.correctlyInitialized()
      * */
-    int getAantalVaccins() const;
+    int getAantalVaccinsVanType(std::string naam_type) const;
 
     /**zet het aantal vaccins in het centrum op aantal
      * @param het nieuwe aantal vaccins
      * @pre this.correctlyInitialized()
      * @pre aantal >= 0
+     * @post this->vaccins[naam_type] == aantal
      */
-    void setAantalVaccins(int aantal);
+    void setAantalVaccins(std::string naam_type, int aantal);
 
     /**zet de vaccinatiecapaciteit op capaciteit1
      * @param aantal: De nieuwe capaciteit van het centrum
@@ -109,22 +111,24 @@ public:
     int getAantalGevaccineerden() const;
 
 //VACCIN OPERATIONS
-    /**substract het aantal van het huidige aantal vaccins
+    /**substract het aantal van het huidige aantal vaccins van dat type
      * @param aantal: het aantal vaccins dat geleverd werd werd
+     * @param naam_type de naam van het type dat geleverd wordt
      * @pre this.correctlyInitialized()
      * @pre aantal >= 0
-     * @post aantal_vaccins += aantal
+     * @post vaccins[naam_type] += aantal
      * */
-    void addVaccins(int aantal);
+    void addVaccins(int aantal, std::string naam_type);
 
-    /**substract het aantal van het huidige aantal vaccins
+    /**substract het aantal van het huidige aantal vaccins van dat type
+     * @param naam_type de naam van het type dat geleverd wordt
      * @param aantal: het aantal vaccins dat gebruikt werd
      * @pre this.correctlyInitialized()
      * @pre aantal >= 0
-     * @post aantal_vaccins -= aantal
+     * @post vaccins[naam_type] -= aantal
      * @post aantal_vaccins >= 0
      * */
-    void substractVaccins(int aantal);
+    void substractVaccins(int aantal, std::string naam_type);
 
 // GEVACCINEERDEN OPERATIONS
     /**add aantal_gevaccineerden toe aan het totaal aantal gevaccineren
@@ -153,7 +157,7 @@ public:
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
      * */
-    void vaccineren();
+    void vaccineren(std::string naam_type);
 
     /**vaccinaties worden uitgevoerd en output gaat naar out
     * @param out: de outputstream waarnaar de output gestuurt wordt
@@ -161,7 +165,7 @@ public:
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
      * */
-    void vaccineren(std::ostream& out);
+    void vaccineren(std::string naam_type, std::ostream &out);
 
     /**kijkt na of een centrum volledig geinitializeerd is
      * @pre this.correctlyInitialized()
