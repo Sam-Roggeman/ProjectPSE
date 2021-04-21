@@ -26,7 +26,7 @@ public:
 
     void settemperatuur(const int t);
 
-    int getGettemperatuur() const;
+    int gettemperatuur() const;
 
     void setName(const std::string &name);
 

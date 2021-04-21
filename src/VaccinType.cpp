@@ -123,7 +123,7 @@ void VaccinType::setAantalVaccins(const int aantal_vaccins1) {
     aantal_vaccins = aantal_vaccins1;
 }
 
-int VaccinType::getGettemperatuur() const {
+int VaccinType::gettemperatuur() const {
     return temperatuur;
 }
 

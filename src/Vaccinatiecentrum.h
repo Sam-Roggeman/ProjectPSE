@@ -14,12 +14,14 @@
 #include <string>
 #include <math.h>
 #include <map>
+#include "VaccinType.h"
 
 class Vaccinatiecentrum {
     Vaccinatiecentrum * _initCheck;
     std::map<std::string,int> vaccins;
     std::string naam_centrum;
     std::string adres_centrum;
+    std::map<std::string, VaccinType*> types;
     int aantal_inwoners;
     int capaciteit;
     int aantal_gevaccineerden;
@@ -157,7 +159,7 @@ public:
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
      * */
-    void vaccineren(std::string naam_type);
+    void vaccineren();
 
     /**vaccinaties worden uitgevoerd en output gaat naar out
     * @param out: de outputstream waarnaar de output gestuurt wordt
@@ -165,7 +167,7 @@ public:
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
      * */
-    void vaccineren(std::string naam_type, std::ostream &out);
+    void vaccineren(std::ostream &out);
 
     /**kijkt na of een centrum volledig geinitializeerd is
      * @pre this.correctlyInitialized()
@@ -173,9 +175,12 @@ public:
      * */
     bool completelyInitialized() const;
 
-    int getAantalVac()const;
+    int getAantalVaccins()const;
 
     void impressie(std::ostream &out);
+
+    void setTypes(std::map<std::string, VaccinType*>);
+
 };
 
 

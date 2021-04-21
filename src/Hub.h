@@ -65,7 +65,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(std::string naam_type);
+    void transportToCentra();
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
@@ -74,7 +74,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins_centrum <= 2* capaciteit
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(std::string naam_type, std::ostream &out);
+    void transportToCentra(std::ostream &out);
 
 
 
@@ -133,6 +133,10 @@ public:
     int get_aantal_vac() const;
 
     void impressie(std::ostream &out);
+
+    void setCentrumTypes() const;
+
+
 };
 
 

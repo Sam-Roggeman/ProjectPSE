@@ -228,8 +228,8 @@ bool Vaccinatiecentrum::correctlyInitialized() const {
  * @post aantal_vaccins <= aantal_vaccins_start
  * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
  * */
-void Vaccinatiecentrum::vaccineren(std::string naam_type) {
-    vaccineren(naam_type,std::cout);
+void Vaccinatiecentrum::vaccineren() {
+    vaccineren(std::cout);
 }
 
 /**vaccinaties worden uitgevoerd en output gaat naar out
@@ -238,25 +238,38 @@ void Vaccinatiecentrum::vaccineren(std::string naam_type) {
  * @post aantal_vaccins <= aantal_vaccins_start
  * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
  * */
-void Vaccinatiecentrum::vaccineren(std::string naam_type, std::ostream &out) {
+void Vaccinatiecentrum::vaccineren(std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
+    int aantal_vaccins_start = this->getAantalVaccins();
     int aantal_gevaccineerden_start = aantal_gevaccineerden;
-    int aantal_vaccins_start = this->vaccins[naam_type];
+    int aantal_nieuwe_gevaccineerden = 0;
+    int current_cap = this->capaciteit;
+    for (std::map<std::string, int>::const_iterator vac_it = this->vaccins.begin(); vac_it != vaccins.end(); vac_it++){
+        if (types[vac_it->first]->gettemperatuur() < 0 ) {
+            int temp = std::min(this->vaccins[vac_it->first], current_cap);
+            aantal_nieuwe_gevaccineerden = std::min(temp, this->aantalOngevaccineerden());
+            this->substractVaccins(aantal_nieuwe_gevaccineerden, vac_it->first);
+            this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
+            current_cap -= aantal_nieuwe_gevaccineerden;
+        }
+    }
+    for (std::map<std::string, int>::const_iterator vac_it = this->vaccins.begin(); vac_it != vaccins.end(); vac_it++){
+        int temp = std::min(this->vaccins[vac_it->first], current_cap);
+        aantal_nieuwe_gevaccineerden = std::min(temp, this->aantalOngevaccineerden());
+        this->substractVaccins(aantal_nieuwe_gevaccineerden, vac_it->first);
+        this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
+        current_cap -= aantal_nieuwe_gevaccineerden;
+    }
 
-    int aantal_nieuwe_gevaccineerden = std::min(this->vaccins[naam_type], capaciteit);
-    aantal_nieuwe_gevaccineerden = std::min(aantal_nieuwe_gevaccineerden, this->aantalOngevaccineerden());
-    this->substractVaccins(aantal_nieuwe_gevaccineerden, std::string());
-    this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
-
-    ENSURE(this->vaccins[naam_type] <= aantal_vaccins_start,
+    ENSURE(this->getAantalVaccins() <= aantal_vaccins_start,
            "Aantal vaccins is gestegen na vaccineren");
     ENSURE(aantal_gevaccineerden >= aantal_gevaccineerden_start,
            "Aantal gevaccineerden is gezakt na vaccineren");
 
 
-    out << "Er werden " << aantal_nieuwe_gevaccineerden <<" inwoners gevaccineerd in " <<
-            this->naam_centrum << "." << std::endl;
+    out << "Er werden " << this->capaciteit - current_cap <<" inwoners gevaccineerd in " <<
+        this->naam_centrum << "." << std::endl;
 }
 
 bool Vaccinatiecentrum::completelyInitialized() const {
@@ -277,7 +290,8 @@ bool Vaccinatiecentrum::completelyInitialized() const {
     return true;
 }
 
-int Vaccinatiecentrum::getAantalVac()const{
+int Vaccinatiecentrum::getAantalVaccins()const{
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum niet geinitializeerd bij oproep van getAantalVaccins");
     int aantal_vac = 0 ;
     for(std::map<std::string,int>::const_iterator it = vaccins.begin(); it != vaccins.end(); it++){
         aantal_vac += it->second;
@@ -289,28 +303,34 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
     //TODO:
     // this.correctlyinitialized
     // this.completelyinitialized
-    int vac_verhouding = 100*this->getAantalVac()/(this->getCapaciteit()*2);
+    int vac_verhouding = 100 * this->getAantalVaccins() / (this->getCapaciteit() * 2);
     int gevac_verhouding = 100*this->getAantalGevaccineerden()/this->getAantalInwoners();
     out << this->getNaamCentrum() << ':' << std::endl << '\t' << "- vaccins\t\t";
 
     out << '[';
-    for(int i = 0; i < vac_verhouding%5; i++){
-       out << '=';
+    for(int i = 0; i < vac_verhouding/5; i++){
+        out << '=';
     }
-    for(int i = vac_verhouding%5; i < 20; i++ ){
+    for(int i = vac_verhouding/5; i < 20; i++ ){
         out << " ";
     }
     out << ']' << " " << vac_verhouding << '%' << std::endl;
 
     out << '\t' << "- gevaccineerd\t";
     out << '[';
-    for(int i = 0; i < gevac_verhouding%5; i++){
+    for(int i = 0; i < gevac_verhouding/5; i++){
         out << '=';
     }
-    for(int i = gevac_verhouding%5; i < 20; i++ ){
+    for(int i = gevac_verhouding/5; i < 20; i++ ){
         out << " ";
     }
     out << ']' << " " << gevac_verhouding << '%' << std::endl;
 }
+
+void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
+    types = types1;
+}
+
+
 
 

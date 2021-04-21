@@ -90,6 +90,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
             errstream << "element niet herkend" << std::endl;
         }
     }
+    sim.getHub()->setCentrumTypes();
     ENSURE(sim.getHub()->completelyInitialized(), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     ENSURE((hubcounter < 2),"Je mag maar 1 hub hebben");
     ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
