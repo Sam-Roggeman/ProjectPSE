@@ -25,11 +25,21 @@ class Vaccinatiecentrum {
     int aantal_inwoners;
     int capaciteit;
     int aantal_gevaccineerden;
+
+    //todo getters setters
+    int aantal_vol_gevaccineerden;
+    std::map<std::string,std::map<int,int> > hernieuwingen;
 public:
 
     /**maakt een vaccinatiecentrum object aan
      * @return vaccinatiecentrum
-     * @post this.correctlyInitialized()
+     * @post this->correctlyInitialized()
+     * @post aantal_gevaccineerden == 0
+     * @post capaciteit == 0
+     * @post aantal_inwoners == 0
+     * //todo aantal_vol en hernieuwingen
+     * @post naam_centrum is leeg
+     * @post adres centrum is leeg
      * */
     Vaccinatiecentrum();
 
@@ -159,27 +169,37 @@ public:
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
      * */
-    void vaccineren();
+    void vaccineren(int dag);
 
     /**vaccinaties worden uitgevoerd en output gaat naar out
     * @param out: de outputstream waarnaar de output gestuurt wordt
+     * //todo dag param
      * @pre this.correctlyInitialized()
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
      * */
-    void vaccineren(std::ostream &out);
+    void vaccineren(int dag, std::ostream &out);
 
     /**kijkt na of een centrum volledig geinitializeerd is
      * @pre this.correctlyInitialized()
+     * //todo dag param
      *  @return true als completelyInitialized (strikt positieve capaciteit, een naam, een adres en strikt positief aantal inwoners)
      * */
     bool completelyInitialized() const;
 
     int getAantalVaccins()const;
 
+    /**
+     * maakt een grafische impressie van het centrum
+     * @pre this->correctlyinitialized
+     * @pre this->completelyinitialized
+     * @param out de ostream waarnaar de impressie gestuurd wordt
+     */
     void impressie(std::ostream &out);
 
     void setTypes(std::map<std::string, VaccinType*>);
+
+    int getAantalGeres(std::string naam_type, int dag);
 
 };
 

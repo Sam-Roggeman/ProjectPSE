@@ -16,8 +16,16 @@ class VaccinType {
     int aantal_vaccins;
     int hernieuwing;
     int temperatuur;
+    int gereserveerd;
+
+
+private:
     VaccinType* init_check;
 public:
+    int getGereserveerd() const;
+
+    void setGereserveerd(int gereserveerd);
+
     const std::string &getName() const;
 
     void sethernieuwing(const int h);
@@ -76,6 +84,8 @@ public:
      * @pre this->correctlyinitialized()
      * */
     void setAantalVaccins(const int aantal_vaccins1);
+
+    //todo contract + ensure geres
     VaccinType();
 
     /**Geeft het aantal vaccins van dit type in de hub terug

@@ -53,11 +53,11 @@ void Hub::outputHub(std::ostream& out) const {
     }
 }
 
-void Hub::transportToCentra() {
-    transportToCentra(std::cout);
+void Hub::transportToCentra(int dag) {
+    transportToCentra(dag, std::cout);
 }
 
-void Hub::transportToCentra(std::ostream &out) {
+void Hub::transportToCentra(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(), "Hub is niet geinitializeerd bij oproep van transportToCentra");
     Vaccinatiecentrum* centrum;
     int aantal_ladingen;
@@ -65,7 +65,7 @@ void Hub::transportToCentra(std::ostream &out) {
     int tot_lading;
     int aantal_vaccins_hub_start = this->get_aantal_vac(); ;
     int aantal_vaccins_centrum_start ;
-
+    int aantal_ger;
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
         centrum = it->second;
         aantal_vaccins_centrum_start = centrum->getAantalVaccins();
@@ -74,9 +74,20 @@ void Hub::transportToCentra(std::ostream &out) {
         aantal_ladingen = 0;
         for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
             centrum = it->second;
+            aantal_ger = centrum->getAantalGeres(type_it->first,dag);
+            while (aantal_ger > tot_lading_per_type[type_it->first]) {
+                tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
+                tot_lading += type_it->second->getTransport();
+                aantal_ladingen++;
+            }
+            //warme temperaturen
             if (type_it->second->gettemperatuur() >= 0) {
                 while (centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins()) {
                     if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
+                        break;
+                    }
+                    if (types[type_it->first]->getAantalVaccins() - type_it->second->getGereserveerd() <=
+                        tot_lading_per_type[type_it->first] ){
                         break;
                     }
                     tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
@@ -84,9 +95,18 @@ void Hub::transportToCentra(std::ostream &out) {
                     aantal_ladingen++;
                 }
             }
+            //gekoelde vaccins
             else {
+                if (centrum->getCapaciteit() < tot_lading + centrum->getAantalVaccins()) {
+                    break;
+                }
                 while (centrum->getCapaciteit() >= tot_lading + centrum->getAantalVaccins()) {
-                    if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
+
+                        if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
+                        break;
+                    }
+                    if (types[type_it->first]->getAantalVaccins() - type_it->second->getGereserveerd() <=
+                        tot_lading_per_type[type_it->first] ){
                         break;
                     }
                     tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
@@ -122,7 +142,7 @@ void Hub::vaccineren(std::ostream &out) {
         Vaccinatiecentrum* centrum = it->second;
         int aantal_vaccins_start = centrum->getAantalVaccins();
         int gevaccineerden = centrum->getAantalGevaccineerden();
-        centrum->vaccineren(out);
+        centrum->vaccineren(0, out);
         ENSURE(centrum->getAantalVaccins() <= aantal_vaccins_start, "Aantal vaccins is gestegen na vaccineren" );
         ENSURE(centrum->getAantalGevaccineerden() >= gevaccineerden, "Gevaccineerden is gezakt na vaccineren" );
     }
@@ -204,9 +224,8 @@ int Hub::get_aantal_vac() const {
 }
 
 void Hub::impressie(std::ostream &out) {
-    //TODO:
-    // this.correctlyinitialized
-    // this.completelyinitialized
+    REQUIRE(this->correctlyInitialized(), "Hub was niet correct geinitializeerd bij oproep van impressie");
+    REQUIRE(this->completelyInitialized(), "Hub was niet compleet geinitializeerd bij oproep van impressie");
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
         it->second->impressie(out);
     }
@@ -215,6 +234,14 @@ void Hub::impressie(std::ostream &out) {
 void Hub::setCentrumTypes() const  {
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
         it->second->setTypes(this->types);
+    }
+}
+
+void Hub::vacLeveringen(int dag) {
+    for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++){
+        if (type_it->second->isLeveringsDag(dag)){
+            type_it->second->leveringVanTypeToHub();
+        }
     }
 }
 

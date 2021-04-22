@@ -8,11 +8,7 @@
 
 #include "Vaccinatiecentrum.h"
 
-//todo posts
-/**maakt een vaccinatiecentrum object aan
- * @return vaccinatiecentrum
- * @post this.correctlyInitialized()
- * */
+
 Vaccinatiecentrum::Vaccinatiecentrum() {
     _initCheck = this;
     aantal_gevaccineerden = 0;
@@ -20,14 +16,18 @@ Vaccinatiecentrum::Vaccinatiecentrum() {
     adres_centrum = "";
     aantal_inwoners = 0;
     capaciteit= 0;
+    aantal_vol_gevaccineerden = 0;
+    hernieuwingen.clear();
     ENSURE(correctlyInitialized(),
-           "constructor must end in properlyInitialized state");
+           "constructor must end in correctlyInitialized state");
+    ENSURE(this->aantal_gevaccineerden == 0, "Aantal gevaccineerden was niet nul bij het einde van de constructor");
+    ENSURE(this->aantal_inwoners == 0, "Aantal inwoners was niet nul bij het einde van de constructor");
+    ENSURE(this->capaciteit == 0, "Capaciteit was niet nul bij het einde van de constructor");
+    ENSURE(naam_centrum.size() == 0, "naam van centrum was niet leeg bij het einde van de constructor");
+    ENSURE(adres_centrum.size() == 0, "adres van centrum was niet leeg bij het einde van de constructor");
 }
 
-    /**veranderd de naam van het centrum naar naamCentrum
-     * @param naamcentrum: nieuwe naam van het centrum
-     * @pre this.correctlyInitialized()
-     * */
+
 void Vaccinatiecentrum::setNaamCentrum(const std::string &naamcentrum) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling setNaamCentrum");
@@ -228,23 +228,34 @@ bool Vaccinatiecentrum::correctlyInitialized() const {
  * @post aantal_vaccins <= aantal_vaccins_start
  * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
  * */
-void Vaccinatiecentrum::vaccineren() {
-    vaccineren(std::cout);
+void Vaccinatiecentrum::vaccineren(int dag) {
+    vaccineren(dag, std::cout);
 }
 
 /**vaccinaties worden uitgevoerd en output gaat naar out
 * @param out: de outputstream waarnaar de output gestuurt wordt
  * @pre this.correctlyInitialized()
+ * //todo moet genoeg vaccins hebben voor hernieuwing pre
  * @post aantal_vaccins <= aantal_vaccins_start
  * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
  * */
-void Vaccinatiecentrum::vaccineren(std::ostream &out) {
+void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
     int aantal_vaccins_start = this->getAantalVaccins();
     int aantal_gevaccineerden_start = aantal_gevaccineerden;
     int aantal_nieuwe_gevaccineerden = 0;
     int current_cap = this->capaciteit;
+    int aantal;
+    for(std::map<std::string, std::map<int, int> >::iterator hernieuwing_it = hernieuwingen.begin();
+        hernieuwing_it != hernieuwingen.end(); hernieuwing_it++ ){
+        aantal = hernieuwing_it->second[dag];
+        vaccins[hernieuwing_it->first] -= aantal;
+        aantal_vol_gevaccineerden +=  aantal;
+        aantal_gevaccineerden -=  aantal;
+        current_cap -= aantal;
+    };
+    //gekoelde vaccins eerst
     for (std::map<std::string, int>::const_iterator vac_it = this->vaccins.begin(); vac_it != vaccins.end(); vac_it++){
         if (types[vac_it->first]->gettemperatuur() < 0 ) {
             int temp = std::min(this->vaccins[vac_it->first], current_cap);
@@ -252,15 +263,21 @@ void Vaccinatiecentrum::vaccineren(std::ostream &out) {
             this->substractVaccins(aantal_nieuwe_gevaccineerden, vac_it->first);
             this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
             current_cap -= aantal_nieuwe_gevaccineerden;
+            hernieuwingen[vac_it->first][types[vac_it->first]->gethernieuwing()+dag] = aantal_nieuwe_gevaccineerden;
+            types[vac_it->first]->setGereserveerd(types[vac_it->first]->getGereserveerd()+aantal_nieuwe_gevaccineerden);
         }
     }
+    //ongekoelde vaccins
     for (std::map<std::string, int>::const_iterator vac_it = this->vaccins.begin(); vac_it != vaccins.end(); vac_it++){
         int temp = std::min(this->vaccins[vac_it->first], current_cap);
         aantal_nieuwe_gevaccineerden = std::min(temp, this->aantalOngevaccineerden());
         this->substractVaccins(aantal_nieuwe_gevaccineerden, vac_it->first);
         this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
         current_cap -= aantal_nieuwe_gevaccineerden;
+        hernieuwingen[vac_it->first][types[vac_it->first]->gethernieuwing()+dag] = aantal_nieuwe_gevaccineerden;
+        types[vac_it->first]->setGereserveerd(types[vac_it->first]->getGereserveerd()+aantal_nieuwe_gevaccineerden);
     }
+
 
     ENSURE(this->getAantalVaccins() <= aantal_vaccins_start,
            "Aantal vaccins is gestegen na vaccineren");
@@ -300,12 +317,11 @@ int Vaccinatiecentrum::getAantalVaccins()const{
 }
 
 void Vaccinatiecentrum::impressie(std::ostream &out) {
-    //TODO:
-    // this.correctlyinitialized
-    // this.completelyinitialized
+    ENSURE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van impressie");
+    ENSURE(this->completelyInitialized(), "Vaccinatiecentrum was niet compleet geinitializeerd bij oproep van impressie");
     int vac_verhouding = 100 * this->getAantalVaccins() / (this->getCapaciteit() * 2);
     int gevac_verhouding = 100*this->getAantalGevaccineerden()/this->getAantalInwoners();
-    out << this->getNaamCentrum() << ':' << std::endl << '\t' << "- vaccins\t\t";
+    out << this->getNaamCentrum() << ':' << std::endl << '\t' << "- vaccins\t";
 
     out << '[';
     for(int i = 0; i < vac_verhouding/5; i++){
@@ -329,6 +345,10 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
 
 void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
     types = types1;
+}
+
+int Vaccinatiecentrum::getAantalGeres(std::string naam_type, int dag) {
+    return this->hernieuwingen[naam_type][dag];
 }
 
 

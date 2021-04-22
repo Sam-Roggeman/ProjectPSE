@@ -65,7 +65,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra();
+    void transportToCentra(int dag);
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
@@ -74,7 +74,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins_centrum <= 2* capaciteit
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(std::ostream &out);
+    void transportToCentra(int dag, std::ostream &out);
 
 
 
@@ -113,7 +113,7 @@ public:
     bool completelyInitialized() const;
 
     /**cleart de hub
-     *@pre this->correctlyInitialized
+     *@pre this->correctlyInitialized()
      * @post this->types.size == 0
      * @post this->vaccinatiecentra.size == 0
      * */
@@ -122,21 +122,35 @@ public:
     /**
      * voegt een vaccintype toe aan de hub
      * @param type het type vaccin dat toegevoegd wordt aan de hub
-     * @pre type->completlyInitialized
-     * @pre type->correctlyInitialized
+     * @pre type->completlyInitialized()
+     * @pre type->correctlyInitialized()
      * @pre this->types.find(type->getName()) == this->types.end()
      * @post this->types.find(type->getName()) != this->types.end()
      * @post this->types.size_start +1 == this->types.size
      */
     void addType(VaccinType *type);
 
+    /** geeft het totaal aantal vaccins terug dat in de hub zit
+     * @pre this->correctlyinitialized()
+     * @return som van aantal vaccins van elk type in de hub
+     */
     int get_aantal_vac() const;
 
+    /** maakt een grafische impressie van de huidige staat van de hub
+     * @param out de ostream waarnaar de impressie wordt gestuurd
+     * @pre this->correctlyinitialized()
+     * @pre this->completlyinitialized()
+     */
     void impressie(std::ostream &out);
 
+    /**
+     * zet een kopie van de map met types in elk centrum
+     * @pre this->correctlyinitialized()
+     */
     void setCentrumTypes() const;
 
 
+    void vacLeveringen(int dag);
 };
 
 

@@ -21,10 +21,8 @@ using namespace std;
 
 
 //todo sam:
-// move van hub->bedrijf + fix hub
 
 //todo said:
-// contracten bedrijf
 
 //todo
 
@@ -34,8 +32,11 @@ int main(int argc, char **argv) {
     o.open("test.txt");
     Hub h = Hub();
     Simulation s = Simulation(&h);
-    simulationImporter::importSimulation("./testOutput/t.xml",  std::cout, s);
-    h.outputHub();
+    simulationImporter::importSimulation("t.xml",  std::cout, s);
+    s.impressie(std::cout);
+    h.transportToCentra(0);
+    s.impressie(std::cout);
+    h.vaccineren();
     s.impressie(std::cout);
 //    s.initializeSimulation("./testInput/test.xml", std::cerr);
 //    s.autoSimulationUntilDone();

@@ -165,7 +165,7 @@ TEST_F(HubDomainTest, notDone){
 
     //Initalisering van alle waardes
     vac.setAantalVaccins(std::string(), 1000);
-    vac.vaccineren(ofs);
+    vac.vaccineren(0, ofs);
 
     //Testen op de return waarde van de functie
     EXPECT_FALSE(hub2.notDone());
@@ -213,7 +213,7 @@ TEST_F(HubDomainTest, addVaccins){
     //Returnwaarde vergelijken met verwachtte waarde
     EXPECT_EQ(500, v.getAantalVaccinsVanType(std::string()));
     EXPECT_NE(0, v.getAantalVaccinsVanType(std::string()));
-    v.vaccineren(ofs);
+    v.vaccineren(0, ofs);
     EXPECT_EQ(0, v.getAantalVaccinsVanType(std::string()));
     EXPECT_NE(500, v.getAantalVaccinsVanType(std::string()));
 }
@@ -232,7 +232,4 @@ TEST_F(HubDomainTest, clear){
     EXPECT_EQ(0,s.getHub()->getAantalVaccins());
     EXPECT_EQ(0,s.getHub()->getTransport());
     EXPECT_EQ(0,s.getHub()->getInterval());
-
-
-
 }

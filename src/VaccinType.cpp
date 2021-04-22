@@ -77,6 +77,7 @@ VaccinType::VaccinType() {
     this->aantal_vaccins = 0;
     this->hernieuwing = 0;
     this->temperatuur = 27;
+    this->gereserveerd = 0;
 
     ENSURE(this->name == "", "De naam is verkeerd geinitialiseerd");
     ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
@@ -137,4 +138,12 @@ int VaccinType::gethernieuwing() {
 
 void VaccinType::settemperatuur(const int t) {
     temperatuur = t;
+}
+
+int VaccinType::getGereserveerd() const {
+    return gereserveerd;
+}
+
+void VaccinType::setGereserveerd(int gereserveerd1) {
+    VaccinType::gereserveerd = gereserveerd1;
 }
