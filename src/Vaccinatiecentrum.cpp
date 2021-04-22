@@ -232,13 +232,6 @@ void Vaccinatiecentrum::vaccineren(int dag) {
     vaccineren(dag, std::cout);
 }
 
-/**vaccinaties worden uitgevoerd en output gaat naar out
-* @param out: de outputstream waarnaar de output gestuurt wordt
- * @pre this.correctlyInitialized()
- * //todo moet genoeg vaccins hebben voor hernieuwing pre
- * @post aantal_vaccins <= aantal_vaccins_start
- * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
- * */
 void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
@@ -254,6 +247,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
         aantal_vol_gevaccineerden +=  aantal;
         aantal_gevaccineerden -=  aantal;
         current_cap -= aantal;
+        types[hernieuwing_it->first]->setGereserveerd(types[hernieuwing_it->first]->getGereserveerd()-aantal);
     };
     //gekoelde vaccins eerst
     for (std::map<std::string, int>::const_iterator vac_it = this->vaccins.begin(); vac_it != vaccins.end(); vac_it++){

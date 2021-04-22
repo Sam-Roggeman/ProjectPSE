@@ -58,6 +58,10 @@ void Hub::transportToCentra(int dag) {
 }
 
 void Hub::transportToCentra(int dag, std::ostream &out) {
+    if (dag == 15) {
+        std::cout<<"REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
+    }
+
     REQUIRE(this->correctlyInitialized(), "Hub is niet geinitializeerd bij oproep van transportToCentra");
     Vaccinatiecentrum* centrum;
     int aantal_ladingen;
@@ -73,13 +77,14 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
         tot_lading = 0;
         aantal_ladingen = 0;
         for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
-            centrum = it->second;
             aantal_ger = centrum->getAantalGeres(type_it->first,dag);
             while (aantal_ger > tot_lading_per_type[type_it->first]) {
                 tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
                 tot_lading += type_it->second->getTransport();
                 aantal_ladingen++;
             }
+        }
+        for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
             //warme temperaturen
             if (type_it->second->gettemperatuur() >= 0) {
                 while (centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins()) {
