@@ -33,11 +33,12 @@ int main(int argc, char **argv) {
     Hub h = Hub();
     Simulation s = Simulation(&h);
     simulationImporter::importSimulation("t.xml",  std::cout, s);
-    s.impressie(std::cout);
-    h.transportToCentra(0);
-    s.impressie(std::cout);
-    h.vaccineren();
-    s.impressie(std::cout);
+    s.autoSimulationUntilDone();
+    //    s.impressie(std::cout);
+//    h.transportToCentra(0);
+//    s.impressie(std::cout);
+//    h.vaccineren();
+//    s.impressie(std::cout);
 //    s.initializeSimulation("./testInput/test.xml", std::cerr);
 //    s.autoSimulationUntilDone();
 //    s.autoSimulation(0,5);
