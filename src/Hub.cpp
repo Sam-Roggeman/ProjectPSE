@@ -122,6 +122,9 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
         }
         ENSURE(tot_lading <= 2 * centrum->getCapaciteit(), "2* capaciteit overeschreven van centrum overschreven");
         for (std::map<std::string, int>::iterator ite = tot_lading_per_type.begin(); ite != tot_lading_per_type.end(); ite++) {
+            if(ite->second < 0){
+                std::cout << "hi";
+            }
             centrum->addVaccins(ite->second, ite->first);
             this->types[ite->first]->substractVaccins((ite->second));
         }

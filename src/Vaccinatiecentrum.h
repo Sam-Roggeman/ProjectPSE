@@ -31,6 +31,7 @@ class Vaccinatiecentrum {
     std::map<std::string,std::map<int,int> > hernieuwingen;
 public:
 
+
     /**maakt een vaccinatiecentrum object aan
      * @return vaccinatiecentrum
      * @post this->correctlyInitialized()
@@ -44,6 +45,14 @@ public:
     Vaccinatiecentrum();
 
 //GETTERS SETTERS
+
+    void setHernieuwing(std::map<std::string,std::map<int,int> > h){
+        hernieuwingen = h;
+    }
+
+    std::map<std::string,std::map<int,int> > getHernieuwing(){
+        return hernieuwingen;
+    }
     /**veranderd de naam van het centrum naar naamCentrum
      * @param naamcentrum: nieuwe naam van het centrum
      * @pre this.correctlyInitialized()

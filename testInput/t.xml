@@ -5,24 +5,24 @@
             <levering>93000</levering>
             <interval>6</interval>
             <transport>2000</transport>
-            <hernieuwing>21</hernieuwing>
-            <temperatuur>-70</temperatuur>
+            <temperatuur>-20</temperatuur>
+            <hernieuwing>6</hernieuwing>
         </VACCIN>
         <VACCIN>
             <type>Moderna</type>
             <levering>46000</levering>
             <interval>13</interval>
             <transport>1000</transport>
-            <hernieuwing>28</hernieuwing>
-            <temperatuur>-20</temperatuur>
+            <temperatuur>10</temperatuur>
+            <hernieuwing>15</hernieuwing>
         </VACCIN>
         <VACCIN>
             <type>AstraZeneca</type>
-            <levering>17700</levering>
+            <levering>67000</levering>
             <interval>4</interval>
             <transport>1500</transport>
-            <hernieuwing>28</hernieuwing>
-            <temperatuur>-5</temperatuur>
+            <temperatuur>15</temperatuur>
+            <hernieuwing>26</hernieuwing>
         </VACCIN>
         <CENTRA>
             <centrum>Park Spoor Oost</centrum>
