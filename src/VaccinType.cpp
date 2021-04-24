@@ -120,6 +120,12 @@ bool VaccinType::isLeveringsDag(const int dag) const {
         return false;
 }
 
+int VaccinType::nextLeveringsDag(const int dag) const {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van isLeveringDag");
+    REQUIRE(dag >= 0, "Dag kan geen negatief getal zijn");
+    return (interval+1)-(dag % (interval+1));
+}
+
 void VaccinType::setAantalVaccins(const int aantal_vaccins1) {
     aantal_vaccins = aantal_vaccins1;
 }

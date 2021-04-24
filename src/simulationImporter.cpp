@@ -57,7 +57,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                         std::string vac_name = vac_elem->Value();
                         if (vac_name == "levering") {
                             bedrijf->setLevering(atoi(vac_elem->FirstChild()->Value()));
-                            bedrijf->leveringVanTypeToHub();
+//                            bedrijf->leveringVanTypeToHub();
                         } else if (vac_name == "interval") {
                             bedrijf->setInterval(atoi(vac_elem->FirstChild()->Value()));
                         } else if (vac_name == "transport") {

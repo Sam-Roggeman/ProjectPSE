@@ -236,13 +236,14 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
     int aantal_vaccins_start = this->getAantalVaccins();
-    int aantal_gevaccineerden_start = aantal_gevaccineerden;
+    int aantal_gevaccineerden_start = aantal_gevaccineerden+aantal_vol_gevaccineerden;
     int aantal_nieuwe_gevaccineerden = 0;
     int current_cap = this->capaciteit;
     int aantal;
     for(std::map<std::string, std::map<int, int> >::iterator hernieuwing_it = hernieuwingen.begin();
         hernieuwing_it != hernieuwingen.end(); hernieuwing_it++ ){
         aantal = hernieuwing_it->second[dag];
+
         vaccins[hernieuwing_it->first] -= aantal;
         aantal_vol_gevaccineerden +=  aantal;
         aantal_gevaccineerden -=  aantal;
@@ -275,7 +276,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
 
     ENSURE(this->getAantalVaccins() <= aantal_vaccins_start,
            "Aantal vaccins is gestegen na vaccineren");
-    ENSURE(aantal_gevaccineerden >= aantal_gevaccineerden_start,
+    ENSURE(aantal_gevaccineerden+aantal_vol_gevaccineerden >= aantal_gevaccineerden_start,
            "Aantal gevaccineerden is gezakt na vaccineren");
 
 
@@ -343,6 +344,10 @@ void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
 
 int Vaccinatiecentrum::getAantalGeres(std::string naam_type, int dag) {
     return this->hernieuwingen[naam_type][dag];
+}
+
+int Vaccinatiecentrum::getAantalVolGevaccineerden() {
+    return aantal_vol_gevaccineerden;
 }
 
 

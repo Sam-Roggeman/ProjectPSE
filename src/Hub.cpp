@@ -68,9 +68,35 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
     std::map<std::string, int> tot_lading_per_type;
     int tot_lading;
     int aantal_vaccins_hub_start = this->get_aantal_vac(); ;
-    int aantal_vaccins_centrum_start ;
-    int aantal_ger;
+    int aantal_vaccins_centrum_start;
+    int aantal_ger = getAantalGer();
+    int volg_leveringsdag = this->nextLevDag(dag);
+    int tot_lading_per_dag_centrum;
+    int max_cap_volg_levering = 0;
+    int aantal_vac = this->get_aantal_vac();
+    bool not_cap = false;
+    bool cap = false;
+    bool two_cap = false;
+    double perc;
+    for(std::map<std::string,Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++){
+        max_cap_volg_levering += it->second->getCapaciteit() * (volg_leveringsdag);
+    }
+    if((aantal_vac- aantal_ger)< max_cap_volg_levering){
+        tot_lading_per_dag = (aantal_vac-aantal_ger)/(volg_leveringsdag);
+        not_cap = true;
+    }
+    else if ((aantal_vac-aantal_ger) < 2*max_cap_volg_levering){
+        tot_lading_per_dag = (aantal_vac-aantal_ger)/(volg_leveringsdag);
+        cap =true;
+    }
+    else {
+        two_cap = true;
+    }
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++){
+        if (not_cap||cap) {
+            perc =  ((double) (it->second->getCapaciteit()) / (double) max_cap_volg_levering);
+            tot_lading_per_dag_centrum = round((double) tot_lading_per_dag * perc);
+        }
         centrum = it->second;
         aantal_vaccins_centrum_start = centrum->getAantalVaccins();
         tot_lading_per_type.clear();
@@ -87,12 +113,13 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
         for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
             //warme temperaturen
             if (type_it->second->gettemperatuur() >= 0) {
-                while (centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins()) {
+                while (((centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins())&&(two_cap) )||
+                        (tot_lading<tot_lading_per_dag_centrum&&(not_cap||cap)) ){
                     if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
                         break;
                     }
                     if (types[type_it->first]->getAantalVaccins() - type_it->second->getGereserveerd() <=
-                        tot_lading_per_type[type_it->first] ){
+                        tot_lading_per_type[type_it->first] +type_it->second->getTransport() ){
                         break;
                     }
                     tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
@@ -100,18 +127,18 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
                     aantal_ladingen++;
                 }
             }
-            //gekoelde vaccins
+                //gekoelde vaccins
             else {
                 if (centrum->getCapaciteit() < tot_lading + centrum->getAantalVaccins()) {
                     break;
                 }
-                while (centrum->getCapaciteit() >= tot_lading + centrum->getAantalVaccins()) {
-
-                        if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
+                while (((centrum->getCapaciteit() >= tot_lading + centrum->getAantalVaccins() )&&(two_cap) )||
+                (tot_lading<tot_lading_per_dag_centrum&&(not_cap||cap))) {
+                    if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
                         break;
                     }
                     if (types[type_it->first]->getAantalVaccins() - type_it->second->getGereserveerd() <=
-                        tot_lading_per_type[type_it->first] ){
+                        tot_lading_per_type[type_it->first] +type_it->second->getTransport()){
                         break;
                     }
                     tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
@@ -127,9 +154,6 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
         }
         ENSURE(tot_lading <= 2 * centrum->getCapaciteit(), "2* capaciteit overeschreven van centrum overschreven");
         for (std::map<std::string, int>::iterator ite = tot_lading_per_type.begin(); ite != tot_lading_per_type.end(); ite++) {
-            if(ite->second < 0){
-                std::cout << "hi";
-            }
             centrum->addVaccins(ite->second, ite->first);
             this->types[ite->first]->substractVaccins((ite->second));
         }
@@ -140,19 +164,19 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
     ENSURE(this->get_aantal_vac() <= aantal_vaccins_hub_start, "Aantal vaccins in hub gestegen na transport naar centra");
 }
 
-void Hub::vaccineren() {
-    vaccineren(std::cout);
+void Hub::vaccineren(int dag) {
+    vaccineren(dag, std::cout);
 }
 
-void Hub::vaccineren(std::ostream &out) {
+void Hub::vaccineren(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van vaccineren");
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
         Vaccinatiecentrum* centrum = it->second;
         int aantal_vaccins_start = centrum->getAantalVaccins();
-        int gevaccineerden = centrum->getAantalGevaccineerden();
-        centrum->vaccineren(0, out);
+        int gevaccineerden = centrum->getAantalGevaccineerden()+centrum->getAantalVolGevaccineerden();
+        centrum->vaccineren(dag, out);
         ENSURE(centrum->getAantalVaccins() <= aantal_vaccins_start, "Aantal vaccins is gestegen na vaccineren" );
-        ENSURE(centrum->getAantalGevaccineerden() >= gevaccineerden, "Gevaccineerden is gezakt na vaccineren" );
+        ENSURE((centrum->getAantalGevaccineerden()+centrum->getAantalVolGevaccineerden()) >= gevaccineerden, "Gevaccineerden is gezakt na vaccineren" );
     }
 }
 
@@ -253,6 +277,25 @@ void Hub::vacLeveringen(int dag) {
     }
 }
 
+int Hub::nextLevDag(int dag) {
+    int min = std::numeric_limits<int>::max();
+    int next;
+    for (std::map<std::string, VaccinType *>::iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+        next = type_it->second->nextLeveringsDag(dag);
+        if ((min > next)&&next !=0){
+            min = next;
+        }
+    }
+    return min;
+}
+
+int Hub::getAantalGer() {
+    int ger = 0;
+    for (std::map<std::string, VaccinType *>::iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+        ger += type_it->second->getGereserveerd();
+    }
+    return ger;
+}
 
 
 

@@ -177,7 +177,7 @@ TEST_F(HubDomainTest, aantalOngevaccineerden){
     //Initialisering alle waardes
     vac.setAantalInwoners(1000);
     vac.setCapaciteit(1000);
-    hub2.vaccineren(ofs);
+    hub2.vaccineren(dag);
 
     //Testen op de return waarde van de functie
     EXPECT_EQ(0, hub.aantalOngevaccineerden());

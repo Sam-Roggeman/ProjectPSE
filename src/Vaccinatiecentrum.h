@@ -210,6 +210,7 @@ public:
 
     int getAantalGeres(std::string naam_type, int dag);
 
+    int getAantalVolGevaccineerden();
 };
 
 

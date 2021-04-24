@@ -69,7 +69,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
         hub->transportToCentra(dag, out);
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(out);
+        hub->vaccineren(dag);
         out << std::endl;
     }
     ENSURE(dag == eind, "de autosimulation eindigde niet op de einddag");
@@ -89,17 +89,17 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 //    1.  WHILE not done
     while (hub->notDone()){
         out << "DAG " << dag << ":" << std::endl;
-        hub->outputHub(out);
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
         hub->vacLeveringen(dag);
+        hub->outputHub(out);
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
         hub->transportToCentra(dag, out);
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(out);
+        hub->vaccineren(dag);
         out << std::endl;
         nextDay();
     }

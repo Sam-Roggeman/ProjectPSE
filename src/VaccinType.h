@@ -127,6 +127,8 @@ public:
      * @return: True als dag een leveringsdag is en False als niet
      */
     bool isLeveringsDag(const int dag) const;
+
+    int nextLeveringsDag(const int dag) const;
 };
 
 

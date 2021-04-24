@@ -14,6 +14,7 @@
 #include "DesignByContract.h"
 #include "VaccinType.h"
 #include <string>
+#include <limits>
 
 
 class Hub {
@@ -85,14 +86,14 @@ public:
      * @post voor elk centrum geldt dat aantal_vaccins <= aantal_vaccins_start
      * @post voor elk centrum geldt dat gevaccineerden >= gevaccineerden_start
      * * */
-    void vaccineren(std::ostream& out);
+    void vaccineren(int dag, std::ostream &out);
 
     /**alle centra van de hub voeren vaccinaties uit, output gaat naar std::out
      * @pre this->correctlyInitialized()
      * @post voor elk centrum geldt dat aantal_vaccins <= aantal_vaccins_start
      * @post voor elk centrum geldt dat gevaccineerden >= gevaccineerden_start
      * */
-    void vaccineren();
+    void vaccineren(int dag);
 
     /**checkt of het vaccineren klaar is (iedereen is gevaccineerd)
      * @return true als er 0 ongevaccineerden meer zijn
@@ -151,6 +152,10 @@ public:
 
 
     void vacLeveringen(int dag);
+
+    int nextLevDag(int dag);
+
+    int getAantalGer();
 };
 
 
