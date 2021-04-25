@@ -340,6 +340,9 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
 
 void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
     types = types1;
+    for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++) {
+        vaccins[type_it->first] = 0;
+    }
 }
 
 int Vaccinatiecentrum::getAantalGeres(std::string naam_type, int dag) {

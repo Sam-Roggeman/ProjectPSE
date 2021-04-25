@@ -58,10 +58,6 @@ void Hub::transportToCentra(int dag) {
 }
 
 void Hub::transportToCentra(int dag, std::ostream &out) {
-    if (dag == 15) {
-        std::cout<<"REEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE";
-    }
-
     REQUIRE(this->correctlyInitialized(), "Hub is niet geinitializeerd bij oproep van transportToCentra");
     Vaccinatiecentrum* centrum;
     int aantal_ladingen;
@@ -156,11 +152,11 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
                         tot_lading += type_it->second->getTransport();
                         aantal_ladingen++;
                     }
-                    if (centrum->getCapaciteit() < tot_lading + centrum->getAantalVaccins()){
-                        aantal_ladingen -= 1;
-                        tot_lading -= type_it->second->getTransport();
-                        tot_lading_per_type[type_it->first] -= types[type_it->first]->getTransport();
-                    }
+//                    if (centrum->getCapaciteit() < tot_lading + centrum->getAantalVaccins()){
+//                        aantal_ladingen -= 1;
+//                        tot_lading -= type_it->second->getTransport();
+//                        tot_lading_per_type[type_it->first] -= types[type_it->first]->getTransport();
+//                    }
                 }
             }
         }
@@ -168,7 +164,9 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
             for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
                 int tl = 0;
                 double lad = ((double)centra_trans[centrum->getNaamCentrum()]/(double)max_cap_cap_slimme_verdeling) * (double)vaccin_trans[type_it->second->getName()];
-                while (lad > tl + centrum->getAantalVaccins()){
+                while ((lad > tl + centrum->getAantalVaccinsVanType(type_it->first)+type_it->second->getTransport())&&!
+                    (type_it->second->gettemperatuur()<=0 && (tl+type_it->second->getTransport()) > centrum->getCapaciteit())){
+
                     tot_lading += type_it->second->getTransport();
                     tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
                     tl += type_it->second->getTransport();
