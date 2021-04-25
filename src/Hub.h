@@ -15,7 +15,7 @@
 #include "VaccinType.h"
 #include <string>
 #include <limits>
-
+#include <map>
 
 class Hub {
 
