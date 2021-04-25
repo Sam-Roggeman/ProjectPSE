@@ -58,6 +58,14 @@ void Hub::transportToCentra(int dag) {
 }
 
 void Hub::transportToCentra(int dag, std::ostream &out) {
+    for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+        if (type_it->second->aantalNietGer()< 0 ){
+            std::cout<<"";
+        }
+    }
+        if (dag == 12){
+       std::cout<<"";
+    }
     REQUIRE(this->correctlyInitialized(), "Hub is niet geinitializeerd bij oproep van transportToCentra");
     Vaccinatiecentrum* centrum;
     int aantal_ladingen;
@@ -65,24 +73,24 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
     int tot_lading;
     int aantal_vaccins_hub_start = this->get_aantal_vac(); ;
     int aantal_vaccins_centrum_start;
-    int aantal_ger = getAantalGer();
     int volg_leveringsdag = this->nextLevDag(dag);
 //    int tot_lading_per_dag_centrum;
-    int max_cap_volg_levering = 0;
-    int vac_tot_volg_levering = 0;
-    int max_cap_algemeen = 0;
-    int max_cap_cap_slimme_verdeling = 0;
+    double max_cap_volg_levering = 0;
+    double vac_tot_volg_levering = 0;
+    double max_cap_algemeen = 0;
+    double max_cap_cap_slimme_verdeling = 0;
     bool niet_genoeg = false;
     std::map<std::string,double> centra_trans;
     std::map<std::string,double> vaccin_trans;
-//    int aantal_vac = this->get_aantal_vac();
+    int tl;
+    //    int aantal_vac = this->get_aantal_vac();
 //    int tot_lading_per_dag;
 //    bool not_cap = false;
 //    bool cap = false;
 //    bool two_cap = false;
 //    double perc;
     for(std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++){
-        vac_tot_volg_levering += type_it->second->getAantalVaccins();
+        vac_tot_volg_levering += type_it->second->aantalNietGer();
     }
     for(std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++){
         vaccin_trans[type_it->second->getName()] = type_it->second->getAantalVaccins()/volg_leveringsdag;
@@ -96,7 +104,7 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
     }
 
     if(niet_genoeg){
-        int vac_per_dag = vac_tot_volg_levering/volg_leveringsdag;
+        double vac_per_dag = vac_tot_volg_levering/volg_leveringsdag;
         for(std::map<std::string,Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++){
             centra_trans[it->second->getNaamCentrum()] = ((double)it->second->getCapaciteit()/(double)max_cap_algemeen) * (double)vac_per_dag;
         }
@@ -110,19 +118,26 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
         tot_lading_per_type.clear();
         tot_lading = 0;
         aantal_ladingen = 0;
+        //hernieuwingen
+        for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+            tl = 0;
+            while (centrum->getAantalGeres(type_it->first,dag) > tot_lading_per_type[type_it->first]) {
+                tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
+                tot_lading += type_it->second->getTransport();
+                aantal_ladingen++;
+                tl += type_it->second->getTransport();
+            }
+            type_it->second->setGereserveerd(type_it->second->getGereserveerd()-tl);
+            centrum->addVaccins(tl, type_it->first);
+            this->types[type_it->first]->substractVaccins((tl));
+        }
         if(!niet_genoeg){
             for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
-                aantal_ger = centrum->getAantalGeres(type_it->first,dag);
-                while (aantal_ger > tot_lading_per_type[type_it->first]) {
-                    tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
-                    tot_lading += type_it->second->getTransport();
-                    aantal_ladingen++;
-                }
-            }
-            for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+                tl = 0;
                 //warme temperaturen
                 if (type_it->second->gettemperatuur() >= 0) {
-                    while (((centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins()))){
+                    while (((centrum->getCapaciteit() > tot_lading + centrum->getAantalVaccins()+
+                    centrum->getAantalHernieuwing(dag+type_it->second->gethernieuwing())))){
                         if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
                             break;
                         }
@@ -133,6 +148,7 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
                         tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
                         tot_lading += type_it->second->getTransport();
                         aantal_ladingen++;
+                        tl += type_it->second->getTransport();
                     }
                 }
                     //gekoelde vaccins
@@ -140,7 +156,8 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
                     if (centrum->getCapaciteit() < tot_lading + centrum->getAantalVaccins()) {
                         break;
                     }
-                    while (((centrum->getCapaciteit() >= tot_lading + centrum->getAantalVaccins() ))) {
+                    while (((centrum->getCapaciteit() >= tot_lading + centrum->getAantalVaccins() +
+                    centrum->getAantalHernieuwing(dag+type_it->second->gethernieuwing())))) {
                         if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
                             break;
                         }
@@ -151,6 +168,7 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
                         tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
                         tot_lading += type_it->second->getTransport();
                         aantal_ladingen++;
+                        tl +=type_it->second->getTransport();
                     }
 //                    if (centrum->getCapaciteit() < tot_lading + centrum->getAantalVaccins()){
 //                        aantal_ladingen -= 1;
@@ -158,21 +176,37 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
 //                        tot_lading_per_type[type_it->first] -= types[type_it->first]->getTransport();
 //                    }
                 }
+//                type_it->second->setVooradVoorHern(type_it->second->getVooradVoorHern()+tl);
+                centrum->addVaccins(tl, type_it->first);
+                type_it->second->setGereserveerd(type_it->second->getGereserveerd()+tl);
+                this->types[type_it->first]->substractVaccins((tl));
             }
         }
         else{
             for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
-                int tl = 0;
+                tl = 0;
                 double lad = ((double)centra_trans[centrum->getNaamCentrum()]/(double)max_cap_cap_slimme_verdeling) * (double)vaccin_trans[type_it->second->getName()];
-                while ((lad > tl + centrum->getAantalVaccinsVanType(type_it->first)+type_it->second->getTransport())&&!
-                    (type_it->second->gettemperatuur()<=0 && (tl+type_it->second->getTransport()) > centrum->getCapaciteit())){
-
+                lad /=2;
+                while ((lad > tl + centrum->getAantalVaccinsVanType(type_it->first)+type_it->second->getTransport()+
+                centrum->getAantalHernieuwing(dag+type_it->second->gethernieuwing()))&&!
+                (type_it->second->gettemperatuur()<=0 && (tl+type_it->second->getTransport()) > centrum->getCapaciteit())){
+                    if (type_it->second->getAantalVaccins() < type_it->second->getTransport()) {
+                        break;
+                    }
+                    if (types[type_it->first]->getAantalVaccins() - type_it->second->getGereserveerd() <=
+                        tot_lading_per_type[type_it->first] +type_it->second->getTransport()){
+                        break;
+                    }
                     tot_lading += type_it->second->getTransport();
                     tot_lading_per_type[type_it->first] += types[type_it->first]->getTransport();
                     tl += type_it->second->getTransport();
                     aantal_ladingen++;
+//                    type_it->second->setVooradVoorHern(type_it->second->getVooradVoorHern()+tl);
                 }
-                centrum->addVaccins(tl,type_it->second->getName());
+                centrum->addVaccins(tl, type_it->first);
+                type_it->second->setGereserveerd(type_it->second->getGereserveerd()+tl);
+                this->types[type_it->first]->substractVaccins((tl));
+//                centrum->addVaccins(tl,type_it->second->getName());
             }
 //            for (std::map<std::string, VaccinType*>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
 //                aantal_ger = centrum->getAantalGeres(type_it->first,dag);
@@ -226,8 +260,7 @@ void Hub::transportToCentra(int dag, std::ostream &out) {
         }
         ENSURE(tot_lading <= 2 * centrum->getCapaciteit(), "2* capaciteit overeschreven van centrum overschreven");
         for (std::map<std::string, int>::iterator ite = tot_lading_per_type.begin(); ite != tot_lading_per_type.end(); ite++) {
-            centrum->addVaccins(ite->second, ite->first);
-            this->types[ite->first]->substractVaccins((ite->second));
+
         }
         out << "Er werden " << aantal_ladingen << " ladingen (" << tot_lading << " vaccins) getransporteerd naar " <<
             centrum->getNaamCentrum() << "." << std::endl;

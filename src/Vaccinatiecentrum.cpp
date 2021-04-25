@@ -249,7 +249,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
         aantal_gevaccineerden -=  aantal;
         current_cap -= aantal;
         types[hernieuwing_it->first]->setGereserveerd(types[hernieuwing_it->first]->getGereserveerd()-aantal);
-    };
+    }
     //gekoelde vaccins eerst
     for (std::map<std::string, int>::const_iterator vac_it = this->vaccins.begin(); vac_it != vaccins.end(); vac_it++){
         if (types[vac_it->first]->gettemperatuur() < 0 ) {
@@ -259,7 +259,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
             this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
             current_cap -= aantal_nieuwe_gevaccineerden;
             hernieuwingen[vac_it->first][types[vac_it->first]->gethernieuwing()+dag] = aantal_nieuwe_gevaccineerden;
-            types[vac_it->first]->setGereserveerd(types[vac_it->first]->getGereserveerd()+aantal_nieuwe_gevaccineerden);
+
         }
     }
     //ongekoelde vaccins
@@ -270,7 +270,6 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
         this->addGevaccineerden(aantal_nieuwe_gevaccineerden);
         current_cap -= aantal_nieuwe_gevaccineerden;
         hernieuwingen[vac_it->first][types[vac_it->first]->gethernieuwing()+dag] = aantal_nieuwe_gevaccineerden;
-        types[vac_it->first]->setGereserveerd(types[vac_it->first]->getGereserveerd()+aantal_nieuwe_gevaccineerden);
     }
 
 
@@ -351,6 +350,14 @@ int Vaccinatiecentrum::getAantalGeres(std::string naam_type, int dag) {
 
 int Vaccinatiecentrum::getAantalVolGevaccineerden() {
     return aantal_vol_gevaccineerden;
+}
+
+int Vaccinatiecentrum::getAantalHernieuwing(int dag) {
+    int ret_val = 0;
+    for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++) {
+        ret_val += hernieuwingen[type_it->first][dag];
+    }
+    return ret_val;
 }
 
 

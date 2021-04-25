@@ -14,14 +14,19 @@ class VaccinType {
     int transport;
     int interval;
     int aantal_vaccins;
+    int voorad_voor_hern;
     int hernieuwing;
     int temperatuur;
     int gereserveerd;
-
-
-private:
     VaccinType* init_check;
 public:
+
+    int aantalNietGer();
+
+    int getVooradVoorHern() const;
+
+    void setVooradVoorHern(int vooradVoorHern);
+
     int getGereserveerd() const;
 
     void setGereserveerd(int gereserveerd);
