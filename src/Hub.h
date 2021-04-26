@@ -16,6 +16,8 @@
 #include <string>
 #include <limits>
 #include <map>
+#include <cmath>
+#include <iterator>
 
 class Hub {
 
@@ -156,6 +158,12 @@ public:
     int nextLevDag(int dag);
 
     int getAantalGer();
+
+    void transportToCentra2(int dag,std::ostream &out);
+
+    void transportToCentrafucked(int dag, std::ostream &out);
+
+    int aantalOnvolledigGev() const;
 };
 
 

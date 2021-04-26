@@ -213,6 +213,8 @@ public:
     int getAantalVolGevaccineerden();
 
     int getAantalHernieuwing(int i);
+
+    void substractAantalGeres(std::string naam_type, int dag, int aantal);
 };
 
 

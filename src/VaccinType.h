@@ -134,6 +134,10 @@ public:
     bool isLeveringsDag(const int dag) const;
 
     int nextLeveringsDag(const int dag) const;
+
+    void addGereserveerd(int aantal);
+
+    void subGereserveerd(int aantal);
 };
 
 

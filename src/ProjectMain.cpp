@@ -28,12 +28,12 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
-//    ofstream o;
-//    o.open("test.txt");
+    ofstream o;
+    o.open("test.txt");
     Hub h = Hub();
     Simulation s = Simulation(&h);
     simulationImporter::importSimulation("t2.xml",  std::cout, s);
-    s.autoSimulationUntilDone();
+    s.autoSimulationUntilDone(std::cout);
     //    s.impressie(std::cout);
 //    h.transportToCentra(0);
 //    s.impressie(std::cout);
@@ -42,7 +42,7 @@ int main(int argc, char **argv) {
 //    s.initializeSimulation("./testInput/test.xml", std::cerr);
 //    s.autoSimulationUntilDone();
 //    s.autoSimulation(0,5);
-//    o.close();
+    o.close();
     return 0;
 }
 

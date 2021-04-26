@@ -166,3 +166,15 @@ void VaccinType::setVooradVoorHern(int vooradVoorHern) {
 int VaccinType::aantalNietGer() {
     return aantal_vaccins-gereserveerd;
 }
+
+void VaccinType::addGereserveerd(int aantal) {
+    REQUIRE(aantal>=0,"aantal moet >= 0 bij addGereserveerd ");
+    gereserveerd +=aantal;
+    ENSURE(gereserveerd>=0, "gereserveerd moet >= 0 bij einde van addGereserveerd");
+}
+
+void VaccinType::subGereserveerd(int aantal) {
+    REQUIRE(aantal>=0,"aantal moet >= 0 bij subGereserveerd ");
+    gereserveerd -=aantal;
+    ENSURE(gereserveerd>=0, "gereserveerd moet >= 0 bij einde van subGereserveerd");
+}

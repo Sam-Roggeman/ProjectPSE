@@ -66,7 +66,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra(dag, out);
+        hub->transportToCentra(dag,out);
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
         hub->vaccineren(dag);
@@ -96,14 +96,16 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra(dag, out);
+        hub->transportToCentra2(dag,out);
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(dag);
+        hub->vaccineren(dag,out);
         out << std::endl;
         nextDay();
+
     }
-ENSURE(this->getHub()->aantalOngevaccineerden() == 0,"Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntillDone");
+    hub->outputHub(out);
+    ENSURE(this->getHub()->aantalOngevaccineerden() == 0,"Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntillDone");
 }
 
 void Simulation::addcentrum(Vaccinatiecentrum *v) {
