@@ -175,14 +175,17 @@ public:
     /**vaccinaties worden uitgevoerd en output gaat naar std::cout
     * @param out: de outstream waarnaar de output gestuurt wordt
      * @pre this.correctlyInitialized()
+     * @param dag de huidige dag
+     * @pre dag >= 0
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
      * */
     void vaccineren(int dag);
 
     /**vaccinaties worden uitgevoerd en output gaat naar out
-    * @param out: de outputstream waarnaar de output gestuurt wordt
-     * //todo dag param
+     * @param out: de outputstream waarnaar de output gestuurt wordt
+     * @param dag de huidige dag
+     * @pre dag >= 0
      * @pre this.correctlyInitialized()
      * @post aantal_vaccins <= aantal_vaccins_start
      * @post aantal_gevaccineerden >= aantal_gevaccineerden_start
@@ -191,7 +194,6 @@ public:
 
     /**kijkt na of een centrum volledig geinitializeerd is
      * @pre this.correctlyInitialized()
-     * //todo dag param
      *  @return true als completelyInitialized (strikt positieve capaciteit, een naam, een adres en strikt positief aantal inwoners)
      * */
     bool completelyInitialized() const;
@@ -215,6 +217,8 @@ public:
     int getAantalHernieuwing(int i);
 
     void substractAantalGeres(std::string naam_type, int dag, int aantal);
+
+    int aantalOnvolledigGev();
 };
 
 

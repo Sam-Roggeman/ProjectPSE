@@ -233,7 +233,6 @@ void Vaccinatiecentrum::vaccineren(int dag) {
 }
 
 void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
-
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
     int aantal_vaccins_start = this->getAantalVaccins();
@@ -249,7 +248,6 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
         aantal_vol_gevaccineerden +=  aantal;
         aantal_gevaccineerden -=  aantal;
         current_cap -= aantal;
-//        types[hernieuwing_it->first]->subGereserveerd(aantal);
     }
     //gekoelde vaccins eerst
     for (std::map<std::string, VaccinType*>::const_iterator vac_it = this->types.begin(); vac_it != types.end(); vac_it++){
@@ -257,8 +255,8 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
             int temp = std::min(this->vaccins[vac_it->first], current_cap);
             aantal_nieuwe_gevaccineerden = std::min(temp, this->aantalOngevaccineerden());
             if (hernieuwingen.find(vac_it->first) != hernieuwingen.end()
-                    &&hernieuwingen[vac_it->first].find(types[vac_it->first]->gethernieuwing()+dag) != hernieuwingen[vac_it->first].end()
-                    &&capaciteit< getAantalHernieuwing(types[vac_it->first]->gethernieuwing()+dag)+aantal_nieuwe_gevaccineerden){
+                &&hernieuwingen[vac_it->first].find(types[vac_it->first]->gethernieuwing()+dag) != hernieuwingen[vac_it->first].end()
+                &&capaciteit< getAantalHernieuwing(types[vac_it->first]->gethernieuwing()+dag)+aantal_nieuwe_gevaccineerden){
                 aantal_nieuwe_gevaccineerden = capaciteit-getAantalHernieuwing(types[vac_it->first]->gethernieuwing()+dag);
             }
             this->substractVaccins(aantal_nieuwe_gevaccineerden, vac_it->first);
@@ -392,6 +390,10 @@ int Vaccinatiecentrum::getAantalHernieuwing(int dag) {
         ret_val += hernieuwingen[type_it->first][dag];
     }
     return ret_val;
+}
+
+int Vaccinatiecentrum::aantalOnvolledigGev() {
+    return aantal_inwoners-aantal_vol_gevaccineerden;
 }
 
 

@@ -37,7 +37,7 @@ public:
 //GETTERS SETTERS
 
     /**voegt een centrum toe aan de hub
-     * @param vaccinatiecentrum: het toe te voegen vaccinatiecentrum
+     * @param const vaccinatiecentrum: het toe te voegen vaccinatiecentrum
      * @pre this->correctlyinitialized()
      * @pre vaccinatiecentrum->correctlyinitialized()
      * @pre vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end()
@@ -65,22 +65,20 @@ public:
 
     /**transport vaccins vanuit de hub naar alle centra, output in std::out
      * @pre this->correctlyInitialized()
-     * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start
+     * @post aantal hernieuwingen + gekoelde vaccins dat naar centrum gestuurd wordt <= capaciteit van centrum
+     * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start voor elk type
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(int dag);
+    void transportToCentra2(int dag);
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
      * @pre this->correctlyInitialized()
-     * @post voor centrum : centra geldt dat aantal_vaccins_centrum >= aantal_vaccins_centrum_start
-     * @post voor centrum : centra geldt dat aantal_vaccins_centrum <= 2* capaciteit
+     * @post aantal hernieuwingen + gekoelde vaccins dat naar centrum gestuurd wordt <= capaciteit van centrum
+     * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start voor elk type
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra(int dag, std::ostream &out);
-
-
-
+    void transportToCentra2(int dag, std::ostream &out);
 
     /**alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt
@@ -98,7 +96,7 @@ public:
     void vaccineren(int dag);
 
     /**checkt of het vaccineren klaar is (iedereen is gevaccineerd)
-     * @return true als er 0 ongevaccineerden meer zijn
+     * @return true als er 0 volledig ongevaccineerden meer zijn
      * @pre this->correctlyInitialized()
      * */
     bool notDone() const;
@@ -109,7 +107,7 @@ public:
      * */
     int aantalOngevaccineerden() const;
 
-    /**Kijkt na of de hub compleet geinitializeerd is
+    /**Kijkt na of de hub compleet geinitializeerd is (centra compleet geinitializeerd + minstens een centrum)
      * @return true als compleet geinitalizeerd
      * @pre this->correctlyInitialized()
      * */
@@ -137,7 +135,7 @@ public:
      * @pre this->correctlyinitialized()
      * @return som van aantal vaccins van elk type in de hub
      */
-    int get_aantal_vac() const;
+    int getAantalVac() const;
 
     /** maakt een grafische impressie van de huidige staat van de hub
      * @param out de ostream waarnaar de impressie wordt gestuurd
@@ -158,8 +156,6 @@ public:
     int nextLevDag(int dag);
 
     int getAantalGer();
-
-    void transportToCentra2(int dag,std::ostream &out);
 
     void transportToCentrafucked(int dag, std::ostream &out);
 
