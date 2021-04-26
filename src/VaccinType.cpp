@@ -148,6 +148,7 @@ void VaccinType::settemperatuur(const int t) {
 }
 
 int VaccinType::getGereserveerd() const {
+    ENSURE(gereserveerd >=0,"gereserveerden < 0 bij getAantalGer van hub");
     return gereserveerd;
 }
 

@@ -34,7 +34,11 @@ public:
      * */
     Hub();
 
-//GETTERS SETTERS
+    /**
+     * berekend het totaal aantal gereserveerden
+     * */
+    int getAantalGer();
+
 
     /**voegt een centrum toe aan de hub
      * @param const vaccinatiecentrum: het toe te voegen vaccinatiecentrum
@@ -45,7 +49,6 @@ public:
      * @post this->vaccinatiecentra.size() += 1
      * */
     void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
-
 
     /**kijkt na of de hub correct geinitialiseerd is (= zowel hub als centra als types )
      * @return bool true als geinitializeerd
@@ -144,18 +147,16 @@ public:
      */
     void impressie(std::ostream &out);
 
+
     /**
      * zet een kopie van de map met types in elk centrum
      * @pre this->correctlyinitialized()
      */
     void setCentrumTypes() const;
 
-
     void vacLeveringen(int dag);
 
     int nextLevDag(int dag);
-
-    int getAantalGer();
 
     void transportToCentrafucked(int dag, std::ostream &out);
 
