@@ -10,7 +10,6 @@
 #include <fstream>
 #include <sys/stat.h>
 #include <gtest/gtest.h>
-#include "Project.h"
 #include "Hub.h"
 #include "TicTacToeUtils.h"
 #include "Simulation.h"

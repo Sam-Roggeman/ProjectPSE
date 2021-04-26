@@ -1,8 +1,29 @@
 <root>
     <HUB>
-        <levering>93000</levering>
-        <interval>1</interval>
-        <transport>2020</transport>
+        <VACCIN>
+            <type>Pfizer</type>
+            <levering>40000</levering>
+            <interval>16</interval>
+            <transport>500</transport>
+            <temperatuur>-20</temperatuur>
+            <hernieuwing>6</hernieuwing>
+        </VACCIN>
+        <VACCIN>
+            <type>Moderna</type>
+            <levering>60000</levering>
+            <interval>13</interval>
+            <transport>800</transport>
+            <temperatuur>10</temperatuur>
+            <hernieuwing>0</hernieuwing>
+        </VACCIN>
+        <VACCIN>
+            <type>AstraZeneca</type>
+            <levering>20000</levering>
+            <interval>14</interval>
+            <transport>100</transport>
+            <temperatuur>15</temperatuur>
+            <hernieuwing>26</hernieuwing>
+        </VACCIN>
         <CENTRA>
             <centrum>Park Spoor Oost</centrum>
             <centrum>AED Studios</centrum>

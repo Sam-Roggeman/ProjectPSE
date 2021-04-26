@@ -1,7 +1,7 @@
 <root>
     <HUB>
         <VACCIN>
-            <type>Pfizer</type>
+            <typ>Pfizer</typ>
             <levering>40000</levering>
             <interval>16</interval>
             <transport>500</transport>
@@ -36,6 +36,7 @@
         <adres>Noordersingel 40, Antwerpen</adres>
         <inwoners>540173</inwoners>
         <capaciteit>7500</capaciteit>
+    </VACCINATIECENTRUM>
     <VACCINATIECENTRUM>
         <naam>AED Studios</naam>
         <adres>Fabriekstraat 38, Lint</adres>

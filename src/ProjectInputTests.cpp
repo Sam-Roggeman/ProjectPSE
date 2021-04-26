@@ -7,7 +7,6 @@
 //============================================================================
 #include <fstream>
 #include "gtest/gtest.h"
-#include "Project.h"
 #include "Simulation.h"
 #include "Hub.h"
 #include "simulationImporter.h"
@@ -38,7 +37,6 @@ protected:
 };
 TEST_F (ProjectTest, Juistteruggeven){
     Simulation s = Simulation(&hub);
-
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/test.xml",  ofs, s));
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/Juist.xml",  ofs, s));
@@ -48,7 +46,6 @@ TEST_F (ProjectTest, Juistteruggeven){
 
 TEST_F(ProjectTest, verkeerde_input){
     Simulation s = Simulation(&hub);
-
     //file not found
     EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/abc.xml",  ofs, s));
     s.clear();
@@ -64,6 +61,9 @@ TEST_F(ProjectTest, verkeerde_input){
     EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie3.xml",  ofs, s));
     s.clear();
     EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie4.xml",  ofs, s));
+    s.clear();
+    EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/verkeerdeconstructie5.xml",  ofs, s));
+    s.clear();
     //onherkenbaar element
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar1.xml",  ofs, s));
     s.clear();
@@ -73,22 +73,28 @@ TEST_F(ProjectTest, verkeerde_input){
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar4.xml",  ofs, s));
     s.clear();
-    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar5.xml",  ofs, s), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+//    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar5.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+//    s.clear();
+//    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar6.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+//    s.clear();
+//    EXPECT_DEATH( simulationImporter::importSimulation("./testInput/onherkenbaar7.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+//    s.clear();
+//    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar8.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+//    s.clear();
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar9.xml",  ofs, s));
     s.clear();
-    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar6.xml",  ofs, s), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar10.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar7.xml",  ofs, s));
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar11.xml",  ofs, s));
     s.clear();
-    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar8.xml",  ofs, s));
-    s.clear();
-
     //ongeldige informatie
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo1.xml",  ofs, s));
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo2.xml",  ofs, s));
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo3.xml",  ofs, s));
-
+    s.clear();
+    EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/ongeldigeinfo4.xml",  ofs, s));
 }
 //inconsistente simulaties
 TEST_F(ProjectTest,inconsistent1){

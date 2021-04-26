@@ -149,37 +149,17 @@ public:
 
 
     /**
-     * zet de map met type-pointers in elk centrum
+     * zet een kopie van de map met types in elk centrum
      * @pre this->correctlyinitialized()
-     * @pre this->completlyInitialized()
      */
     void setCentrumTypes() const;
 
-    /**
-     * Levert vaccins indien het een leveringsdag is (voor elk vaccin)
-     * @param dag de huidige dag
-     * @pre this->correctlyinitialized()
-     * @pre this->completlyInitialized()
-     * @post voor elk type: aantal_vaccins_type >= aantal_vaccins_type_start
-     **/
     void vacLeveringen(int dag);
 
-    /**
-     * Levert vaccins indien het een leveringsdag is (voor elk vaccin)
-     * @param dag de huidige dag
-     * @return
-     * @pre this->correctlyinitialized()
-     * @pre this->completlyInitialized()
-     * @post voor elk type: aantal_vaccins_type >= aantal_vaccins_type_start
-     **/
     int nextLevDag(int dag);
 
-    /**
-     * berekend het aantal onvolledig gevaccineerden
-     * @return het aantal onvolledig gevaccineerden (inwoners - aantal_vol_gev)
-     * @pre this->correctlyinitialized()
-     * @pre this->completlyInitialized()
-     */
+    void transportToCentrafucked(int dag, std::ostream &out);
+
     int aantalOnvolledigGev() const;
 };
 
