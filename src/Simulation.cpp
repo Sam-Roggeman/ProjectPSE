@@ -8,18 +8,19 @@
 #include "Simulation.h"
 
 Simulation::Simulation(Hub *hub1) {
-    REQUIRE(hub1->correctlyInitialized(),"Foutieve hub");
+    REQUIRE(hub1->correctlyInitialized(),"hub niet geinitializeerd bij aanroep simulatie constructor");
     hub = hub1;
     _initcheck = this;
     dag =0;
     ENSURE(this->getHub() != NULL, "Geen hub toegevoegd");
-    ENSURE(this->getHub()->correctlyInitialized(), "Foutieve hub");
+    ENSURE(this->getHub()->correctlyInitialized(), "hub niet geinitializeerd bij einde simulatie constructor");
+    ENSURE(this->correctlyInitialized(), "simulatie niet geinitializeerd bij einde simulatie constructor");
 }
 
 
 Hub * Simulation::getHub() const {
-    REQUIRE(correctlyInitialized(),"Foutieve simulatie");
-    REQUIRE(hub->correctlyInitialized(),"Foutieve hub");
+    REQUIRE(correctlyInitialized(),"simulatie niet geinitializeerd bij aanroep getHub");
+    REQUIRE(hub->correctlyInitialized(),"hub niet geinitializeerd bij aanroep getHub");
     return hub;
 }
 
@@ -28,41 +29,44 @@ bool Simulation::correctlyInitialized() const {
 }
 
 void Simulation::setHub(Hub *h) {
-    REQUIRE(h->correctlyInitialized(),"Foutieve hub");
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(h->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep setHub");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep setHub");
     Simulation::hub = h;
 }
 
 
 
 void Simulation::outputSimulation(std::ostream &out) {
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep outputSimulation");
+    REQUIRE(hub->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep outputSimulation");
     hub->outputHub(out);
 }
 
 void Simulation::outputSimulation() {
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     outputSimulation(std::cout);
 }
 
 void Simulation::autoSimulation(int start, int eind) {
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
     autoSimulation(start, eind, std::cout);
 }
 
 void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(start>=0, "startdag <0");
+    REQUIRE(eind >start, "einddag <=startdag");
+    REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
+    REQUIRE(hub->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulation");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
 //    1.  WHILE huidige dag<eind dag
 
     for (int current = start; current < eind; current++) {
         out << "DAG " << current << ":" << std::endl;
-        hub->outputHub(out);
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
         hub->vacLeveringen(dag);
+        hub->outputHub(out);
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
@@ -76,16 +80,15 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 }
 
 void Simulation::autoSimulationUntilDone() {
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
     autoSimulationUntilDone(std::cout);
 }
 
 
 void Simulation::autoSimulationUntilDone(std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
-    REQUIRE(hub->correctlyInitialized(), "Foutieve hub");
-    REQUIRE(hub->completelyInitialized(), "Foutieve hub");
+    REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autoSimulationUntilDone");
+    REQUIRE(hub->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulationUntilDone");
+    REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
     while (hub->notDone()){
         out << "DAG " << dag << ":" << std::endl;
@@ -111,25 +114,25 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 void Simulation::addcentrum(Vaccinatiecentrum *v) {
     REQUIRE(v->correctlyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     REQUIRE(v->completelyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep addcentrum");
     hub->addcentrum(v);
 }
 
 void Simulation::nextDay(){
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep nextDay");
     int startdag = dag;
     dag += 1;
     ENSURE(dag == startdag+1, "dag was niet verghoogt met 1 na oproep van nextDay()");
 }
 
 int Simulation::getDag() const {
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep getDag");
     REQUIRE(dag >= 0, "De dag mag niet negatief zijn");
     return dag;
 }
 
 void Simulation::setDag(int d) {
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
+    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep setDag");
     REQUIRE(d > 0, "De dag mag niet negatief zijn");
     Simulation::dag = d;
 }
@@ -139,7 +142,7 @@ void Simulation::clear() {
 }
 
 void Simulation::impressie(std::ostream &out) {
-    REQUIRE(this->correctlyInitialized(), "Hub was niet correct geinitializeerd bij oproep van impressie");
+    REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van impressie");
     this->getHub()->impressie(out);
 }
 

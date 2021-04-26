@@ -19,7 +19,19 @@
 using namespace std;
 
 
-//todo sam:
+/*
+ * todo sam
+ *  contracten:
+ *          done:
+ *              Hub
+ *              Simulation
+ *          notdone:
+ *              Importer
+ *              Type
+ *              Centrum
+ *  3d-omgeving
+ *
+ */
 
 //todo said:
 

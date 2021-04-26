@@ -63,14 +63,11 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                             bedrijf->setTransport(std::atoi(vac_elem->FirstChild()->Value()));
                         }else if(vac_name == "type"){
                             bedrijf->setName(vac_elem->FirstChild()->Value());
-                        }
-                        else if(vac_name == "hernieuwing"){
+                        }else if(vac_name == "hernieuwing"){
                             bedrijf->sethernieuwing(std::atoi(vac_elem->FirstChild()->Value()));
-                        }
-                        else if(vac_name == "temperatuur"){
+                        }else if(vac_name == "temperatuur"){
                             bedrijf->settemperatuur(std::atoi(vac_elem->FirstChild()->Value()));
-                        }
-                        else{
+                        }else{
                             errstream << "element" << vac_name << "niet herkend" << std::endl;
                         }
                     }

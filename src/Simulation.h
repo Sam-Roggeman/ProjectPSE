@@ -15,7 +15,6 @@
 #include <sstream>
 #include "DesignByContract.h"
 
-//todo contracten
 class Simulation {
     Simulation* _initcheck;
     Hub* hub;
@@ -48,12 +47,14 @@ public:
 
     /**Een functie die alles in de hub en het vaccinatiecentrum output door cout
      * @pre this->correctlyInitialized()
+     * @pre hub->correctlyInitialized()
      */
     void outputSimulation();
+
     /**Een functie die alles in de hub en de vaccinatiecentra output naar een gegeven ostream
      * @param out: De ostream waar de gegeven output naartoe gaat
      * @pre this->correctlyInitialized()
-     * @pre this->correctlyInitialized()
+     * @pre hub->correctlyInitialized()
      */
     void outputSimulation(std::ostream &out);
 
@@ -64,29 +65,36 @@ public:
      * @param out: De ostream waar de output naartoe gaat
      * @pre hub->correctlyInitialized()
      * @pre this->correctlyInitialized()
+     * @pre 0 <= start < eind
      * @post this->dag == eind
      */
     void autoSimulation(int start, int eind, std::ostream &out);
+
     /**Dit is een automatische simulatie van de transport van vaccins tot
      * een gegeven einddag en de output hiervan wordt gegeven door cout
      * @param start: De gegeven startdag
      * @param eind: De gegeven einddag
      * @pre hub->correctlyInitialized()
+     * @pre 0 <= start < eind
      * @pre this->correctlyInitialized()
      * @post this->dag == eind
      */
     void autoSimulation(int start, int eind);
+
     /**Dit is een automatische simulatie van de transport van vaccins tot
      * elke persoon in elk vaccinatiecentrum gevaccineerd is en deze output met cout
      * @pre hub->correctlyInitialized()
      * @pre this->correctlyInitialized()
+     * @pre hub->completelyInitialized()
      * @post this->getHub()->getAantalOngevaccineerden() == 0
      */
     void autoSimulationUntilDone();
+
     /**Dit is een automatische simulatie van de transport van vaccins tot elke
      * persoon in elk vaccinatiecentrum gevaccineerd is en de waar de output bepaald wordt door ostream
      * @param out: De ostream die bepaalt wat de locatie van de output wordt
      * @pre hub->correctlyInitialized()
+     * @pre hub->completelyInitialized()
      * @pre this->correctlyInitialized()
      * @post this->getHub()->getAantalOngevaccineerden() == 0
      */
@@ -136,6 +144,8 @@ public:
     /**Maakt een grafische impressie van de huidige staat van de simulatie
      * @param out de ostream waarnaar de impressie wordt uitgeput
      * @pre this->correctlyinitialized()
+     * @pre hub->correctlyinitialized()
+     * @pre hub->completlyInitialized()
      * */
     void impressie(std::ostream &out);
 };
