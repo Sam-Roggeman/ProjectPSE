@@ -4,7 +4,7 @@
 
 #include "VaccinType.h"
 
-
+//todo contracten
 int VaccinType::getAantalVaccins() const {
     REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van getAantalVaccinsVanType");
     return aantal_vaccins;
@@ -78,7 +78,6 @@ VaccinType::VaccinType() {
     this->hernieuwing = 0;
     this->temperatuur = 27;
     this->gereserveerd = 0;
-    this->voorad_voor_hern = 0;
 
     ENSURE(this->name == "", "De naam is verkeerd geinitialiseerd");
     ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
@@ -154,14 +153,6 @@ int VaccinType::getGereserveerd() const {
 
 void VaccinType::setGereserveerd(int gereserveerd1) {
     VaccinType::gereserveerd = gereserveerd1;
-}
-
-int VaccinType::getVooradVoorHern() const {
-    return voorad_voor_hern;
-}
-
-void VaccinType::setVooradVoorHern(int vooradVoorHern) {
-    voorad_voor_hern = vooradVoorHern;
 }
 
 int VaccinType::aantalNietGer() {

@@ -343,6 +343,7 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
     ENSURE(this->completelyInitialized(), "Vaccinatiecentrum was niet compleet geinitializeerd bij oproep van impressie");
     int vac_verhouding = 100 * this->getAantalVaccins() / (this->getCapaciteit() * 2);
     int gevac_verhouding = 100*this->getAantalGevaccineerden()/this->getAantalInwoners();
+    int vol_gevac_verhouding = 100*this->getAantalVolGevaccineerden()/this->getAantalInwoners();
     out << this->getNaamCentrum() << ':' << std::endl << '\t' << "- vaccins\t";
 
     out << '[';
@@ -363,6 +364,16 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
         out << " ";
     }
     out << ']' << " " << gevac_verhouding << '%' << std::endl;
+
+    out << '\t' << "- volledig gevaccineerd\t";
+    out << '[';
+    for(int i = 0; i < vol_gevac_verhouding/5; i++){
+        out << '=';
+    }
+    for(int i = vol_gevac_verhouding/5; i < 20; i++ ){
+        out << " ";
+    }
+    out << ']' << " " << vol_gevac_verhouding << '%' << std::endl;
 }
 
 void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {

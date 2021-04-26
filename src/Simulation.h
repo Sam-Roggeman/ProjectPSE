@@ -15,7 +15,7 @@
 #include <sstream>
 #include "DesignByContract.h"
 
-
+//todo contracten
 class Simulation {
     Simulation* _initcheck;
     Hub* hub;

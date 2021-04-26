@@ -14,7 +14,6 @@ class VaccinType {
     int transport;
     int interval;
     int aantal_vaccins;
-    int voorad_voor_hern;
     int hernieuwing;
     int temperatuur;
     int gereserveerd;
@@ -22,10 +21,6 @@ class VaccinType {
 public:
 
     int aantalNietGer();
-
-    int getVooradVoorHern() const;
-
-    void setVooradVoorHern(int vooradVoorHern);
 
     int getGereserveerd() const;
 

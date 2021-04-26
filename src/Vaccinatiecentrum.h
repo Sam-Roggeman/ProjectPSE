@@ -16,6 +16,9 @@
 #include <map>
 #include "VaccinType.h"
 
+
+//todo contracten
+
 class Vaccinatiecentrum {
     Vaccinatiecentrum * _initCheck;
     std::map<std::string,int> vaccins;
