@@ -13,7 +13,6 @@
 #include <sstream>
 #include <fstream>
 #include "DesignByContract.h"
-#include "Project.h"
 #include "Simulation.h"
 #include "simulationImporter.h"
 

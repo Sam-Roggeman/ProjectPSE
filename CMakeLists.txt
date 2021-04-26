@@ -14,8 +14,6 @@ link_directories(./gtest/lib)
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
         src/ProjectMain.cpp
-        src/Project.cpp
-        src/Project.h
         testInput/test.xml
         src/tinystr.cpp
         src/tinystr.h
@@ -35,8 +33,6 @@ set(RELEASE_SOURCE_FILES
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
-        src/Project.h
-        src/Project.cpp
         src/ProjectDomainTests.cpp
         src/ProjectInputTests.cpp
         src/ProjectOutputTests.cpp
