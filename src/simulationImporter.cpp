@@ -96,4 +96,4 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     ENSURE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
     doc.Clear();
     return 0;
-};
+}

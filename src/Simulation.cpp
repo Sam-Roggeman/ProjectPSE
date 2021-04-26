@@ -135,7 +135,6 @@ void Simulation::setDag(int d) {
 }
 
 void Simulation::clear() {
-    REQUIRE(correctlyInitialized(), "Foutieve simulatie");
     hub->clear();
 }
 

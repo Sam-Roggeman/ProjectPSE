@@ -130,7 +130,6 @@ public:
     bool correctlyInitialized() const;
 
     /**Dit cleared heel de simulatie
-     * @pre this->correctlyInitialized()
      */
     void clear();
 

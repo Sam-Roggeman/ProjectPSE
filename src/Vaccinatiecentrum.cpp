@@ -301,7 +301,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
         }
     }
 
-        ENSURE(this->getAantalVaccins() <= aantal_vaccins_start,
+    ENSURE(this->getAantalVaccins() <= aantal_vaccins_start,
            "Aantal vaccins is gestegen na vaccineren");
     ENSURE(aantal_gevaccineerden+aantal_vol_gevaccineerden >= aantal_gevaccineerden_start,
            "Aantal gevaccineerden is gezakt na vaccineren");
@@ -314,13 +314,13 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
 bool Vaccinatiecentrum::completelyInitialized() const {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling completelyInitialized");
-    if (this->getCapaciteit()<0){
+    if (this->getCapaciteit()<=0){
         return false;
     }
     else if (this->getAdresCentrum().empty()){
         return false;
     }
-    else if (this->getAantalInwoners()<0) {
+    else if (this->getAantalInwoners()<=0) {
         return false;
     }
     else if (this->getNaamCentrum().empty()){
