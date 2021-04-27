@@ -60,20 +60,20 @@ TEST_F(HubOutputTest, outputSimulation){
     v.setAdresCentrum("A");
     o.open("./testOutput/testOutput/outputSimulation1.txt");
     s.outputSimulation(o);
+    o.close();
     EXPECT_TRUE(FileCompare("./testOutput/testFiles/outputSimulation1.txt",
                             "./testOutput/testOutput/outputSimulation1.txt"));
-    o.clear();
     v.setCapaciteit(9000);
     v.setAantalInwoners(2000);
-    o.open("testOutput/testOutput/outputSimulation2.txt");
+    o.open("./testOutput/testOutput/outputSimulation2.txt");
     s.outputSimulation( o);
-    EXPECT_TRUE(FileCompare("testOutput/testFiles/outputSimulation2.txt",
-                            "testOutput/testOutput/outputSimulation2.txt"));
-    o.clear();
-    o.open("testOutput/testOutput/outputSimulation3.txt");
+    o.close();
+    EXPECT_TRUE(FileCompare("./testOutput/testFiles/outputSimulation2.txt",
+                            "./testOutput/testOutput/outputSimulation2.txt"));
+    o.open("./testOutput/testOutput/outputSimulation3.txt");
     s.outputSimulation( o);
+    o.close();
     v.setAantalGevaccineerden(1000);
-    EXPECT_TRUE(FileCompare("testOutput/testFiles/outputSimulation3.txt",
-                            "testOutput/testOutput/outputSimulation3.txt"));
-    o.clear();
+    EXPECT_TRUE(FileCompare("./testOutput/testFiles/outputSimulation3.txt",
+                            "./testOutput/testOutput/outputSimulation3.txt"));
 }
