@@ -45,7 +45,8 @@ int main(int argc, char **argv) {
     Simulation s = Simulation(&h);
     simulationImporter::importSimulation("t2.xml",  std::cout, s);
 //    s.autoSimulationUntilDone(std::cout);
-    s.autoSimulation(0,1000,std::cout);
+    s.impressie(std::cout);
+    s.autoSimulationUntilDone(std::cout);
 //    s.impressie(std::cout);
 //    h.transportToCentra(0);
 //    s.impressie(std::cout);
