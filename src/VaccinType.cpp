@@ -73,7 +73,7 @@ VaccinType::VaccinType() {
     this->levering = 0;
     this->transport = 0;
     this->interval = 0;
-    this->init_check = this;
+    this->_init_check = this;
     this->aantal_vaccins = 0;
     this->hernieuwing = 0;
     this->temperatuur = 27;
@@ -84,6 +84,7 @@ VaccinType::VaccinType() {
     ENSURE(this->interval == 0, "Het interval is verkeerd geinitialiseerd");
     ENSURE(this->transport == 0, "De transport is verkeerd geinitialiseerd");
     ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->gereserveerd == 0, "De levering is verkeerd geinitialiseerd");
     ENSURE(this->aantal_vaccins == 0, "Het aantal_vaccins is verkeerd geinitialiseerd");
     ENSURE(this->hernieuwing == 0, "De hernieuwing is verkeerd geinitialiseerd");
     ENSURE(this->temperatuur == 27, "De temperatuur is verkeerd geinitialiseerd");
@@ -91,7 +92,7 @@ VaccinType::VaccinType() {
 }
 
 bool VaccinType::correctlyInitialized() const {
-    return (this == init_check);
+    return (this == _init_check);
 }
 
 void VaccinType::leveringVanTypeToHub() {
@@ -105,7 +106,7 @@ void VaccinType::leveringVanTypeToHub() {
 bool VaccinType::completelyInitialized(){
     REQUIRE(this->correctlyInitialized(),"Het object Vaccintype was niet correct geinitalizeerd bij oproep van completelyInitialized");
     bool out = true;
-    if (aantal_vaccins<0||levering<0||interval<0||transport<0){
+    if (aantal_vaccins<0||levering<0||interval<0||transport<0||gereserveerd<0){
         out = false;
     }
     return out;
@@ -121,7 +122,7 @@ bool VaccinType::isLeveringsDag(const int dag) const {
 }
 
 int VaccinType::nextLeveringsDag(const int dag) const {
-    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van isLeveringDag");
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van nextLeveringDag");
     REQUIRE(dag >= 0, "Dag kan geen negatief getal zijn");
     return (interval+1)-(dag % (interval+1));
 }
@@ -131,42 +132,56 @@ void VaccinType::setAantalVaccins(const int aantal_vaccins1) {
 }
 
 int VaccinType::gettemperatuur() const {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van gettemperatuur");
     return temperatuur;
 }
 
 void VaccinType::sethernieuwing(const int h) {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van setHernieuwing");
     hernieuwing = h;
+    ENSURE(hernieuwing == h, "hernieuwing is niet juist veranderd bij setHernieuwing");
 }
 
 int VaccinType::gethernieuwing() {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van getHernieuwing");
     return hernieuwing;
 }
 
 void VaccinType::settemperatuur(const int t) {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van settemperatuur");
     temperatuur = t;
+    ENSURE(temperatuur == t, "temperatuur is niet juist veranderd bij settemperatuur");
 }
 
 int VaccinType::getGereserveerd() const {
-    ENSURE(gereserveerd >=0,"gereserveerden < 0 bij getAantalGer van hub");
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van getGereserveerd");
     return gereserveerd;
 }
 
 void VaccinType::setGereserveerd(int gereserveerd1) {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van getGereserveerd");
+    REQUIRE(gereserveerd >=0,"gereserveerden1 moet >= 0 bij setGereserveerd");
     VaccinType::gereserveerd = gereserveerd1;
+    ENSURE(gereserveerd == gereserveerd1, "gereserveerd is niet juist veranderd bij setGereserveerd");
 }
 
 int VaccinType::aantalNietGer() {
+    REQUIRE(this->correctlyInitialized(),"Vaccintype was niet geinitializeerd bij oproep van aantalNietGer");
     return aantal_vaccins-gereserveerd;
 }
 
 void VaccinType::addGereserveerd(int aantal) {
     REQUIRE(aantal>=0,"aantal moet >= 0 bij addGereserveerd ");
+    int start = gereserveerd;
     gereserveerd +=aantal;
     ENSURE(gereserveerd>=0, "gereserveerd moet >= 0 bij einde van addGereserveerd");
+    ENSURE(start+aantal == gereserveerd, "gereserveerd != start+aantal bij einde van addGereserveerd");
 }
 
 void VaccinType::subGereserveerd(int aantal) {
     REQUIRE(aantal>=0,"aantal moet >= 0 bij subGereserveerd ");
+    int start = gereserveerd;
     gereserveerd -=aantal;
     ENSURE(gereserveerd>=0, "gereserveerd moet >= 0 bij einde van subGereserveerd");
+    ENSURE(start-aantal == gereserveerd, "gereserveerd != start-aantal bij einde van subGereserveerd");
 }

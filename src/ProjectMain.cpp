@@ -25,9 +25,9 @@ using namespace std;
  *          done:
  *              Hub
  *              Simulation
- *          notdone:
  *              Importer
  *              Type
+ *          notdone:
  *              Centrum
  *  3d-omgeving
  *

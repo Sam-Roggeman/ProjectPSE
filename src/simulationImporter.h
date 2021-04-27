@@ -6,8 +6,6 @@
 #define PROJECT_SIMULATIONIMPORTER_H
 #include "Simulation.h"
 
-//todo contracten
-
 class simulationImporter {
 public:
     /**Initialiseert een simulatie uit een xml file

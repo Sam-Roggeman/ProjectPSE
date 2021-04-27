@@ -14,33 +14,79 @@ class VaccinType {
     int transport;
     int interval;
     int aantal_vaccins;
-    int voorad_voor_hern;
     int hernieuwing;
     int temperatuur;
     int gereserveerd;
-    VaccinType* init_check;
+    VaccinType* _init_check;
 public:
 
+    /**
+     * berekend het aantal niet gereserveerde vaccins in de hub
+     * @return aantal vaccins-gereserveerd
+     * @pre correctlyinitialized
+     */
     int aantalNietGer();
 
-    int getVooradVoorHern() const;
-
-    void setVooradVoorHern(int vooradVoorHern);
-
+    /**
+     * vraagt het aantal gereserveerde vaccins op
+     * @return gereserveerd
+     * @pre correctlyinitialized
+     */
     int getGereserveerd() const;
 
+    /**
+     * zet this->gereserveerd op int gereserveerd
+     * @param gereserveerd aantal dat gereserveerd is voor hernieuwing
+     * @pre correctlyinitialized
+     * @pre gereserveerd >= 0
+     * @post gereserveerd == this->gereserveerd
+     */
     void setGereserveerd(int gereserveerd);
 
+    /**
+     * vraagt de naam van het type op
+     * @return naam van het type
+     * @pre correctlyinitialized
+     */
     const std::string &getName() const;
 
+    /**
+     * zet het vernieuwingsinterval op h
+     * @param h de nieuwe hernieuwing
+     * @pre correctlyinitialized
+     * @post this->hernieuwing == h
+     */
     void sethernieuwing(const int h);
 
+    /**
+     * geeft het hernieuwingsinterval van het type terug
+     * @pre correctlyinitialized
+     * @return het hernieuwingsinterval
+     */
     int gethernieuwing();
 
+    /**
+     * zet de bewaringtemperatuur op t
+     * @param t de nieuwe bewaringstemperatuur
+     * @pre correctlyinitialized
+     * @post this->temperatuur == t
+     */
     void settemperatuur(const int t);
 
+    /**
+     * geeft het hernieuwingsinterval van het type terug
+     * @pre correctlyinitialized
+     * @return het hernieuwingsinterval
+     */
     int gettemperatuur() const;
 
+    /**
+     * veranderd de naam van het type naar name
+     * @param name de nieuwe naam van het type
+     * @pre correctlyinitialized
+     * @pre name.size() > 0
+     * @post name == name1
+     */
     void setName(const std::string &name);
 
     /**Vraagt de grote van eenlevering op
@@ -90,7 +136,13 @@ public:
      * */
     void setAantalVaccins(const int aantal_vaccins1);
 
-    //todo contract + ensure geres
+    /**
+     * initializeerd een vaccintype
+     * @post levering == transport == interval == aantal_vaccins == hernieuwing == gereserveerd == 0
+     * @post temperatuur == 27
+     * @post name == ""
+     * @post correctlyInitialized
+     */
     VaccinType();
 
     /**Geeft het aantal vaccins van dit type in de hub terug
@@ -108,35 +160,59 @@ public:
      * */
     void substractVaccins(const int vaccins);
 
-    /**Checkt of het object Vaccintype juist is geinitialiseerd
-     *
+    /**
+     * Checkt of het object Vaccintype juist is geinitialiseerd
      * @return: True als het object juist is geinitialiseerd en False als niet
      */
     bool correctlyInitialized() const;
 
-    /**er wordt een lading vaccins van type aan de hub geleverd
+    /**
+    * er wordt een lading vaccins van type aan de hub geleverd
     * @pre this->correctlyInitialized()
     * @post aantal_vaccins == aantal_vaccins_start + levering
     * */
     void leveringVanTypeToHub();
 
-    /**Kijkt na of het object Vaccintype compleet geinitialiseerd is
+    /**
+     * Kijkt na of het object Vaccintype compleet geinitialiseerd is
     * @return true als compleet geinitaliseerd
     * @pre this->correctlyInitialized()
     * */
     bool completelyInitialized();
 
-    /**Deze functie kijkt of de gegeven dag een leveringsdag is
-     *
+    /**
+     * Deze functie kijkt of de gegeven dag een leveringsdag is
+     * @pre this->correctlyInitialized()
+     * @pre dag >= 0
      * @param dag: De meegegeven dag waarop wordt getest of het de leveringsdag is
      * @return: True als dag een leveringsdag is en False als niet
      */
     bool isLeveringsDag(const int dag) const;
 
+    /**
+     * berekend het aantal dagen tot de volgende levering naar de hub
+     * @pre this->correctlyInitialized()
+     * @pre dag >= 0
+     * @param dag de huidige dag
+     * @return (interval+1)-(dag % (interval+1)) oftewel het aantal dagen tot de volgende levering
+     */
     int nextLeveringsDag(const int dag) const;
 
+    /**add gereserveerd aantal vaccins van dit type in de hub
+     * @param aantal: het aantal vaccins dat gereserveerd moet worden
+     * @pre aantal >= 0
+     * @pre this->correctlyInitialized()
+     * @post gereserveerd += aantal
+     * */
     void addGereserveerd(int aantal);
 
+    /**trekt aantal af van aantal gereserveerde vaccins van dit type in de hub
+     * @param aantal: het aantal gereserveerde vaccins dat afgetrokken moet worden
+     * @pre aantal >=0
+     * @pre this->correctlyInitialized()
+     * @post gereserveerd -= vaccins
+     * @post gereserveerd >= 0
+     * */
     void subGereserveerd(int aantal);
 };
 
