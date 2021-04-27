@@ -1,0 +1,4 @@
+a:
+	- vaccins				[                    ] 0%
+	- gevaccineerd			[                    ] 0%
+	- volledig gevaccineerd	[                    ] 0%

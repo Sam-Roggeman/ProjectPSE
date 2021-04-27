@@ -1,0 +1,4 @@
+a:
+	- vaccins				[=====               ] 25%
+	- gevaccineerd			[                    ] 0%
+	- volledig gevaccineerd	[==========          ] 50%
