@@ -397,3 +397,4 @@ TEST_F(HubDomainTest,subgereserveerd){
     EXPECT_NE(6000,vaccinType1.getGereserveerd());
 
 }
+

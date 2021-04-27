@@ -13,6 +13,7 @@
 #include "Hub.h"
 #include "TicTacToeUtils.h"
 #include "Simulation.h"
+#include "simulationImporter.h"
 
 class HubOutputTest: public ::testing::Test {
 protected:
@@ -126,5 +127,20 @@ TEST_F(HubOutputTest,Impressie){
     o.close();
     EXPECT_TRUE(FileCompare("./testOutput/testOutput/ImpressieOutput3.txt",
                             "./testOutput/testFiles/ImpressieOutput3.txt"));
-    s.impressie(0);
+}
+
+TEST_F(HubOutputTest,Autosimulation){
+    std::ofstream o;
+    Hub h = Hub();
+    Simulation s = Simulation(&h);
+    simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
+    o.open("./testOutput/testOutput/Autosim1.txt");
+    s.autoSimulationUntilDone(o);
+    o.close();
+    EXPECT_TRUE(FileCompare("./testOutput/testOutput/Autosim1.txt",
+                            "./testOutput/testFiles/Autosim1.txt"));
+    EXPECT_FALSE(FileCompare("./testOutput/testOutput/Autosim1.txt",
+                            "./testOutput/testFiles/ImpressieOutput3.txt"));
+
+    o.clear();
 }

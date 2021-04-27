@@ -112,3 +112,8 @@ TEST_F(ProjectTest,inconsistent3){
 
     ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim2.xml",  ofs, s),"Je moet minstens 1 Hub hebben");
 }
+TEST_F(ProjectTest,inconsistent4){
+    Simulation s = Simulation(&hub);
+
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim3.xml",ofs,s),"Je moet minstens 1 vaccintype hebben");
+}

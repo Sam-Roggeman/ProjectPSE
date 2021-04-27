@@ -7,6 +7,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     sim.clear();
     int hubcounter = 0;
     int vaccinatiecentracounter = 0;
+    int vaccincounter = 0;
     Vaccinatiecentrum* centrum;
     TiXmlDocument doc;
     VaccinType* bedrijf;
@@ -53,6 +54,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                 //herken het element
                 if(elem_name == "VACCIN"){
                     bedrijf = new VaccinType();
+                    vaccincounter += 1;
                     for (TiXmlElement *vac_elem = hub_elem->FirstChildElement(); vac_elem != NULL; vac_elem = vac_elem->NextSiblingElement()) {
                         std::string vac_name = vac_elem->Value();
                         if (vac_name == "levering") {
@@ -91,6 +93,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     ENSURE((hubcounter < 2),"Je mag maar 1 hub hebben");
     ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     ENSURE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
+    ENSURE(vaccincounter > 0, "Je moet minstens 1 vaccintype hebben");
     doc.Clear();
     return 0;
 }
