@@ -4,7 +4,6 @@
 
 #include "VaccinType.h"
 
-//todo contracten
 int VaccinType::getAantalVaccins() const {
     REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van getAantalVaccinsVanType");
     return aantal_vaccins;

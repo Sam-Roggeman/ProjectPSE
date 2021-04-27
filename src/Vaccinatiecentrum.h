@@ -17,7 +17,6 @@
 #include "VaccinType.h"
 
 
-//todo contracten
 
 class Vaccinatiecentrum {
     Vaccinatiecentrum * _initCheck;
