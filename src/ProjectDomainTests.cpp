@@ -227,19 +227,24 @@ TEST_F(HubDomainTest, addGevaccineerden){
 }
 
 //Tests voor de functie addVaccins
-//TEST_F(HubDomainTest, addVaccins){
-//    //Initialisering alle waardes
-//    v.addVaccins(500, std::string());
-//    v.setAantalInwoners(1500);
-//    v.setCapaciteit(500);
-//
-//    //Returnwaarde vergelijken met verwachtte waarde
-//    EXPECT_EQ(500, v.getAantalVaccinsVanType(std::string()));
-//    EXPECT_NE(0, v.getAantalVaccinsVanType(std::string()));
-//    v.vaccineren(0, ofs);
-//    EXPECT_EQ(0, v.getAantalVaccinsVanType(std::string()));
-//    EXPECT_NE(500, v.getAantalVaccinsVanType(std::string()));
-//}
+TEST_F(HubDomainTest, addVaccins){
+    //Initialisering alle waardes
+    VaccinType a = VaccinType();
+    a.setName("a");
+    std::map<std::string, VaccinType*> a2;
+    a2["a"] = &a;
+    v.setTypes(a2);
+    v.addVaccins(500, "a");
+    v.setAantalInwoners(1500);
+    v.setCapaciteit(500);
+
+    //Returnwaarde vergelijken met verwachtte waarde
+    EXPECT_EQ(500, v.getAantalVaccinsVanType("a"));
+    EXPECT_NE(0, v.getAantalVaccinsVanType("a"));
+    v.vaccineren(0, ofs);
+    EXPECT_EQ(0, v.getAantalVaccinsVanType("a"));
+    EXPECT_NE(500, v.getAantalVaccinsVanType("a"));
+}
 
 //Tests voor de functie clear
 TEST_F(HubDomainTest, clear){

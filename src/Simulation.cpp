@@ -59,10 +59,10 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
     REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
     REQUIRE(hub->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulation");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
+    dag = start;
 //    1.  WHILE huidige dag<eind dag
-
-    for (int current = start; current < eind; current++) {
-        out << "DAG " << current << ":" << std::endl;
+    while (dag < eind) {
+        out << "DAG " << dag << ":" << std::endl;
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
         hub->vacLeveringen(dag);
@@ -74,6 +74,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
         hub->vaccineren(dag);
+        nextDay();
         out << std::endl;
     }
     ENSURE(dag == eind, "de autosimulation eindigde niet op de einddag");
