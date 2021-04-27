@@ -126,4 +126,5 @@ TEST_F(HubOutputTest,Impressie){
     o.close();
     EXPECT_TRUE(FileCompare("./testOutput/testOutput/ImpressieOutput3.txt",
                             "./testOutput/testFiles/ImpressieOutput3.txt"));
+    s.impressie(0);
 }
