@@ -27,6 +27,31 @@ protected:
     Vaccinatiecentrum v;
 };
 
+TEST_F(HubOutputTest, Fouteoutput){
+    hub.addcentrum(&v);
+    Simulation s = Simulation(&hub);
+    std::ofstream o;
+    v.setNaamCentrum("a");
+    v.setAdresCentrum("A");
+    o.open("./testOutput/testOutput/outputSimulation1.txt");
+    s.outputSimulation(o);
+    EXPECT_FALSE(FileCompare("./testOutput/testFiles/outputSimulation1.txt",
+                            "./testOutput/testOutput/outputSimulation2.txt"));
+    o.clear();
+    v.setCapaciteit(9000);
+    v.setAantalInwoners(2000);
+    o.open("testOutput/testOutput/outputSimulation2.txt");
+    s.outputSimulation( o);
+    EXPECT_FALSE(FileCompare("testOutput/testFiles/outputSimulation1.txt",
+                            "testOutput/testOutput/outputSimulation2.txt"));
+    o.clear();
+    o.open("testOutput/testOutput/outputSimulation3.txt");
+    s.outputSimulation( o);
+    v.setAantalGevaccineerden(1000);
+    EXPECT_FALSE(FileCompare("testOutput/testFiles/outputSimulation2.txt",
+                            "testOutput/testOutput/outputSimulation3.txt"));
+    o.clear();
+}
 TEST_F(HubOutputTest, outputSimulation){
     hub.addcentrum(&v);
     Simulation s = Simulation(&hub);

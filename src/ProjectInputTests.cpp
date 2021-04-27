@@ -100,12 +100,12 @@ TEST_F(ProjectTest, verkeerde_input){
 TEST_F(ProjectTest,inconsistent1){
     Simulation s = Simulation(&hub);
 
-    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim.xml",  ofs, s),"Je mag maar 1 hub hebben");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim.xml",  ofs, s),"Er bestaat al een vaccintype met dezelfde naam");
 }
 TEST_F(ProjectTest,inconsistent2){
     Simulation s = Simulation(&hub);
 
-    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  ofs, s),"Je moet minstens 1 vaccinatiecentrum hebben");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
 }
 TEST_F(ProjectTest,inconsistent3){
     Simulation s = Simulation(&hub);
