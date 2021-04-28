@@ -155,6 +155,16 @@ void Simulation::impressie(std::ostream &out) {
 }
 
 void Simulation::graphicIntegration(std::string path_to_engine, std::string path_to_safe_dir, std::string name) {
+    //veranderbare variabelen
+    //ZBufferedWireframe of ZBuffering
+    std::string soort = "ZBufferedWireframe";
+    int aantal_vr_rij = 12;
+    int y_offs;
+    int y_afstand_tussen_vr = 1;
+    double vr_Scale = 0.5;
+    int x_afstand_vr = 3;
+
+
     REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van graphicIntegration");
     std::ofstream o;
     o.open((path_to_safe_dir+"/"+name+".ini").c_str());
@@ -184,9 +194,7 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
     double r;
     double g;
     int centrum_nr = 0;
-    int aantal_vr_rij = 12;
-    int y_offs;
-    int y_afstand_tussen_vr = 2;
+
     for (std::map<Vaccinatiecentrum*, int>::const_iterator it = ladingmap.begin(); it != ladingmap.end(); it++){
         centrum = it->first;
         inw_verhouding = (double) centrum->getAantalInwoners()/(double) totaal_inw;
@@ -206,23 +214,18 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
         y_offs= 0;
         //vrachtwagens
         for (int i = 0; i < it->second; i++ ){
-            if (dag==14&&it->second == 15){
-                std::cout <<"";
-            }
             if (i%aantal_vr_rij == 0&& i%(2*aantal_vr_rij) != 0 && i != 0){
                 y_offs = abs(y_offs) + y_afstand_tussen_vr;
             }
             if (i%(2*aantal_vr_rij) == 0&& i !=0){
                 y_offs = -y_offs;
             }
-            x = (i%aantal_vr_rij)*3-20;
-            o << "[Figure" << current << "]" << std::endl << "type = Vrachtwagen" << std::endl << "scale = 0.5"
+            x = (i%aantal_vr_rij)*x_afstand_vr-20;
+            o << "[Figure" << current << "]" << std::endl << "type = Vrachtwagen" << std::endl << "scale =" << vr_Scale
               << std::endl << "rotateX = 0" << std::endl << "rotateY = 0" << std::endl << "rotateZ = 0" << std::endl
               << "center = (" << y_offs+y << "," << x << ",0)" << std::endl
-              << "color = (" << 1 << "," << 1 << ","
-              << 1 << ")" <<std::endl;
-            // (((double) (rand()%256))/(double) 255)
-
+              << "color = (" << (((double) (rand()%256))/(double) 255) << "," << (((double) (rand()%256))/(double) 255) << ","
+              << (((double) (rand()%256))/(double) 255) << ")" <<std::endl;
             current++;
         }
         centrum_nr++;

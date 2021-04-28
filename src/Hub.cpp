@@ -162,9 +162,6 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
                         max_vaccins = std::min(max_vaccins,
                                                (double) centrum->getCapaciteit() - centrum->getAantalHernieuwing(dag+type->gethernieuwing()));
                     }
-                    if (centrum->getNaamCentrum() == "Park Spoor Oost" && dag == 25){
-                        std::cout << "";
-                    }
                     while ((//genoeg vaccins en er past nog een lading bij
                                    (!gecapped && (2 * centrum->getCapaciteit() >
                                                   totale_lading + centrum->getAantalVaccins() + type->getTransport()))
