@@ -99,7 +99,7 @@ TEST_F(HubOutputTest,Impressie){
     a2["a"] = &a;
     v.setTypes(a2);
     v.addVaccins(1500, "a");
-    v.vaccineren(0);
+    v.vaccineren(0,o);
     o.open("./testOutput/testOutput/ImpressieOutput2.txt");
     s.impressie(o);
     o.close();
@@ -121,7 +121,7 @@ TEST_F(HubOutputTest,Impressie){
     a3["b"] = &b;
     vaccinatiecentrum.setTypes(a3);
     vaccinatiecentrum.addVaccins(1500, "b");
-    vaccinatiecentrum.vaccineren(0);
+    vaccinatiecentrum.vaccineren(0,o);
     o.open("./testOutput/testOutput/ImpressieOutput3.txt");
     s.impressie(o);
     o.close();

@@ -91,16 +91,23 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
     REQUIRE(hub->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulationUntilDone");
     REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
+    std::ostringstream oss;
     while (hub->notDone()){
         out << "DAG " << dag << ":" << std::endl;
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
         hub->vacLeveringen(dag);
         hub->outputHub(out);
+        this->impressie(std::cout);
+        oss.str("");
+        oss.clear();
+        oss << "dag" << dag;
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
         hub->transportToCentra2(dag,out);
+        this->graphicIntegration("./src/engine", "./graphics",oss.str());
+
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
         hub->vaccineren(dag,out);
@@ -145,5 +152,82 @@ void Simulation::clear() {
 void Simulation::impressie(std::ostream &out) {
     REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van impressie");
     this->getHub()->impressie(out);
+}
+
+void Simulation::graphicIntegration(std::string path_to_engine, std::string path_to_safe_dir, std::string name) {
+    REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van graphicIntegration");
+    std::ofstream o;
+    o.open((path_to_safe_dir+"/"+name+".ini").c_str());
+    o.precision(10);
+    o << "[General]" << std::endl << "size = 1024" << std::endl << "backgroundcolor = ("
+      << ((double) 135/(double) 255) << "," << ((double) 206/(double) 255) <<"," << ((double) 235/(double) 255) << ")"
+      << std::endl<< "type = ZBufferedWireframe" << std::endl << "eye = (-200,0,200)" << std::endl;
+    std::map<Vaccinatiecentrum*, int> ladingmap = hub->getAantalLadingenVorigeDag();
+    int nr_fig = 1;
+    int totaal_inw = 0;
+    for (std::map<Vaccinatiecentrum*, int>::const_iterator it = ladingmap.begin(); it != ladingmap.end(); it++){
+        nr_fig += it->second+1;
+        totaal_inw += it->first->getAantalInwoners();
+    }
+    o << "nrFigures =" << nr_fig<<std::endl;
+    int current = 0;
+    //hub
+    o << "[Figure0]" <<std::endl << "type = Cylinder" << std::endl << "scale = 2" <<std::endl << "rotateX = 0"
+      <<std::endl << "rotateY = 0" <<std::endl << "rotateZ = 0" <<std::endl << "center = (0,25,0)" << std::endl
+      <<"color = (1,1,0)" <<std::endl <<"n = 20"<< std::endl<< "height = 5" <<std::endl;
+    current++;
+    double inw_verhouding;
+    Vaccinatiecentrum* centrum;
+    int y;
+    int x;
+    double gevac_ver;
+    double r;
+    double g;
+    int centrum_nr = 0;
+    int aantal_vr_rij = 12;
+    int y_offs;
+    int y_afstand_tussen_vr = 2;
+    for (std::map<Vaccinatiecentrum*, int>::const_iterator it = ladingmap.begin(); it != ladingmap.end(); it++){
+        centrum = it->first;
+        inw_verhouding = (double) centrum->getAantalInwoners()/(double) totaal_inw;
+        y = (centrum_nr+1)/2*20;
+        if ((centrum_nr%2) == 0){
+            y = -y;
+        }
+        gevac_ver = (double) centrum->getAantalVolGevaccineerden()/ (double) centrum->getAantalInwoners();
+        r = 1-gevac_ver;
+        g = gevac_ver;
+        //centra
+        o << "[Figure"<<current <<"]" <<std::endl << "type = Cube" << std::endl << "scale =" << inw_verhouding*3
+          << std::endl << "rotateX = 0"<<std::endl << "rotateY = 0" <<std::endl << "rotateZ = 0" <<std::endl
+          << "center = (" << y << ",-30,0)" << std::endl <<
+          "color = (" << r << "," << g << ",0)" <<std::endl;
+        current++;
+        y_offs= 0;
+        //vrachtwagens
+        for (int i = 0; i < it->second; i++ ){
+            if (dag==14&&it->second == 15){
+                std::cout <<"";
+            }
+            if (i%aantal_vr_rij == 0&& i%(2*aantal_vr_rij) != 0 && i != 0){
+                y_offs = abs(y_offs) + y_afstand_tussen_vr;
+            }
+            if (i%(2*aantal_vr_rij) == 0&& i !=0){
+                y_offs = -y_offs;
+            }
+            x = (i%aantal_vr_rij)*3-20;
+            o << "[Figure" << current << "]" << std::endl << "type = Vrachtwagen" << std::endl << "scale = 0.5"
+              << std::endl << "rotateX = 0" << std::endl << "rotateY = 0" << std::endl << "rotateZ = 0" << std::endl
+              << "center = (" << y_offs+y << "," << x << ",0)" << std::endl
+              << "color = (" << 1 << "," << 1 << ","
+              << 1 << ")" <<std::endl;
+            // (((double) (rand()%256))/(double) 255)
+
+            current++;
+        }
+        centrum_nr++;
+    }
+    o.close();
+    system((path_to_engine + " " + path_to_safe_dir+"/"+name+".ini").c_str());
 }
 

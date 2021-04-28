@@ -25,6 +25,7 @@ private:
     Hub * _initCheck;
     std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
     std::map<std::string, VaccinType*> types;
+    std::map<Vaccinatiecentrum*,int> aantal_ladingen_vorige_dag;
 public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
@@ -47,6 +48,7 @@ public:
      * @pre vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end()
      * @post vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
      * @post this->vaccinatiecentra.size() += 1
+     * @post aantal_ladingen_vorige_dag[vaccinatiecentrum] == 0
      * */
     void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
 
@@ -161,6 +163,10 @@ public:
     void transportToCentrafucked(int dag, std::ostream &out);
 
     int aantalOnvolledigGev() const;
+
+    const std::map<Vaccinatiecentrum *, int> &getAantalLadingenVorigeDag() const;
+
+    void setAantalLadingenVorigeDag(const std::map<Vaccinatiecentrum *, int> &aantalLadingenVorigeDag);
 };
 
 

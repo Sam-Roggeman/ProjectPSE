@@ -108,20 +108,10 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
         if (centrum->aantalOnvolledigGev() > 0) {
             //gekoeld voor het centrum vandaag is 0
             aantal_gekoeld = 0;
-            //maximum is 2 keer de capaciteit
-            max_vaccins = centrum->getCapaciteit() * 2;
+
             totale_lading = 0;
             aantal_ladingen = 0;
-            //als er niet genoeg vaccins zijn
-            if (!genoeg_vaccins) {
-                //is er een cap
-                gecapped = true;
-                //maximum is het min(huidige max, (aantal_vac_start-aantal_gereserveerd)
-                // *(verhouding capaciteit met maximum capaciteit tot volgende levering))
-                max_vaccins = std::min(max_vaccins, ((double) centrum->getCapaciteit() *
-                                                     ((double) aantal_vac_start - (double) getAantalGer())) /
-                                                    (double) max_cap_all_cent_tot_lev);
-            }
+
             //hernieuwingen
             for (std::map<int, VaccinType *>::reverse_iterator type_it = transport_sorted_types.rbegin();
                  type_it != transport_sorted_types.rend(); type_it++) {
@@ -131,7 +121,7 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
                 //transportgrootte van type
                 int transport_type = type->getTransport();
                 //zolang dat er meer vaccins gereserveerd zijn van type op dag => stuur ladingen
-                while (geres > 0) {
+                while (geres-centrum->getAantalVaccinsVanType(type->getName()) > 0) {
                     totale_lading += transport_type;
                     aantal_ladingen++;
                     lading_type_centrum += transport_type;
@@ -151,12 +141,29 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
                      type_it != transport_sorted_types.rend(); type_it++) {
                     type = type_it->second;
                     lading_type_centrum = 0;
+                    //maximum is 2 keer de capaciteit
+                    max_vaccins = centrum->getCapaciteit() * 2;
+                    //als er niet genoeg vaccins zijn
+                    if (!genoeg_vaccins) {
+                        //is er een cap
+                        gecapped = true;
+                        //maximum is het min(huidige max, (aantal_vac_start-aantal_gereserveerd)
+                        // *(verhouding capaciteit met maximum capaciteit tot volgende levering))
+                        max_vaccins = std::min(max_vaccins, ((double) centrum->getCapaciteit() *
+                                                             ((double) aantal_vac_start - (double) getAantalGer())) /
+                                                            (double) max_cap_all_cent_tot_lev);
+                    }
                     //als het vaccin gekoeld moet blijven
                     if (type->gettemperatuur() < 0) {
                         gecapped = true;
                         //max vaccins is de capaciteit - het aantal hernieuwingen dat vandaag plaatsvindt
                         max_vaccins = std::min(max_vaccins,
                                                (double) centrum->getCapaciteit() - centrum->getAantalHernieuwing(dag));
+                        max_vaccins = std::min(max_vaccins,
+                                               (double) centrum->getCapaciteit() - centrum->getAantalHernieuwing(dag+type->gethernieuwing()));
+                    }
+                    if (centrum->getNaamCentrum() == "Park Spoor Oost" && dag == 25){
+                        std::cout << "";
                     }
                     while ((//genoeg vaccins en er past nog een lading bij
                                    (!gecapped && (2 * centrum->getCapaciteit() >
@@ -192,10 +199,19 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
             out << "Er werden " << aantal_ladingen << " ladingen (" << totale_lading
                 << " vaccins) getransporteerd naar " <<
                 centrum->getNaamCentrum() << "." << std::endl;
-            ENSURE(centrum->getCapaciteit() > centrum->getAantalHernieuwing(dag) + aantal_gekoeld,
+                aantal_ladingen_vorige_dag[centrum] = aantal_ladingen;
+            ENSURE(centrum->getCapaciteit() >= centrum->getAantalHernieuwing(dag) + aantal_gekoeld,
                    "Capaciteit van centrum < geplande hernieuwingen + gekoelde vaccins na transportToCentra");
         }
     }
+}
+
+const std::map<Vaccinatiecentrum *, int> &Hub::getAantalLadingenVorigeDag() const {
+    return aantal_ladingen_vorige_dag;
+}
+
+void Hub::setAantalLadingenVorigeDag(const std::map<Vaccinatiecentrum *, int> &aantalLadingenVorigeDag) {
+    aantal_ladingen_vorige_dag = aantalLadingenVorigeDag;
 }
 
 void Hub::vaccineren(int dag) {
@@ -223,7 +239,9 @@ void Hub::addcentrum(Vaccinatiecentrum * const vaccinatiecentrum) {
             "Naam van centrum komt al voor in de lijst van centra bij oproep van addcentrum");
     unsigned int s1 = this->vaccinatiecentra.size();
     vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
-
+    this->aantal_ladingen_vorige_dag[vaccinatiecentrum] = 0;
+    ENSURE(this->aantal_ladingen_vorige_dag[vaccinatiecentrum] == 0,
+           "aantal ladingen van de vorige dag van het centrum moet 0 zijn na addcentrum");
     ENSURE(vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end(),
 "Naam van centrum komt niet voor in centra op het einde van addcentrum");
     ENSURE(s1+1 == this->vaccinatiecentra.size(),"lijst met vaccinatiecentra is niet verhoogd");

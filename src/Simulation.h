@@ -9,10 +9,12 @@
 #ifndef PROJECT_SIMULATION_H
 #define PROJECT_SIMULATION_H
 #include <iostream>
+#include <fstream>
 #include "tinyxml.h"
 #include "Vaccinatiecentrum.h"
 #include "Hub.h"
 #include <sstream>
+#include <string>
 #include "DesignByContract.h"
 
 class Simulation {
@@ -148,6 +150,8 @@ public:
      * @pre hub->completlyInitialized()
      * */
     void impressie(std::ostream &out);
+
+    void graphicIntegration(std::string path_to_engine, std::string path_to_safe,std::string name);
 };
 
 
