@@ -38,6 +38,7 @@ TEST_F(HubOutputTest, Fouteoutput){
     s.outputSimulation(o);
     EXPECT_FALSE(FileCompare("./testOutput/testFiles/outputSimulation1.txt",
                             "./testOutput/testOutput/outputSimulation2.txt"));
+    o.close();
     o.clear();
     v.setCapaciteit(9000);
     v.setAantalInwoners(2000);
@@ -45,12 +46,14 @@ TEST_F(HubOutputTest, Fouteoutput){
     s.outputSimulation( o);
     EXPECT_FALSE(FileCompare("testOutput/testFiles/outputSimulation1.txt",
                             "testOutput/testOutput/outputSimulation2.txt"));
+    o.close();
     o.clear();
     o.open("testOutput/testOutput/outputSimulation3.txt");
     s.outputSimulation( o);
     v.setAantalGevaccineerden(1000);
-    EXPECT_FALSE(FileCompare("testOutput/testFiles/outputSimulation2.txt",
+    EXPECT_TRUE(FileCompare("testOutput/testFiles/outputSimulation2.txt",
                             "testOutput/testOutput/outputSimulation3.txt"));
+    o.close();
     o.clear();
 }
 TEST_F(HubOutputTest, outputSimulation){
@@ -163,4 +166,25 @@ TEST_F(HubOutputTest,Autosimulation){
                             "./testOutput/testFiles/Autosim3.txt"));
     EXPECT_FALSE(FileCompare("./testOutput/testOutput/Autosim3.txt",
                              "./testOutput/testFiles/ImpressieOutput3.txt"));
+}
+
+TEST_F(HubOutputTest,GraphicIntegration){
+    std::ofstream o;
+    Hub h = Hub();
+    Simulation s = Simulation(&h);
+    simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
+    s.autoSimulation(0,1,o);
+    s.graphicIntegration("./src/engine", "./testOutput/testOutput/", "0GraphicIntegration");
+    EXPECT_TRUE(FileCompare("./testOutput/testFiles/0GraphicIntegration.ini",
+                            "./testOutput/testOutput/0GraphicIntegration.ini"));
+    s.autoSimulation(1,2,o);
+    s.graphicIntegration("./src/engine", "./testOutput/testOutput/", "1GraphicIntegration");
+    EXPECT_FALSE(FileCompare("./testOutput/testFiles/0GraphicIntegration.ini",
+                             "./testOutput/testOutput/1GraphicIntegration.ini"));
+    s.autoSimulation(2,3,o);
+    EXPECT_TRUE(FileCompare("./testOutput/testFiles/1GraphicIntegration.ini",
+                            "./testOutput/testOutput/1GraphicIntegration.ini"));
+    s.autoSimulation(3,4,o);
+    EXPECT_FALSE(FileCompare("./testOutput/testFiles/1GraphicIntegration.ini",
+                             "./testOutput/testOutput/0GraphicIntegration.ini"));
 }

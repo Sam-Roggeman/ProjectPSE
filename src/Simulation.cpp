@@ -73,7 +73,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
         hub->transportToCentra2(dag,out);
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(dag);
+        hub->vaccineren(dag,out);
         nextDay();
         out << std::endl;
     }
@@ -163,7 +163,6 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
     int y_afstand_tussen_vr = 1;
     double vr_Scale = 0.5;
     int x_afstand_vr = 3;
-
 
     REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van graphicIntegration");
     std::ofstream o;

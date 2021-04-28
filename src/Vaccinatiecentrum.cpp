@@ -23,6 +23,9 @@ Vaccinatiecentrum::Vaccinatiecentrum() {
     ENSURE(this->aantal_gevaccineerden == 0, "Aantal gevaccineerden was niet nul bij het einde van de constructor");
     ENSURE(this->aantal_inwoners == 0, "Aantal inwoners was niet nul bij het einde van de constructor");
     ENSURE(this->capaciteit == 0, "Capaciteit was niet nul bij het einde van de constructor");
+    ENSURE(this->aantal_vol_gevaccineerden == 0, "aantal_vol_gevaccineerden was niet nul bij het einde van de constructor");
+    ENSURE(this->hernieuwingen.empty(), "hernieuwingen waren niet leeg bij het einde van de constructor");
+    
     ENSURE(naam_centrum.size() == 0, "naam van centrum was niet leeg bij het einde van de constructor");
     ENSURE(adres_centrum.size() == 0, "adres van centrum was niet leeg bij het einde van de constructor");
 }
@@ -31,7 +34,9 @@ Vaccinatiecentrum::Vaccinatiecentrum() {
 void Vaccinatiecentrum::setNaamCentrum(const std::string &naamcentrum) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling setNaamCentrum");
+    REQUIRE(!naamcentrum.empty(),"nieuwe naam mag niet leeg zijn bij setNaamCentrum");
     naam_centrum = naamcentrum;
+    ENSURE(naamcentrum==naam_centrum,"nieuwe naam is niet gelijk aan de naam van het centrum bij einde van setNaamCentrum");
 }
 
 /**returnt de naam van het centrum
@@ -50,8 +55,10 @@ const std::string &Vaccinatiecentrum::getNaamCentrum() const {
  */
  void Vaccinatiecentrum::setAdresCentrum(const std::string &adrescentrum) {
     REQUIRE(this->correctlyInitialized(),
-            "Vaccinatiecentrum wasn't initialized when calling setAdresCentrum");
+            "Vaccinatiecentrum wasn't initialized when calling setadrescentrum");
+    REQUIRE(!adrescentrum.empty(),"nieuw adres mag niet leeg zijn bij setadrescentrum");
     adres_centrum = adrescentrum;
+    ENSURE(adrescentrum==adres_centrum,"nieuw adres is niet gelijk aan het adres van het centrum bij einde van setadrescentrum");
 }
 
 /**returnt het adres van het centrum
@@ -74,6 +81,7 @@ void Vaccinatiecentrum::setAantalInwoners(int aantal) {
             "Vaccinatiecentrum wasn't initialized when calling setAantalInwoners");
     REQUIRE(aantal >= 0, "Aantal inwoners moet >= 0");
     aantal_inwoners = aantal;
+    ENSURE(    aantal_inwoners == aantal, "Aantal inwoners is niet correct gewijzigd na setAantalInwoners");
 }
 
 /**returnt het aantal inwoners dat bij het centrum hoort
@@ -118,6 +126,7 @@ void Vaccinatiecentrum::setAantalVaccins(std::string naam_type, int aantal) {
 void Vaccinatiecentrum::setCapaciteit(int aantal) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling setCapaciteit");
+    REQUIRE(aantal >=0,"capaciteit moet >= 0 zijn");
     Vaccinatiecentrum::capaciteit = aantal;
     ENSURE(this->capaciteit == aantal,
            "aantal vaccins is niet juist aangepast bij setAantalVaccins in centrum");
@@ -187,6 +196,7 @@ void Vaccinatiecentrum::substractVaccins(int aantal, std::string naam_type) {
     int old = vaccins[naam_type];
     this->vaccins[naam_type] -= aantal;
     ENSURE(vaccins[naam_type] == old-aantal, "nieuw aantal is niet gelijk aan oud aantal + aantal");
+    ENSURE(vaccins[naam_type] >= 0, "nieuw aantal is niet >=0");
 
 }
 
@@ -212,7 +222,9 @@ void Vaccinatiecentrum::addGevaccineerden(int aantal_gevaccineerden1) {
 int Vaccinatiecentrum::aantalOngevaccineerden() const {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
-    return aantal_inwoners-aantal_gevaccineerden-aantal_vol_gevaccineerden;
+    int out = aantal_inwoners-aantal_gevaccineerden-aantal_vol_gevaccineerden;
+    ENSURE(out >= 0, "aantal ongevaccineerden moet >= 0 zijn");
+    return out;
 }
 
 /**kijkt na of het cenrum correct geinitializeerd is
@@ -235,6 +247,7 @@ void Vaccinatiecentrum::vaccineren(int dag) {
 void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
+    REQUIRE(dag >=0, "dag moet positief zijn bij vaccineren");
     int aantal_vaccins_start = this->getAantalVaccins();
     int aantal_gevaccineerden_start = aantal_gevaccineerden+aantal_vol_gevaccineerden;
     int aantal_nieuwe_gevaccineerden = 0;
@@ -248,6 +261,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
         aantal_vol_gevaccineerden +=  aantal;
         aantal_gevaccineerden -=  aantal;
         current_cap -= aantal;
+        hernieuwing_it->second[dag] -= aantal;
     }
     //gekoelde vaccins eerst
     for (std::map<std::string, VaccinType*>::const_iterator vac_it = this->types.begin(); vac_it != types.end(); vac_it++){
@@ -305,7 +319,7 @@ void Vaccinatiecentrum::vaccineren(int dag, std::ostream &out) {
            "Aantal vaccins is gestegen na vaccineren");
     ENSURE(aantal_gevaccineerden+aantal_vol_gevaccineerden >= aantal_gevaccineerden_start,
            "Aantal gevaccineerden is gezakt na vaccineren");
-
+    ENSURE(this->getAantalHernieuwing(dag)==0,"aantal geplande herniuwingen is niet volbracht na vaccineren");
 
     out << "Er werden " << this->capaciteit - current_cap <<" inwoners gevaccineerd in " <<
         this->naam_centrum << "." << std::endl;
@@ -335,11 +349,12 @@ int Vaccinatiecentrum::getAantalVaccins()const{
     for(std::map<std::string,int>::const_iterator it = vaccins.begin(); it != vaccins.end(); it++){
         aantal_vac += it->second;
     }
+    ENSURE(aantal_vac >=0, "aantal_vac moet >= 0");
     return aantal_vac;
 }
 
 void Vaccinatiecentrum::impressie(std::ostream &out) {
-    ENSURE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van impressie");
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van impressie");
     ENSURE(this->completelyInitialized(), "Vaccinatiecentrum was niet compleet geinitializeerd bij oproep van impressie");
     int vac_verhouding = 100 * this->getAantalVaccins() / (this->getCapaciteit() * 2);
     int gevac_verhouding = 100*this->getAantalGevaccineerden()/this->getAantalInwoners();
@@ -377,25 +392,39 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
 }
 
 void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van setTypes");
     types = types1;
     for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++) {
         vaccins[type_it->first] = 0;
+        ENSURE(vaccins[type_it->first]==0, "aantal van vaccintype moet geinitializeerd worden bij setTypes");
     }
+    ENSURE(types == types1,"types en types1 moeten gelijk zijn na settypes");
 }
 
 int Vaccinatiecentrum::getAantalGeres(std::string naam_type, int dag) {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van getAantalGeres");
+    REQUIRE(dag>=0, "dag moet >=0 zijn");
+    REQUIRE(types.find(naam_type) !=types.end(), "type met naam_type zit niet in types");
+
     return this->hernieuwingen[naam_type][dag];
 }
 
 void Vaccinatiecentrum::substractAantalGeres(std::string naam_type, int dag, int aantal) {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van substractAantalGeres");
+    REQUIRE(dag>=0, "dag moet >=0 zijn");
+    REQUIRE(types.find(naam_type) !=types.end(), "type met naam_type zit niet in types");
+    REQUIRE(aantal >= 0, "aantal moet >= 0 bij substractAantaGeres");
     this->hernieuwingen[naam_type][dag] -= std::min(hernieuwingen[naam_type][dag],aantal);
 }
 
 int Vaccinatiecentrum::getAantalVolGevaccineerden() {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van getAantalVolGevaccineerden");
     return aantal_vol_gevaccineerden;
 }
 
 int Vaccinatiecentrum::getAantalHernieuwing(int dag) {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van getAantalHernieuwing");
+    REQUIRE(dag>=0, "dag moet >=0 zijn");
     int ret_val = 0;
     for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++) {
         ret_val += hernieuwingen[type_it->first][dag];
@@ -404,6 +433,7 @@ int Vaccinatiecentrum::getAantalHernieuwing(int dag) {
 }
 
 int Vaccinatiecentrum::aantalOnvolledigGev() {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van aantalOnvolledigGev");
     return aantal_inwoners-aantal_vol_gevaccineerden;
 }
 

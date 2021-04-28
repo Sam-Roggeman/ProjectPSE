@@ -39,23 +39,13 @@ using namespace std;
 
 int main(int argc, char **argv) {
 
-    ofstream o;
-    o.open("test.txt");
+//    ofstream o;
+//    o.open("test.txt");
     Hub h = Hub();
     Simulation s = Simulation(&h);
-    simulationImporter::importSimulation("./testInput/t3.xml",  std::cout, s);
-//    s.impressie(std::cout);
-//    s.autoSimulationUntilDone(std::cout);
+    simulationImporter::importSimulation("./testInput/t2.xml",  std::cout, s);
     s.autoSimulationUntilDone(std::cout);
-//    s.impressie(std::cout);
-//    h.transportToCentra(0);
-//    s.impressie(std::cout);
-//    h.vaccineren();
-//    s.impressie(std::cout);
-//    s.initializeSimulation("./testInput/test.xml", std::cerr);
-//    s.autoSimulationUntilDone();
-//    s.autoSimulation(0,5);
-    o.close();
+//    o.close();
     return 0;
 }
 
