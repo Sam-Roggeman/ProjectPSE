@@ -143,4 +143,24 @@ TEST_F(HubOutputTest,Autosimulation){
                             "./testOutput/testFiles/ImpressieOutput3.txt"));
 
     o.clear();
+    Simulation s2 = Simulation(&h);
+    simulationImporter::importSimulation("./testInput/t.xml",  o, s2);
+    o.open("./testOutput/testOutput/Autosim2.txt");
+    s.autoSimulationUntilDone(o);
+    o.close();
+    EXPECT_TRUE(FileCompare("./testOutput/testOutput/Autosim2.txt",
+                            "./testOutput/testFiles/Autosim2.txt"));
+    EXPECT_FALSE(FileCompare("./testOutput/testOutput/Autosim2.txt",
+                             "./testOutput/testFiles/ImpressieOutput3.txt"));
+
+    o.clear();
+    Simulation s3 = Simulation(&h);
+    simulationImporter::importSimulation("./testInput/t3.xml",  o, s3);
+    o.open("./testOutput/testOutput/Autosim3.txt");
+    s.autoSimulationUntilDone(o);
+    o.close();
+    EXPECT_TRUE(FileCompare("./testOutput/testOutput/Autosim3.txt",
+                            "./testOutput/testFiles/Autosim3.txt"));
+    EXPECT_FALSE(FileCompare("./testOutput/testOutput/Autosim3.txt",
+                             "./testOutput/testFiles/ImpressieOutput3.txt"));
 }

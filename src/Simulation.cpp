@@ -98,7 +98,7 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
         hub->vacLeveringen(dag);
         hub->outputHub(out);
-        this->impressie(std::cout);
+//        this->impressie(std::cout);
         oss.str("");
         oss.clear();
         oss << "dag" << dag;
@@ -106,7 +106,7 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
         hub->transportToCentra2(dag,out);
-        this->graphicIntegration("./src/engine", "./graphics",oss.str());
+//        this->graphicIntegration("./src/engine", "./graphics",oss.str());
 
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit

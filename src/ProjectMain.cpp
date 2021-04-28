@@ -43,7 +43,7 @@ int main(int argc, char **argv) {
     o.open("test.txt");
     Hub h = Hub();
     Simulation s = Simulation(&h);
-    simulationImporter::importSimulation("./testInput/t2.xml",  std::cout, s);
+    simulationImporter::importSimulation("./testInput/t3.xml",  std::cout, s);
 //    s.impressie(std::cout);
 //    s.autoSimulationUntilDone(std::cout);
     s.autoSimulationUntilDone(std::cout);
