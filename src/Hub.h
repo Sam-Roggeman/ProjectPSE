@@ -30,7 +30,7 @@ public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
      *@post: this->correctlyinitialized()
-     *@post this->types.size == 0
+     *@post this->getTypes().size == 0
      *@post this->vaccinatiecentra.size == 0
      * */
     Hub();
@@ -120,7 +120,7 @@ public:
 
     /**cleart de hub
      *@pre this->correctlyInitialized()
-     * @post this->types.size == 0
+     * @post this->getTypes().size == 0
      * @post this->vaccinatiecentra.size == 0
      * */
     void clear();
@@ -130,9 +130,9 @@ public:
      * @param type het type vaccin dat toegevoegd wordt aan de hub
      * @pre type->completlyInitialized()
      * @pre type->correctlyInitialized()
-     * @pre this->types.find(type->getName()) == this->types.end()
-     * @post this->types.find(type->getName()) != this->types.end()
-     * @post this->types.size_start +1 == this->types.size
+     * @pre this->getTypes().find(type->getName()) == this->getTypes().end()
+     * @post this->getTypes().find(type->getName()) != this->getTypes().end()
+     * @post this->getTypes().size_start +1 == this->getTypes().size
      */
     void addType(VaccinType *type);
 
@@ -151,7 +151,7 @@ public:
 
 
     /**
-     * zet een kopie van de map met types in elk centrum
+     * zet een kopie van de map met getTypes() in elk centrum
      * @pre this->correctlyinitialized()
      */
     void setCentrumTypes() const;
@@ -160,9 +160,11 @@ public:
 
     int nextLevDag(int dag);
 
-    void transportToCentrafucked(int dag, std::ostream &out);
-
     int aantalOnvolledigGev() const;
+
+    const std::map<std::string, Vaccinatiecentrum *> &getVaccinatiecentra() const;
+
+    const std::map<std::string, VaccinType *> &getTypes() const;
 
     const std::map<Vaccinatiecentrum *, int> &getAantalLadingenVorigeDag() const;
 

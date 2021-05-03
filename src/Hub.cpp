@@ -16,7 +16,7 @@ Hub::Hub() {
 
     ENSURE(this->correctlyInitialized(),
            "Het hub object was niet goed geinitializeerd bij het einde van de constructor");
-    ENSURE(this->types.size() == 0, "De map types is niet correct geinitialiseerd");
+    ENSURE(this->getTypes().size() == 0, "De map types is niet correct geinitialiseerd");
     ENSURE(this->vaccinatiecentra.size() == 0, "De map types is niet correct geinitialiseerd");
 }
 
@@ -33,7 +33,7 @@ bool Hub::correctlyInitialized() const {
         }
     }
     //is elk type correct geinitializeerd
-    for (std::map<std::string, VaccinType*>::const_iterator it = types.begin(); it != types.end() ;it++) {
+    for (std::map<std::string, VaccinType*>::const_iterator it = getTypes().begin(); it != types.end() ;it++) {
         if (!it->second->correctlyInitialized()){
             return false;
         }
@@ -67,7 +67,7 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
     //map gesorteerd op grootte van het transport voor efficientie
     std::map<int,VaccinType*> transport_sorted_types;
 
-    for (std::map<std::string, VaccinType *>::iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+    for (std::map<std::string, VaccinType *>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
         //voeg alle types toe
         transport_sorted_types[type_it->second->getTransport()] = type_it->second;
     }
@@ -282,7 +282,7 @@ bool Hub::completelyInitialized() const {
             return false;
         }
     }
-    for (std::map<std::string, VaccinType*>::const_iterator it =types.begin(); it != types.end() ;it++) {
+    for (std::map<std::string, VaccinType*>::const_iterator it =getTypes().begin(); it != types.end() ;it++) {
         if (!it->second->completelyInitialized()){
             return false;
         }
@@ -295,17 +295,17 @@ void Hub::clear() {
     types.clear();
     vaccinatiecentra.clear();
     ENSURE(vaccinatiecentra.size() == 0, "vaccinatiecentra niet leeg na clear van hub");
-    ENSURE(types.size() == 0, "types niet leeg na clear van hub");
+    ENSURE(getTypes().size() == 0, "types niet leeg na clear van hub");
 }
 
 void Hub::addType(VaccinType *type) {
     REQUIRE(type->correctlyInitialized(), "Het object Vaccintype is niet correct geinitialiseerd");
     REQUIRE(type->completelyInitialized(), "Het object Vaccintype is niet juist geinitialiseerd");
-    REQUIRE(this->types.find(type->getName()) == this->types.end(), "Er bestaat al een vaccintype met dezelfde naam");
+    REQUIRE(this->getTypes().find(type->getName()) == this->getTypes().end(), "Er bestaat al een vaccintype met dezelfde naam");
     unsigned int startsize = types.size();
     types[type->getName()]=type;
-    ENSURE(this->types.find(type->getName()) != this->types.end(), "Het Vaccintype is niet juist toegevoegd aan de types map");
-    ENSURE(this->types.size() == startsize + 1, "Er is geen Vaccintype toegevoegd aan de map types na addType");
+    ENSURE(this->getTypes().find(type->getName()) != this->getTypes().end(), "Het Vaccintype is niet juist toegevoegd aan de types map");
+    ENSURE(this->getTypes().size() == startsize + 1, "Er is geen Vaccintype toegevoegd aan de map types na addType");
 }
 
 int Hub::getAantalVac() const {
@@ -327,7 +327,7 @@ void Hub::impressie(std::ostream &out) {
 
 void Hub::setCentrumTypes() const  {
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
-        it->second->setTypes(this->types);
+        it->second->setTypes(this->getTypes());
     }
 }
 
@@ -364,5 +364,12 @@ void Hub::transportToCentra2(int dag) {
     transportToCentra2(dag,std::cout);
 }
 
+const std::map<std::string, Vaccinatiecentrum *> &Hub::getVaccinatiecentra() const {
+    return vaccinatiecentra;
+}
+
+const std::map<std::string, VaccinType *> &Hub::getTypes() const {
+    return types;
+}
 
 

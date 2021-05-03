@@ -21,16 +21,6 @@ using namespace std;
 
 /*
  * todo sam
- *  contracten:
- *          done:
- *              Hub
- *              Simulation
- *              Importer
- *              Type
- *          notdone:
- *              Centrum
- *  3d-omgeving
- *
  */
 
 //todo said:
