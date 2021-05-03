@@ -21,13 +21,13 @@ Vaccinatiecentrum::Vaccinatiecentrum() {
     ENSURE(correctlyInitialized(),
            "constructor must end in correctlyInitialized state");
     ENSURE(this->aantal_gevaccineerden == 0, "Aantal gevaccineerden was niet nul bij het einde van de constructor");
-    ENSURE(this->aantal_inwoners == 0, "Aantal inwoners was niet nul bij het einde van de constructor");
-    ENSURE(this->capaciteit == 0, "Capaciteit was niet nul bij het einde van de constructor");
+    ENSURE(this->getAantalInwoners() == 0, "Aantal inwoners was niet nul bij het einde van de constructor");
+    ENSURE(this->getCapaciteit() == 0, "Capaciteit was niet nul bij het einde van de constructor");
     ENSURE(this->aantal_vol_gevaccineerden == 0, "aantal_vol_gevaccineerden was niet nul bij het einde van de constructor");
     ENSURE(this->hernieuwingen.empty(), "hernieuwingen waren niet leeg bij het einde van de constructor");
     
-    ENSURE(naam_centrum.size() == 0, "naam van centrum was niet leeg bij het einde van de constructor");
-    ENSURE(adres_centrum.size() == 0, "adres van centrum was niet leeg bij het einde van de constructor");
+    ENSURE(getNaamCentrum().size() == 0, "naam van centrum was niet leeg bij het einde van de constructor");
+    ENSURE(getAdresCentrum().size() == 0, "adres van centrum was niet leeg bij het einde van de constructor");
 }
 
 
@@ -81,7 +81,7 @@ void Vaccinatiecentrum::setAantalInwoners(int aantal) {
             "Vaccinatiecentrum wasn't initialized when calling setAantalInwoners");
     REQUIRE(aantal >= 0, "Aantal inwoners moet >= 0");
     aantal_inwoners = aantal;
-    ENSURE(    aantal_inwoners == aantal, "Aantal inwoners is niet correct gewijzigd na setAantalInwoners");
+    ENSURE(    getAantalInwoners() == aantal, "Aantal inwoners is niet correct gewijzigd na setAantalInwoners");
 }
 
 /**returnt het aantal inwoners dat bij het centrum hoort
@@ -128,7 +128,7 @@ void Vaccinatiecentrum::setCapaciteit(int aantal) {
             "Vaccinatiecentrum wasn't initialized when calling setCapaciteit");
     REQUIRE(aantal >=0,"capaciteit moet >= 0 zijn");
     Vaccinatiecentrum::capaciteit = aantal;
-    ENSURE(this->capaciteit == aantal,
+    ENSURE(this->getCapaciteit() == aantal,
            "aantal vaccins is niet juist aangepast bij setAantalVaccins in centrum");
 }
 
@@ -216,13 +216,13 @@ void Vaccinatiecentrum::addGevaccineerden(int aantal_gevaccineerden1) {
 }
 
 /**returnt het aantal ongevaccineerden
- * @returnt aantal_inwoners - aantal_gevaccineerden
+ * @returnt getAantalInwoners() - aantal_gevaccineerden
  * @pre this.correctlyInitialized()
  * */
 int Vaccinatiecentrum::aantalOngevaccineerden() const {
     REQUIRE(this->correctlyInitialized(),
             "Vaccinatiecentrum wasn't initialized when calling aantalOngevaccineerden");
-    int out = aantal_inwoners-aantal_gevaccineerden-aantal_vol_gevaccineerden;
+    int out = getAantalInwoners()-aantal_gevaccineerden-aantal_vol_gevaccineerden;
     ENSURE(out >= 0, "aantal ongevaccineerden moet >= 0 zijn");
     return out;
 }
@@ -434,7 +434,19 @@ int Vaccinatiecentrum::getAantalHernieuwing(int dag) {
 
 int Vaccinatiecentrum::aantalOnvolledigGev() {
     REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van aantalOnvolledigGev");
-    return aantal_inwoners-aantal_vol_gevaccineerden;
+    return getAantalInwoners()-aantal_vol_gevaccineerden;
+}
+
+const std::map<std::string, int> &Vaccinatiecentrum::getVaccins() const {
+    return vaccins;
+}
+
+const std::map<std::string, VaccinType *> &Vaccinatiecentrum::getTypes() const {
+    return types;
+}
+
+const std::map<std::string, std::map<int, int > > &Vaccinatiecentrum::getHernieuwingen() const {
+    return hernieuwingen;
 }
 
 

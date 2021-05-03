@@ -22,24 +22,24 @@ public:
 
     /**
      * berekend het aantal niet gereserveerde vaccins in de hub
-     * @return aantal vaccins-gereserveerd
+     * @return this->getAantalVaccins-getGereserveerd()
      * @pre correctlyinitialized
      */
     int aantalNietGer();
 
     /**
      * vraagt het aantal gereserveerde vaccins op
-     * @return gereserveerd
+     * @return gereserveerd aantal vaccins
      * @pre correctlyinitialized
      */
     int getGereserveerd() const;
 
     /**
-     * zet this->gereserveerd op int gereserveerd
+     * veranderd het aantal gereserveerde vaccins naar gereserveerd
      * @param gereserveerd aantal dat gereserveerd is voor hernieuwing
      * @pre correctlyinitialized
      * @pre gereserveerd >= 0
-     * @post gereserveerd == this->gereserveerd
+     * @post gereserveerd == this->getGereserveerd()
      */
     void setGereserveerd(int gereserveerd);
 
@@ -54,7 +54,7 @@ public:
      * zet het vernieuwingsinterval op h
      * @param h de nieuwe hernieuwing
      * @pre correctlyinitialized
-     * @post this->hernieuwing == h
+     * @post this->getHernieuwing() == h
      */
     void sethernieuwing(const int h);
 
@@ -69,7 +69,7 @@ public:
      * zet de bewaringtemperatuur op t
      * @param t de nieuwe bewaringstemperatuur
      * @pre correctlyinitialized
-     * @post this->temperatuur == t
+     * @post this->getTemperatuur() == t
      */
     void settemperatuur(const int t);
 
@@ -82,14 +82,14 @@ public:
 
     /**
      * veranderd de naam van het type naar name
-     * @param name de nieuwe naam van het type
+     * @param name1 de nieuwe naam van het type
      * @pre correctlyinitialized
-     * @pre name.size() > 0
-     * @post name == name1
+     * @pre getName().size() > 0
+     * @post getName() == name1
      */
-    void setName(const std::string &name);
+    void setName(const std::string &name1);
 
-    /**Vraagt de grote van eenlevering op
+    /**Vraagt de grote van een levering op
      * @return de grote van een levering
      * @pre this->correctlyInitialized()
      * */
@@ -97,9 +97,9 @@ public:
 
     /**Veranderd het aantal vaccins dat geleverd wordt op leveringsdag
      * @param int: het aantal vaccins dat aan de
-     * @pre levering >= 0
+     * @pre getLevering() >= 0
      * @pre this->correctlyInitialized()
-     * @post this->levering == levering1
+     * @post this->getLevering() == levering1
     * */
     void setLevering(int levering);
 
@@ -113,8 +113,9 @@ public:
      * @param transport1 het aantal vaccins dat in het transport past
      * @pre transport1 >= 0
      * @pre this->correctlyinitialized()
+     * @post this->getTransport() == transport1
      * */
-    void setTransport(int transport);
+    void setTransport(int transport1);
 
     /**Geeft het aantal dagen tussen twee leveringen
      * @returns het interval
@@ -126,6 +127,7 @@ public:
      * @param het interval tussen twee leveringen
      * @pre interval1 >= 0
      * @pre this->correctlyinitialized()
+     * @post this->getInterval == interval1
      * */
     void setInterval(int interval);
 
@@ -133,14 +135,15 @@ public:
      * @param aantal_vaccins1 het nieuwe aantal vaccins in de hub
      * @pre aantal_vaccins1 >= 0
      * @pre this->correctlyinitialized()
+     * @post this->getAantalVaccins() == aantal_vaccins1
      * */
     void setAantalVaccins(const int aantal_vaccins1);
 
     /**
      * initializeerd een vaccintype
-     * @post levering == transport == interval == aantal_vaccins == hernieuwing == gereserveerd == 0
-     * @post temperatuur == 27
-     * @post name == ""
+     * @post getLevering() == getTransport() == getInterval() == getAantalVaccins() == getHernieuwing() == getGereserveerd() == 0
+     * @post getTemperatuur() == 27
+     * @post getName() == ""
      * @post correctlyInitialized
      */
     VaccinType();
@@ -155,8 +158,8 @@ public:
      * @param vaccins: het aantal vaccins dat afgetrokken moet worden
      * @pre vaccins >=0
      * @pre this->correctlyInitialized()
-     * @post aantal_vaccins -= vaccins
-     * @post aantal_vaccins >= 0
+     * @post getAantalVaccins() -= vaccins
+     * @post getAantalVaccins() >= 0
      * */
     void substractVaccins(const int vaccins);
 
@@ -169,7 +172,7 @@ public:
     /**
     * er wordt een lading vaccins van type aan de hub geleverd
     * @pre this->correctlyInitialized()
-    * @post aantal_vaccins == aantal_vaccins_start + levering
+    * @post getAantalVaccins() == getAantalVaccins()_start + levering
     * */
     void leveringVanTypeToHub();
 
@@ -194,7 +197,7 @@ public:
      * @pre this->correctlyInitialized()
      * @pre dag >= 0
      * @param dag de huidige dag
-     * @return (interval+1)-(dag % (interval+1)) oftewel het aantal dagen tot de volgende levering
+     * @return (getInterval()+1)-(dag % (getInterval()+1)) oftewel het aantal dagen tot de volgende levering
      */
     int nextLeveringsDag(const int dag) const;
 
@@ -202,7 +205,7 @@ public:
      * @param aantal: het aantal vaccins dat gereserveerd moet worden
      * @pre aantal >= 0
      * @pre this->correctlyInitialized()
-     * @post gereserveerd += aantal
+     * @post getGereserveerd() += aantal
      * */
     void addGereserveerd(int aantal);
 
@@ -210,8 +213,8 @@ public:
      * @param aantal: het aantal gereserveerde vaccins dat afgetrokken moet worden
      * @pre aantal >=0
      * @pre this->correctlyInitialized()
-     * @post gereserveerd -= vaccins
-     * @post gereserveerd >= 0
+     * @post getGereserveerd() -= vaccins
+     * @post getGereserveerd() >= 0
      * */
     void subGereserveerd(int aantal);
 };

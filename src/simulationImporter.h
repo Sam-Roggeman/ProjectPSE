@@ -16,9 +16,9 @@ public:
      * @return Een 0 als er niks verkeerd is gegaan en een 1 als er iets fouts is gegaan
      * @pre root != NULL
      * @post hub->completelyInitialized()
-     * @post hubcounter < 2
-     * @post vaccinatiecentracounter > 0
-     * @post hubcounter > 0
+     * @post aantal hubs < 2
+     * @post aantal vaccinatiecentra > 0
+     * @post aantal hubs > 0
      */
     static int importSimulation(const char *filename, std::ostream &errstream, Simulation &sim);
 };

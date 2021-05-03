@@ -17,7 +17,7 @@ Hub::Hub() {
     ENSURE(this->correctlyInitialized(),
            "Het hub object was niet goed geinitializeerd bij het einde van de constructor");
     ENSURE(this->getTypes().size() == 0, "De map types is niet correct geinitialiseerd");
-    ENSURE(this->vaccinatiecentra.size() == 0, "De map types is niet correct geinitialiseerd");
+    ENSURE(this->getVaccinatiecentra().size() == 0, "De map types is niet correct geinitialiseerd");
 }
 
 bool Hub::correctlyInitialized() const {
@@ -217,7 +217,7 @@ void Hub::vaccineren(int dag) {
 
 void Hub::vaccineren(int dag, std::ostream &out) {
     REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van vaccineren");
-    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end() ;it++) {
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = getVaccinatiecentra().begin(); it != getVaccinatiecentra().end() ;it++) {
         Vaccinatiecentrum* centrum = it->second;
         int aantal_vaccins_start = centrum->getAantalVaccins();
         int gevaccineerden = centrum->getAantalGevaccineerden()+centrum->getAantalVolGevaccineerden();
@@ -232,16 +232,16 @@ void Hub::addcentrum(Vaccinatiecentrum * const vaccinatiecentrum) {
     REQUIRE(this->correctlyInitialized(),"Het hub object was niet geinitializeerd oproeping van addcentrum");
     REQUIRE(vaccinatiecentrum->correctlyInitialized(),
             "Het vaccinatiecentrum object was niet geinitializeerd oproeping van addcentrum");
-    REQUIRE(vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end(),
+    REQUIRE(getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) == getVaccinatiecentra().end(),
             "Naam van centrum komt al voor in de lijst van centra bij oproep van addcentrum");
     unsigned int s1 = this->vaccinatiecentra.size();
     vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
     this->aantal_ladingen_vorige_dag[vaccinatiecentrum] = 0;
     ENSURE(this->aantal_ladingen_vorige_dag[vaccinatiecentrum] == 0,
            "aantal ladingen van de vorige dag van het centrum moet 0 zijn na addcentrum");
-    ENSURE(vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end(),
+    ENSURE(getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != getVaccinatiecentra().end(),
 "Naam van centrum komt niet voor in centra op het einde van addcentrum");
-    ENSURE(s1+1 == this->vaccinatiecentra.size(),"lijst met vaccinatiecentra is niet verhoogd");
+    ENSURE(s1+1 == this->getVaccinatiecentra().size(),"lijst met vaccinatiecentra is niet verhoogd");
 }
 
 bool Hub::notDone()const{
@@ -294,7 +294,7 @@ void Hub::clear() {
     REQUIRE(this->correctlyInitialized(),"Hub was niet geinitializeerd bij oproep van clear");
     types.clear();
     vaccinatiecentra.clear();
-    ENSURE(vaccinatiecentra.size() == 0, "vaccinatiecentra niet leeg na clear van hub");
+    ENSURE(getVaccinatiecentra().size() == 0, "vaccinatiecentra niet leeg na clear van hub");
     ENSURE(getTypes().size() == 0, "types niet leeg na clear van hub");
 }
 

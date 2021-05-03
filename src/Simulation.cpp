@@ -38,7 +38,7 @@ void Simulation::setHub(Hub *h) {
 
 void Simulation::outputSimulation(std::ostream &out) {
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep outputSimulation");
-    REQUIRE(hub->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep outputSimulation");
+    REQUIRE(getHub()->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep outputSimulation");
     hub->outputHub(out);
 }
 
@@ -47,7 +47,7 @@ void Simulation::outputSimulation() {
 }
 
 void Simulation::autoSimulation(int start, int eind) {
-    REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
+    REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
     autoSimulation(start, eind, std::cout);
 }
@@ -56,8 +56,8 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(start>=0, "startdag <0");
     REQUIRE(eind >start, "einddag <=startdag");
-    REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
-    REQUIRE(hub->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulation");
+    REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
+    REQUIRE(getHub()->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulation");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
     dag = start;
 //    1.  WHILE huidige dag<eind dag
@@ -77,7 +77,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
         nextDay();
         out << std::endl;
     }
-    ENSURE(dag == eind, "de autosimulation eindigde niet op de einddag");
+    ENSURE(getDag() == eind, "de autosimulation eindigde niet op de einddag");
 }
 
 void Simulation::autoSimulationUntilDone() {
@@ -87,8 +87,8 @@ void Simulation::autoSimulationUntilDone() {
 
 void Simulation::autoSimulationUntilDone(std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
-    REQUIRE(hub->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autoSimulationUntilDone");
-    REQUIRE(hub->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulationUntilDone");
+    REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autoSimulationUntilDone");
+    REQUIRE(getHub()->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulationUntilDone");
     REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
     std::ostringstream oss;
@@ -130,12 +130,12 @@ void Simulation::nextDay(){
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep nextDay");
     int startdag = dag;
     dag += 1;
-    ENSURE(dag == startdag+1, "dag was niet verghoogt met 1 na oproep van nextDay()");
+    ENSURE(getDag() == startdag+1, "dag was niet verghoogt met 1 na oproep van nextDay()");
 }
 
 int Simulation::getDag() const {
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep getDag");
-    REQUIRE(dag >= 0, "De dag mag niet negatief zijn");
+    ENSURE(dag >= 0, "De dag mag niet negatief zijn");
     return dag;
 }
 

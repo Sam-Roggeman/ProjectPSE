@@ -49,14 +49,14 @@ public:
 
     /**Een functie die alles in de hub en het vaccinatiecentrum output door cout
      * @pre this->correctlyInitialized()
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      */
     void outputSimulation();
 
     /**Een functie die alles in de hub en de vaccinatiecentra output naar een gegeven ostream
      * @param out: De ostream waar de gegeven output naartoe gaat
      * @pre this->correctlyInitialized()
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      */
     void outputSimulation(std::ostream &out);
 
@@ -65,7 +65,7 @@ public:
      * @param start: De gegeven startdag
      * @param eind: De gegeven einddag
      * @param out: De ostream waar de output naartoe gaat
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      * @pre this->correctlyInitialized()
      * @pre 0 <= start < eind
      * @post this->dag == eind
@@ -76,7 +76,7 @@ public:
      * een gegeven einddag en de output hiervan wordt gegeven door cout
      * @param start: De gegeven startdag
      * @param eind: De gegeven einddag
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      * @pre 0 <= start < eind
      * @pre this->correctlyInitialized()
      * @post this->dag == eind
@@ -85,9 +85,9 @@ public:
 
     /**Dit is een automatische simulatie van de transport van vaccins tot
      * elke persoon in elk vaccinatiecentrum gevaccineerd is en deze output met cout
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      * @pre this->correctlyInitialized()
-     * @pre hub->completelyInitialized()
+     * @pre this->getHub()->completelyInitialized()
      * @post this->getHub()->getAantalOngevaccineerden() == 0
      */
     void autoSimulationUntilDone();
@@ -95,8 +95,8 @@ public:
     /**Dit is een automatische simulatie van de transport van vaccins tot elke
      * persoon in elk vaccinatiecentrum gevaccineerd is en de waar de output bepaald wordt door ostream
      * @param out: De ostream die bepaalt wat de locatie van de output wordt
-     * @pre hub->correctlyInitialized()
-     * @pre hub->completelyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
+     * @pre this->getHub()->completelyInitialized()
      * @pre this->correctlyInitialized()
      * @post this->getHub()->getAantalOngevaccineerden() == 0
      */
@@ -105,13 +105,13 @@ public:
     /**Geeft de hub van de simulatie terug
      * @return De hub die de simulatie bevat
      * @pre this->correctlyInitialized()
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      */
     Hub * getHub() const;
 
     /**Zet de gegeven hub in als de hub van de simulatie
      * @param h: De hub die in de simulatie wordt gezet
-     * @pre hub->correctlyInitialized()
+     * @pre this->getHub()->correctlyInitialized()
      * @pre this->correctlyInitialized()
      */
     void setHub(Hub *h);
@@ -122,9 +122,9 @@ public:
      * @pre v->correctlyInitialized()
      * @pre v->completelyInitialized()
      * @pre this->correctlyInitialized()
-     * @pre hub->vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end()
-     * @post hub->vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
-     * @post hub->vaccinatiecentra.size() += 1
+     * @pre this->getHub()->getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end()
+     * @post this->getHub()->getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
+     * @post this->getHub()->getVaccinatiecentra().size() += 1
      */
     void addcentrum(Vaccinatiecentrum *v);
 
@@ -146,8 +146,8 @@ public:
     /**Maakt een grafische impressie van de huidige staat van de simulatie
      * @param out de ostream waarnaar de impressie wordt uitgeput
      * @pre this->correctlyinitialized()
-     * @pre hub->correctlyinitialized()
-     * @pre hub->completlyInitialized()
+     * @pre this->getHub()->correctlyinitialized()
+     * @pre this->getHub()->completlyInitialized()
      * */
     void impressie(std::ostream &out);
 

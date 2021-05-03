@@ -78,15 +78,15 @@ VaccinType::VaccinType() {
     this->temperatuur = 27;
     this->gereserveerd = 0;
 
-    ENSURE(this->name == "", "De naam is verkeerd geinitialiseerd");
-    ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
-    ENSURE(this->interval == 0, "Het interval is verkeerd geinitialiseerd");
-    ENSURE(this->transport == 0, "De transport is verkeerd geinitialiseerd");
-    ENSURE(this->levering == 0, "De levering is verkeerd geinitialiseerd");
-    ENSURE(this->gereserveerd == 0, "De levering is verkeerd geinitialiseerd");
-    ENSURE(this->aantal_vaccins == 0, "Het aantal_vaccins is verkeerd geinitialiseerd");
-    ENSURE(this->hernieuwing == 0, "De hernieuwing is verkeerd geinitialiseerd");
-    ENSURE(this->temperatuur == 27, "De temperatuur is verkeerd geinitialiseerd");
+    ENSURE(this->getName() == "", "De naam is verkeerd geinitialiseerd");
+    ENSURE(this->getLevering() == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->getInterval() == 0, "Het interval is verkeerd geinitialiseerd");
+    ENSURE(this->getTransport() == 0, "De transport is verkeerd geinitialiseerd");
+    ENSURE(this->getLevering() == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->getGereserveerd() == 0, "De levering is verkeerd geinitialiseerd");
+    ENSURE(this->getAantalVaccins() == 0, "Het aantal_vaccins is verkeerd geinitialiseerd");
+    ENSURE(this->gethernieuwing()== 0, "De hernieuwing is verkeerd geinitialiseerd");
+    ENSURE(this->gettemperatuur() == 27, "De temperatuur is verkeerd geinitialiseerd");
     ENSURE(this->correctlyInitialized(), "Het object Vaccintype is verkeerd geinitialiseerd");
 }
 

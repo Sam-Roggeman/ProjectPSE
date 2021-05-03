@@ -30,16 +30,21 @@ class Vaccinatiecentrum {
     int aantal_vol_gevaccineerden;
     std::map<std::string,std::map<int,int> > hernieuwingen;
 public:
+    const std::map<std::string, int> &getVaccins() const;
+
+    const std::map<std::string, VaccinType *> &getTypes() const;
+
+    const std::map<std::string, std::map<int, int> > &getHernieuwingen() const;
 
 
     /**maakt een vaccinatiecentrum object aan
      * @return vaccinatiecentrum
      * @post this->correctlyInitialized()
-     * @post aantal_gevaccineerden == 0
+     * @post getAantalGevaccineerden() == 0
      * @post capaciteit == 0
      * @post aantal_inwoners == 0
-     * @post aantal_vol_gevaccineerden ==0 
-     * @post hernieuwingen.empty
+     * @post getAantalVolGevaccineerden() ==0
+     * @post getHernieuwingen().empty
      * @post naam_centrum is leeg
      * @post adres centrum is leeg
      * */
@@ -106,7 +111,7 @@ public:
      * @param het nieuwe aantal vaccins
      * @pre this.correctlyInitialized()
      * @pre aantal >= 0
-     * @post this->vaccins[naam_type] == aantal
+     * @post this->getVaccins()[naam_type] == aantal
      */
     void setAantalVaccins(std::string naam_type, int aantal);
 
@@ -143,7 +148,7 @@ public:
      * @param naam_type de naam van het type dat geleverd wordt
      * @pre this.correctlyInitialized()
      * @pre aantal >= 0
-     * @post vaccins[naam_type] += aantal
+     * @post getVaccins()[naam_type] += aantal
      * */
     void addVaccins(int aantal, std::string naam_type);
 
@@ -152,8 +157,8 @@ public:
      * @param aantal: het aantal vaccins dat gebruikt werd
      * @pre this.correctlyInitialized()
      * @pre aantal >= 0
-     * @post vaccins[naam_type] -= aantal
-     * @post vaccins[naam_type] >= 0
+     * @post getVaccins()[naam_type] -= aantal
+     * @post getVaccins()[naam_type] >= 0
      * */
     void substractVaccins(int aantal, std::string naam_type);
 
@@ -162,12 +167,12 @@ public:
      * @param aantal_gevaccineerden: het aantal mensen dat gevaccineerd werd
      * @pre this.correctlyInitialized()
      * @pre aantal_gevaccineerden >= 0
-     * @post gevaccineerden += aantal_gevaccineerden
+     * @post getAantalGevaccineerden() += aantal_gevaccineerden
      * */
     void addGevaccineerden(int aantal_gevaccineerden);
 
     /**returnt het aantal ongevaccineerden
-     * @returnt : aantal_inwoners - aantal_gevaccineerden
+     * @returnt : aantal_inwoners - getAantalGevaccineerden()
      * @pre this.correctlyInitialized()
      * @post aantalOngevaccineerden >= 0
      * */
@@ -185,7 +190,7 @@ public:
      * @pre this.correctlyInitialized()
      * @pre dag >= 0
      * @post aantal_vaccins voor elk type <= aantal_vaccins_start voor elk type
-     * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
+     * @post getAantalGevaccineerden() <= getAantalGevaccineerden()_start
      * @post hernieuwingen gepland voor vandaag == 0
      * */
     void vaccineren(int dag);
@@ -196,7 +201,7 @@ public:
      * @pre this.correctlyInitialized()
      * @pre dag >= 0
      * @post aantal_vaccins voor elk type <= aantal_vaccins_start voor elk type
-     * @post aantal_gevaccineerden <= aantal_gevaccineerden_start
+     * @post getAantalGevaccineerden() <= getAantalGevaccineerden()_start
      * @post aantal gekoelde vaccins == 0
      * */
     void vaccineren(int dag, std::ostream &out);
@@ -226,8 +231,8 @@ public:
     /**
      * zet de map met types die in de in het centrum
      * @pre this->correctlyinitialized
-     * @post types == map
-     * @post vaccins[type.getname] == 0;
+     * @post getTypes() == map
+     * @post getVaccins()[type.getname] == 0;
      */
     void setTypes(std::map<std::string, VaccinType*> map);
 
@@ -237,7 +242,7 @@ public:
      * @param naam_type de naam van het vaccintype
      * @param dag de huidige dag
      * @pre this->correctlyinitialized
-     * @pre types.find(naam_type) != types.end()
+     * @pre getTypes().find(naam_type) != types.end()
      * @pre dag >= 0
      */
     int getAantalGeres(std::string naam_type, int dag);
@@ -264,7 +269,7 @@ public:
      * @param naam_type de naam van het vaccintype
      * @param dag de huidige dag
      * @pre this->correctlyinitialized
-     * @pre types.find(naam_type) != types.end()
+     * @pre getTypes().find(naam_type) != getTypes().end()
      * @pre dag >= 0
      * @pre aantal >= 0
      */

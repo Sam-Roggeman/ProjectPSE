@@ -31,7 +31,7 @@ public:
      *@returns hub object
      *@post: this->correctlyinitialized()
      *@post this->getTypes().size == 0
-     *@post this->vaccinatiecentra.size == 0
+     *@post this->getVaccinatiecentra().size == 0
      * */
     Hub();
 
@@ -45,9 +45,9 @@ public:
      * @param const vaccinatiecentrum: het toe te voegen vaccinatiecentrum
      * @pre this->correctlyinitialized()
      * @pre vaccinatiecentrum->correctlyinitialized()
-     * @pre vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) == vaccinatiecentra.end()
-     * @post vaccinatiecentra.find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
-     * @post this->vaccinatiecentra.size() += 1
+     * @pre getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) == getVaccinatiecentra().end()
+     * @post getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != getVaccinatiecentra().end()
+     * @post this->getVaccinatiecentra().size() += 1
      * @post aantal_ladingen_vorige_dag[vaccinatiecentrum] == 0
      * */
     void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
@@ -121,7 +121,7 @@ public:
     /**cleart de hub
      *@pre this->correctlyInitialized()
      * @post this->getTypes().size == 0
-     * @post this->vaccinatiecentra.size == 0
+     * @post this->getVaccinatiecentra().size == 0
      * */
     void clear();
 
