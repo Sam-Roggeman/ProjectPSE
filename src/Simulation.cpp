@@ -61,16 +61,20 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
     dag = start;
 //    1.  WHILE huidige dag<eind dag
+    std::ostringstream oss;
     while (dag < eind) {
         out << "DAG " << dag << ":" << std::endl;
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
         hub->vacLeveringen(dag);
         hub->outputHub(out);
-
+        oss.str("");
+        oss.clear();
+        oss << "dag" << dag;
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra2(dag,out);
+        hub->transportToCentra2(dag,std::cout);
+        this->graphicIntegration("./src/engine","./graphics1",oss.str());
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
         hub->vaccineren(dag,out);
@@ -106,7 +110,7 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
         hub->transportToCentra2(dag,out);
-//        this->graphicIntegration("./src/engine", "./graphics",oss.str());
+//        this->graphicIntegration("./src/engine","./graphics",oss.str());
 
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
@@ -232,5 +236,18 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
     }
     o.close();
     system((path_to_engine + " " + path_to_safe_dir+"/"+name+".ini").c_str());
+}
+
+void Simulation::addHub(Hub *hub1) {
+    this->getHubs().push_back(hub1);
+}
+
+std::vector<Hub *> Simulation::getHubs() {
+    return hubs;
+}
+
+Simulation::Simulation() {
+    dag = 0;
+    _initcheck = this;
 }
 

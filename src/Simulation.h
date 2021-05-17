@@ -19,6 +19,7 @@
 
 class Simulation {
     Simulation* _initcheck;
+    std::vector<Hub*> hubs;
     Hub* hub;
     int dag;
 public:
@@ -152,6 +153,12 @@ public:
     void impressie(std::ostream &out);
 
     void graphicIntegration(std::string path_to_engine, std::string path_to_safe,std::string name);
+
+    std::vector<Hub*> getHubs();
+
+    void addHub(Hub* hub1);
+
+    Simulation();
 };
 
 
