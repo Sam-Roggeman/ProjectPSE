@@ -236,6 +236,8 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
     }
     o.close();
     system((path_to_engine + " " + path_to_safe_dir+"/"+name+".ini").c_str());
+    std::string command = "ffmpeg   -framerate 60   -pattern_type glob   -i '*.png'   -r 15   -vf scale=512:-1   out.gif ffmpeg   -framerate 60   -pattern_type glob   -i '*.bmp'   -r 15   -vf scale=512:-1   out.gif";
+    system(command.c_str());
 }
 
 void Simulation::addHub(Hub *hub1) {
