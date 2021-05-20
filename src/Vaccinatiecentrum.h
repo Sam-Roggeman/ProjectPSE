@@ -40,7 +40,7 @@ public:
     /**maakt een vaccinatiecentrum object aan
      * @return vaccinatiecentrum
      * @post this->correctlyInitialized()
-     * @post getAantalGevaccineerden() == 0
+     * @post getAantalEnkelGevaccineerden() == 0
      * @post capaciteit == 0
      * @post aantal_inwoners == 0
      * @post getAantalVolGevaccineerden() ==0
@@ -167,12 +167,12 @@ public:
      * @param aantal_gevaccineerden: het aantal mensen dat gevaccineerd werd
      * @pre this.correctlyInitialized()
      * @pre aantal_gevaccineerden >= 0
-     * @post getAantalGevaccineerden() += aantal_gevaccineerden
+     * @post getAantalEnkelGevaccineerden() += aantal_gevaccineerden
      * */
     void addGevaccineerden(int aantal_gevaccineerden);
 
     /**returnt het aantal ongevaccineerden
-     * @returnt : aantal_inwoners - getAantalGevaccineerden()
+     * @returnt : aantal_inwoners - getAantalEnkelGevaccineerden()
      * @pre this.correctlyInitialized()
      * @post aantalOngevaccineerden >= 0
      * */
@@ -190,7 +190,7 @@ public:
      * @pre this.correctlyInitialized()
      * @pre dag >= 0
      * @post aantal_vaccins voor elk type <= aantal_vaccins_start voor elk type
-     * @post getAantalGevaccineerden() <= getAantalGevaccineerden()_start
+     * @post getAantalGevaccineerden() <= getAantalEnkelGevaccineerden()_start
      * @post hernieuwingen gepland voor vandaag == 0
      * */
     void vaccineren(int dag);
@@ -201,7 +201,7 @@ public:
      * @pre this.correctlyInitialized()
      * @pre dag >= 0
      * @post aantal_vaccins voor elk type <= aantal_vaccins_start voor elk type
-     * @post getAantalGevaccineerden() <= getAantalGevaccineerden()_start
+     * @post getAantalGevaccineerden() <= getAantalEnkelGevaccineerden()_start
      * @post aantal gekoelde vaccins == 0
      * */
     void vaccineren(int dag, std::ostream &out);
@@ -231,7 +231,6 @@ public:
     /**
      * zet de map met types die in de in het centrum
      * @pre this->correctlyinitialized
-     * @post getTypes() == map
      * @post getVaccins()[type.getname] == 0;
      */
     void setTypes(std::map<std::string, VaccinType*> map);
@@ -242,7 +241,6 @@ public:
      * @param naam_type de naam van het vaccintype
      * @param dag de huidige dag
      * @pre this->correctlyinitialized
-     * @pre getTypes().find(naam_type) != types.end()
      * @pre dag >= 0
      */
     int getAantalGeres(std::string naam_type, int dag);

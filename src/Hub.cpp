@@ -8,7 +8,7 @@
 
 #include "Hub.h"
 
-Hub::Hub() {
+Hub::Hub(int ID):_hub_ID(ID) {
 
     _initCheck = this;
     types.clear();
@@ -133,6 +133,8 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
                 centrum->addVaccins(lading_type_centrum, type->getName());
                 //aftrekken van hub
                 type->substractVaccins((lading_type_centrum));
+                //toevoegen aan statistische gegevens
+                gegevens.add_vaccin_per_type(type->getName(),lading_type_centrum);
             }
             //als er nog mensen zijn zonder eerste prik
             if (centrum->aantalOngevaccineerden() > 0) {
@@ -191,6 +193,8 @@ void Hub::transportToCentra2(int dag, std::ostream &out){
                         aantal_gekoeld += lading_type_centrum;
                     }
                     type->substractVaccins((lading_type_centrum));
+                    //toevoegen aan statistische gegevens
+                    gegevens.add_vaccin_per_type(type->getName(),lading_type_centrum);
                 }
             }
             out << "Er werden " << aantal_ladingen << " ladingen (" << totale_lading
@@ -360,8 +364,8 @@ int Hub::getAantalGer() {
     return ger;
 }
 
-void Hub::transportToCentra2(int dag) {
-    transportToCentra2(dag,std::cout);
+void Hub::transportToCentra2(int dag, Gegevens &gegevens) {
+    transportToCentra2(dag, gegevens);
 }
 
 const std::map<std::string, Vaccinatiecentrum *> &Hub::getVaccinatiecentra() const {
@@ -372,4 +376,22 @@ const std::map<std::string, VaccinType *> &Hub::getTypes() const {
     return types;
 }
 
+int Hub::getID() {
+    return this->_hub_ID;
+}
 
+int Hub::getAantalEnkelGevaccineerden(){
+    int gevac = 0;
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++) {
+        gevac += it->second->getAantalGevaccineerden();
+    }
+    return gevac;
+}
+
+int Hub::getAantalVolGevaccineerden(){
+    int aantal = 0;
+    for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
+        aantal += it->second->getAantalVolGevaccineerden();
+    }
+    return aantal;
+}

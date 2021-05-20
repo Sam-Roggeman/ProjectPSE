@@ -13,6 +13,7 @@
 #include <map>
 #include "DesignByContract.h"
 #include "VaccinType.h"
+#include "Gegevens.h"
 #include <string>
 #include <limits>
 #include <map>
@@ -26,6 +27,7 @@ private:
     std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
     std::map<std::string, VaccinType*> types;
     std::map<Vaccinatiecentrum*,int> aantal_ladingen_vorige_dag;
+    const int _hub_ID;
 public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
@@ -33,7 +35,7 @@ public:
      *@post this->getTypes().size == 0
      *@post this->getVaccinatiecentra().size == 0
      * */
-    Hub();
+    Hub(int ID);
 
     /**
      * berekend het totaal aantal gereserveerden
@@ -74,7 +76,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start voor elk type
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra2(int dag);
+    void transportToCentra2(int dag, Gegevens &gegevens);
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
@@ -83,7 +85,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start voor elk type
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra2(int dag, std::ostream &out);
+    void transportToCentra2(int dag, std::ostream &out, Gegevens &gegevens);
 
     /**alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt
@@ -169,6 +171,12 @@ public:
     const std::map<Vaccinatiecentrum *, int> &getAantalLadingenVorigeDag() const;
 
     void setAantalLadingenVorigeDag(const std::map<Vaccinatiecentrum *, int> &aantalLadingenVorigeDag);
+
+    int getID();
+
+    int getAantalEnkelGevaccineerden();
+
+    int getAantalVolGevaccineerden();
 };
 
 

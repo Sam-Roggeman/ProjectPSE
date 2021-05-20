@@ -7,39 +7,40 @@
 //============================================================================
 #include "Simulation.h"
 
-Simulation::Simulation(Hub *hub1) {
-    REQUIRE(hub1->correctlyInitialized(),"hub niet geinitializeerd bij aanroep simulatie constructor");
-    hub = hub1;
-    _initcheck = this;
-    dag =0;
-    ENSURE(this->getHub() != NULL, "Geen hub toegevoegd");
-    ENSURE(this->getHub()->correctlyInitialized(), "hub niet geinitializeerd bij einde simulatie constructor");
-    ENSURE(this->correctlyInitialized(), "simulatie niet geinitializeerd bij einde simulatie constructor");
-}
+//Simulation::Simulation(Hub *hub1) {
+//    REQUIRE(hub1->correctlyInitialized(),"hub niet geinitializeerd bij aanroep simulatie constructor");
+//    hub = hub1;
+//    _initcheck = this;
+//    dag =0;
+//    ENSURE(this->getHub() != NULL, "Geen hub toegevoegd");
+//    ENSURE(this->getHub()->correctlyInitialized(), "hub niet geinitializeerd bij einde simulatie constructor");
+//    ENSURE(this->correctlyInitialized(), "simulatie niet geinitializeerd bij einde simulatie constructor");
+//}
 
 
-Hub * Simulation::getHub() const {
-    REQUIRE(correctlyInitialized(),"simulatie niet geinitializeerd bij aanroep getHub");
-    REQUIRE(hub->correctlyInitialized(),"hub niet geinitializeerd bij aanroep getHub");
-    return hub;
-}
+//Hub * Simulation::getHub() const {
+//    REQUIRE(correctlyInitialized(),"simulatie niet geinitializeerd bij aanroep getHub");
+//    REQUIRE(hub->correctlyInitialized(),"hub niet geinitializeerd bij aanroep getHub");
+//    return hub;
+//}
 
 bool Simulation::correctlyInitialized() const {
     return this == _initcheck;
 }
 
-void Simulation::setHub(Hub *h) {
-    REQUIRE(h->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep setHub");
-    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep setHub");
-    Simulation::hub = h;
-}
+//void Simulation::setHub(Hub *h) {
+//    REQUIRE(h->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep setHub");
+//    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep setHub");
+//    Simulation::hub = h;
+//}
 
 
 
 void Simulation::outputSimulation(std::ostream &out) {
-    REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep outputSimulation");
-    REQUIRE(getHub()->correctlyInitialized(),"meegegeven hub niet geinitializeerd bij aanroep outputSimulation");
-    hub->outputHub(out);
+    REQUIRE(correctlyInitialized(), "simulatie niet correct geinitialiseerd bij aanroep outputSimulation");
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->outputHub(out);
+    }
 }
 
 void Simulation::outputSimulation() {
@@ -59,18 +60,24 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
     REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
     REQUIRE(getHub()->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulation");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
+    Gegevens gegevens = Gegevens();
     dag = start;
 //    1.  WHILE huidige dag<eind dag
     std::ostringstream oss;
     while (dag < eind) {
         out << "DAG " << dag << ":" << std::endl;
+        gegevens = Gegevens(gegevens);
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
-        hub->vacLeveringen(dag);
-        hub->outputHub(out);
-        oss.str("");
-        oss.clear();
-        oss << "dag" << dag;
+        for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+            (*it)->vacLeveringen(dag);
+            (*it)->outputHub(out);
+        }
+        for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+            oss.str("");
+            oss.clear();
+            oss << "dag" << dag;
+
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
         hub->transportToCentra2(dag,std::cout);
@@ -82,6 +89,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
         out << std::endl;
     }
     ENSURE(getDag() == eind, "de autosimulation eindigde niet op de einddag");
+    this->outputGegevens(std::cout);
 }
 
 void Simulation::autoSimulationUntilDone() {
@@ -96,7 +104,10 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
     REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
     std::ostringstream oss;
-    while (hub->notDone()){
+    Gegevens gegevens = Gegevens();
+    while (notDone()) {
+        gegevens = Gegevens(gegevens);
+
         out << "DAG " << dag << ":" << std::endl;
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
@@ -114,8 +125,14 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
 
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(dag,out);
+        for (std::vector<Vaccinatiecentrum*>::iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
+            (*it)->vaccineren(dag, out);
+        }
+        gegevens.set_gevaccineerden(getAantalGevaccineerden());
+        gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+        statistische_gegevens[dag] = gegevens;
         out << std::endl;
+
         nextDay();
 
     }
@@ -155,7 +172,9 @@ void Simulation::clear() {
 
 void Simulation::impressie(std::ostream &out) {
     REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van impressie");
-    this->getHub()->impressie(out);
+    for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->impressie(out);
+    }
 }
 
 void Simulation::graphicIntegration(std::string path_to_engine, std::string path_to_safe_dir, std::string name) {
@@ -176,7 +195,7 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
     o << "[General]" << std::endl << "size = 1024" << std::endl << "backgroundcolor = ("
       << ((double) 135/(double) 255) << "," << ((double) 206/(double) 255) <<"," << ((double) 235/(double) 255) << ")"
       << std::endl<< "type = ZBufferedWireframe" << std::endl << "eye = (-200,0,200)" << std::endl;
-    std::map<Vaccinatiecentrum*, int> ladingmap = hub->getAantalLadingenVorigeDag();
+    std::map<Vaccinatiecentrum*, int> ladingmap = hubs[0]->getAantalLadingenVorigeDag();
     int nr_fig = 1;
     int totaal_inw = 0;
     for (std::map<Vaccinatiecentrum*, int>::const_iterator it = ladingmap.begin(); it != ladingmap.end(); it++){
@@ -236,15 +255,19 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
     }
     o.close();
     system((path_to_engine + " " + path_to_safe_dir+"/"+name+".ini").c_str());
-    std::string command = "ffmpeg   -framerate 60   -pattern_type glob   -i '*.png'   -r 15   -vf scale=512:-1   out.gif ffmpeg   -framerate 60   -pattern_type glob   -i '*.bmp'   -r 15   -vf scale=512:-1   out.gif";
-    system(command.c_str());
+//    std::string command = "ffmpeg -y -framerate 5   -pattern_type glob   -i '*.bmp'   -r 15   -vf scale=512:-1   out.gif ffmpeg   -framerate 60   -pattern_type glob   -i '" + path_to_safe_dir+"/*.bmp'   -r 15   -vf scale=512:-1 "+path_to_safe_dir+"/out.gif";
+//    system(command.c_str());
 }
 
 void Simulation::addHub(Hub *hub1) {
-    this->getHubs().push_back(hub1);
+    hubs.push_back(hub1);
+}
+void Simulation::addcentrumToSim(Vaccinatiecentrum* centrum){
+    this->vaccinatiecentra.push_back(centrum);
+
 }
 
-std::vector<Hub *> Simulation::getHubs() {
+const std::vector<Hub *>& Simulation::getHubs() {
     return hubs;
 }
 
@@ -253,3 +276,36 @@ Simulation::Simulation() {
     _initcheck = this;
 }
 
+bool Simulation::notDone() {
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
+        if ((*it)->notDone()){
+            return true;
+        }
+    }
+    return false;
+}
+
+int Simulation::getAantalGevaccineerden(){
+    int aantal = 0;
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
+        aantal += (*it)->getAantalEnkelGevaccineerden();
+    }
+    return aantal;
+}
+
+int Simulation::getAantalVolGevaccineerden(){
+    int aantal = 0;
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
+        aantal += (*it)->getAantalVolGevaccineerden();
+    }
+    return aantal;
+}
+
+void Simulation::outputGegevens(std::ostream& rapportstream){
+    for (std::map<int,Gegevens>::const_iterator it = statistische_gegevens.begin()
+            ; it!= statistische_gegevens.end(); it++){
+        rapportstream << "DAG " << it->first <<":"<< std::endl;
+        it->second.outputGegevens(rapportstream);
+
+    }
+}

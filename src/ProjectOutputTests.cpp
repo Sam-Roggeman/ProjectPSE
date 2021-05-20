@@ -17,6 +17,8 @@
 
 class HubOutputTest: public ::testing::Test {
 protected:
+    HubOutputTest() {}
+
     friend class Hub;
 
     virtual void SetUp() {
@@ -134,7 +136,7 @@ TEST_F(HubOutputTest,Impressie){
 
 TEST_F(HubOutputTest,Autosimulation){
     std::ofstream o;
-    Hub h = Hub();
+    Hub h = Hub(0);
     Simulation s = Simulation(&h);
     simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
     o.open("./testOutput/testOutput/Autosim1.txt");
@@ -170,14 +172,16 @@ TEST_F(HubOutputTest,Autosimulation){
 
 TEST_F(HubOutputTest,GraphicIntegration){
     std::ofstream o;
-    Hub h = Hub();
+    Hub h = Hub(0);
     Simulation s = Simulation(&h);
     simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
     s.autoSimulation(0,1,o);
+    srand(0);
     s.graphicIntegration("./src/engine", "./testOutput/testOutput/", "0GraphicIntegration");
     EXPECT_TRUE(FileCompare("./testOutput/testFiles/0GraphicIntegration.ini",
                             "./testOutput/testOutput/0GraphicIntegration.ini"));
     s.autoSimulation(1,2,o);
+    srand(0);
     s.graphicIntegration("./src/engine", "./testOutput/testOutput/", "1GraphicIntegration");
     EXPECT_FALSE(FileCompare("./testOutput/testFiles/0GraphicIntegration.ini",
                              "./testOutput/testOutput/1GraphicIntegration.ini"));

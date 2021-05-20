@@ -16,6 +16,8 @@ protected:
     // You should make the members protected s.t. they can be
     // accessed from sub-classes.
 
+    ProjectTest() {}
+
     // virtual void SetUp() will be called before each test is run.  You
     // should define it if you need to initialize the variables.
     // Otherwise, this can be skipped.

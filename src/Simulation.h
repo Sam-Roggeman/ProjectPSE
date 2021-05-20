@@ -20,7 +20,8 @@
 class Simulation {
     Simulation* _initcheck;
     std::vector<Hub*> hubs;
-    Hub* hub;
+    std::vector<Vaccinatiecentrum*> vaccinatiecentra;
+//    Hub* hub;
     int dag;
 public:
     /**Geeft de huidige dag van de simulatie terug
@@ -37,22 +38,12 @@ public:
      */
     void setDag(int dag);
 
-    /**Dit is de constructor voor het maken van een simulatie
-     *
-     * @param hub1: Dit is de hub die we voor de simulatie gaan gebruiken
-     * @pre hub1->correctlyInitialized()
-     * @post this->getHub() != NULL
-     * @post this->getHub()->correctlyInitialized()
-     * @pre this->correctlyInitialized()
-     */
-    Simulation(Hub* hub1);
-
-
     /**Een functie die alles in de hub en het vaccinatiecentrum output door cout
      * @pre this->correctlyInitialized()
      * @pre this->getHub()->correctlyInitialized()
      */
     void outputSimulation();
+
 
     /**Een functie die alles in de hub en de vaccinatiecentra output naar een gegeven ostream
      * @param out: De ostream waar de gegeven output naartoe gaat
@@ -103,19 +94,6 @@ public:
      */
     void autoSimulationUntilDone(std::ostream &out);
 
-    /**Geeft de hub van de simulatie terug
-     * @return De hub die de simulatie bevat
-     * @pre this->correctlyInitialized()
-     * @pre this->getHub()->correctlyInitialized()
-     */
-    Hub * getHub() const;
-
-    /**Zet de gegeven hub in als de hub van de simulatie
-     * @param h: De hub die in de simulatie wordt gezet
-     * @pre this->getHub()->correctlyInitialized()
-     * @pre this->correctlyInitialized()
-     */
-    void setHub(Hub *h);
 
     /**Voegt een gegeven vaccinatiecentra toe aan de simulatie
      *
@@ -127,7 +105,7 @@ public:
      * @post this->getHub()->getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
      * @post this->getHub()->getVaccinatiecentra().size() += 1
      */
-    void addcentrum(Vaccinatiecentrum *v);
+    void addcentrum(Vaccinatiecentrum *v,Hub * h);
 
     /**Zorgt ervoor dat de simulatie van de huidige dag naar de volgende dag gaat
      * @pre this->correctlyInitialized()
@@ -154,11 +132,41 @@ public:
 
     void graphicIntegration(std::string path_to_engine, std::string path_to_safe,std::string name);
 
-    std::vector<Hub*> getHubs();
+    const std::vector<Hub *> & getHubs();
 
     void addHub(Hub* hub1);
+    void addcentrumToSim(Vaccinatiecentrum* centrum);
 
+    int getAantalGevaccineerden();
+
+    int getAantalVolGevaccineerden();
     Simulation();
+
+//    /**Zet de gegeven hub in als de hub van de simulatie
+// * @param h: De hub die in de simulatie wordt gezet
+// * @pre this->getHub()->correctlyInitialized()
+// * @pre this->correctlyInitialized()
+// */
+//    void setHub(Hub *h);
+
+//    /**Geeft de hub van de simulatie terug
+//     * @return De hub die de simulatie bevat
+//     * @pre this->correctlyInitialized()
+//     * @pre this->getHub()->correctlyInitialized()
+//     */
+//    Hub * getHub() const;
+
+//    /**Dit is de constructor voor het maken van een simulatie
+//     * @param hub1: Dit is de hub die we voor de simulatie gaan gebruiken
+//     * @pre hub1->correctlyInitialized()
+//     * @post this->getHub() != NULL
+//     * @post this->getHub()->correctlyInitialized()
+//     * @pre this->correctlyInitialized()
+//     */
+//    Simulation(Hub* hub1);
+    bool notDone();
+
+    void outputGegevens(std::ostream &out);
 };
 
 

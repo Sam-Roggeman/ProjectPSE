@@ -16,6 +16,8 @@
 
 class HubDomainTest: public ::testing::Test {
 protected:
+    HubDomainTest() : hub2(0) {}
+
     friend class Hub;
 
     virtual void SetUp() {

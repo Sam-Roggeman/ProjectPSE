@@ -8,6 +8,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     int hubcounter = 0;
     int vaccinatiecentracounter = 0;
     int vaccincounter = 0;
+    std::string vac_name;
     Vaccinatiecentrum* centrum;
     TiXmlDocument doc;
     VaccinType* bedrijf;
@@ -28,6 +29,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
         if (elem_name == "VACCINATIECENTRUM") {
             vaccinatiecentracounter += 1;
             centrum = new Vaccinatiecentrum();
+            sim.addcentrumToSim(centrum);
             //loop over alle kinderelementen
             for (TiXmlElement *vac_elem = cdElement->FirstChildElement();
                  vac_elem != NULL; vac_elem = vac_elem->NextSiblingElement()) {
@@ -48,6 +50,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
             sim.getHub()->addcentrum(centrum);
         } else if (elem_name == "HUB") {
             hubcounter += 1;
+            sim.addHub(hub);
             //loop over alle kinderelementen
             for (TiXmlElement *hub_elem = cdElement->FirstChildElement(); hub_elem != NULL; hub_elem = hub_elem->NextSiblingElement()) {
                 elem_name = hub_elem->Value();
@@ -56,7 +59,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                     bedrijf = new VaccinType();
                     vaccincounter += 1;
                     for (TiXmlElement *vac_elem = hub_elem->FirstChildElement(); vac_elem != NULL; vac_elem = vac_elem->NextSiblingElement()) {
-                        std::string vac_name = vac_elem->Value();
+                        vac_name = vac_elem->Value();
                         if (vac_name == "levering") {
                             bedrijf->setLevering(atoi(vac_elem->FirstChild()->Value()));
                         } else if (vac_name == "interval") {
@@ -73,9 +76,13 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                             errstream << "element" << vac_name << "niet herkend" << std::endl;
                         }
                     }
-                    sim.getHub()->addType(bedrijf);
-                }else if (elem_name == "CENTRA"){
-                    continue;
+                    hub->addType(bedrijf);
+                }else if (elem_name == "CENTRA") {
+                    for (TiXmlElement *name = hub_elem->FirstChildElement();
+                    name != NULL; name = name->NextSiblingElement()) {
+                        vac_name = name->FirstChild()->Value();
+                        centra_van_hub[hub].push_back( vac_name);
+                    }
                 }
                     //element is niet herkent
                 else {
@@ -88,9 +95,18 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
             errstream << "element niet herkend" << std::endl;
         }
     }
-    sim.getHub()->setCentrumTypes();
-    ENSURE(sim.getHub()->completelyInitialized(), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
-    ENSURE((hubcounter < 2),"Je mag maar 1 hub hebben");
+    for (std::vector<Hub*>::const_iterator it = sim.getHubs().begin(); it != sim.getHubs().end(); it++) {
+        string_centra = centra_van_hub[(*it)];
+        for (std::vector<std::string>::const_iterator c_name = string_centra.begin(); c_name != string_centra.end(); c_name++) {
+            sim.addcentrum(vaccinatiecentra[(*c_name)],(*it));
+        }
+        (*it)->setCentrumTypes();
+    }
+
+    for (std::vector<Hub*>::const_iterator it = sim.getHubs().begin(); it != sim.getHubs().end(); it++) {
+        ENSURE((*it)->completelyInitialized(), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    }
+    ENSURE((hubcounter >= 1),"Je moet meer dan 0 hubs hebben");
     ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     ENSURE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
     ENSURE(vaccincounter > 0, "Je moet minstens 1 vaccintype hebben");

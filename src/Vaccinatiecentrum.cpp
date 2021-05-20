@@ -163,7 +163,7 @@ void Vaccinatiecentrum::setAantalGevaccineerden(int aantal) {
  * */
 int Vaccinatiecentrum::getAantalGevaccineerden() const {
     REQUIRE(this->correctlyInitialized(),
-            "Vaccinatiecentrum wasn't initialized when calling getAantalGevaccineerden");
+            "Vaccinatiecentrum wasn't initialized when calling getAantalEnkelGevaccineerden");
     return aantal_gevaccineerden;
 }
 
@@ -393,19 +393,20 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
 
 void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
     REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van setTypes");
-    types = types1;
+    types.insert(types1.begin(),types1.end());
     for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++) {
         vaccins[type_it->first] = 0;
         ENSURE(vaccins[type_it->first]==0, "aantal van vaccintype moet geinitializeerd worden bij setTypes");
     }
-    ENSURE(types == types1,"types en types1 moeten gelijk zijn na settypes");
+//    ENSURE(types == types1,"types en types1 moeten gelijk zijn na settypes");
 }
 
 int Vaccinatiecentrum::getAantalGeres(std::string naam_type, int dag) {
     REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van getAantalGeres");
     REQUIRE(dag>=0, "dag moet >=0 zijn");
-    REQUIRE(types.find(naam_type) !=types.end(), "type met naam_type zit niet in types");
-
+    if (types.find(naam_type) ==types.end()){
+        return 0;
+    }
     return this->hernieuwingen[naam_type][dag];
 }
 
