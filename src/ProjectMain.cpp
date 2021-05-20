@@ -29,22 +29,22 @@ using namespace std;
 
 //todo
 
-//int main(int argc, char *argv[])
-//{
-//    QApplication a(argc, argv);
-//    VaccinInterface w;
-//    w.show();
-//    return a.exec();
-//}
-
-int main(int argc, char **argv) {
-
-    ofstream o;
-    o.open("test.txt");
-    Simulation s;
-    simulationImporter::importSimulation("./testInput/t2.xml",  std::cout, s);
-    s.autoSimulationUntilDone(std::cout);
-    o.close();
-    return 0;
+int main(int argc, char *argv[])
+{
+    QApplication a(argc, argv);
+    VaccinInterface w;
+    w.show();
+    return a.exec();
 }
+
+//int main(int argc, char **argv) {
+//
+//    ofstream o;
+//    o.open("test.txt");
+//    Simulation s;
+//    simulationImporter::importSimulation("./testInput/t2.xml",  std::cout, s);
+//    s.autoSimulationUntilDone(std::cout);
+//    o.close();
+//    return 0;
+//}
 
