@@ -20,7 +20,7 @@ void VaccinInterface::on_pushButton_clicked() {
                                                     tr("Open Image"), "/home/jana", tr("Image Files ( *.xml)"));
     if (!fileName.isEmpty()) {
         Simulation s = Simulation();
-        simulationImporter::importSimulation(fileName.toStdString(), std::cout, s);
+        simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, s);
         s.autoSimulationUntilDone();
     }
 }
