@@ -330,14 +330,18 @@ void Simulation::outputGegevens(std::ostream& rapportstream){
     }
 }
 
-void Simulation::autosimulationuntildoneui(std::ostream &out) {
+void Simulation::autosimulationuntildoneui(std::ostream &out, VaccinInterface* vaccinInterface) {
     // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
     std::ostringstream oss;
     Gegevens gegevens = Gegevens();
+    bool start = false;
     sleep(5);
     while (notDone()) {
+        while (!start){
+            start = vaccinInterface->
+        }
         gegevens = Gegevens(gegevens);
 
         out << "DAG " << dag << ":" << std::endl;

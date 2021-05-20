@@ -3,10 +3,12 @@
 
 #include "Simulation.h"
 #include "simulationImporter.h"
+#include "iostream"
 #include <string>
 #include <QWidget>
 #include <QFileDialog>
 #include <QDialog>
+
 
 
 namespace Ui {
@@ -26,6 +28,8 @@ private slots:
 
     void on_stackedWidget_currentChanged(int arg1);
 
+    void on_pushButton_2_clicked(bool checked);
+    
 private:
     Ui::VaccinInterface *ui;
 };

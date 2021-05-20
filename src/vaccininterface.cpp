@@ -22,11 +22,17 @@ void VaccinInterface::on_pushButton_clicked() {
         this->on_stackedWidget_currentChanged(1);
         Simulation s = Simulation();
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, s);
-        s.autoSimulationUntilDone();
+        std::ostream oss;
+        s.autosimulationuntildoneui(oss,this);
     }
 }
 
 void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 {
         this->ui->stackedWidget->setCurrentIndex(arg1);
+}
+
+void VaccinInterface::on_pushButton_2_clicked(bool checked)
+{
+    checked = true;
 }
