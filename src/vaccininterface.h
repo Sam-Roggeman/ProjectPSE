@@ -1,10 +1,10 @@
 #ifndef VACCININTERFACE_H
 #define VACCININTERFACE_H
 
-#include <QDialog>
 #include "Simulation.h"
-#include "QWidget"
-#include "QFileDialog"
+#include <QWidget>
+#include <QFileDialog>
+#include <QDialog>
 
 namespace Ui {
 class VaccinInterface;

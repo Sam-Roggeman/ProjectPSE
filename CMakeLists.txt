@@ -1,14 +1,11 @@
 #cmake_minimum_required(VERSION 3.6)
-#
 cmake_minimum_required(VERSION 3.17)
 
 project(project)
 
 set(CMAKE_CXX_STANDARD 98)
-
 #
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 set(CMAKE_CXX_FLAGS "-Wall -Werror")
 set(CMAKE_EXE_LINKER_FLAGS -pthread)
 
@@ -33,7 +30,6 @@ link_directories(./gtest/lib)
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
         src/ProjectMain.cpp
-        testInput/test.xml
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp
@@ -46,17 +42,15 @@ set(RELEASE_SOURCE_FILES
         src/Vaccinatiecentrum.h
         src/Simulation.cpp
         src/Simulation.h
-        src/simulationImporter.cpp
-        src/simulationImporter.h
+        src/simulationImporter.cpp src/simulationImporter.h
         src/VaccinType.cpp
         src/VaccinType.h
         src/vaccininterface.cpp
         src/vaccininterface.h
         src/vaccininterface.ui
-        src/vaccininterface.h
-        src/vaccininterface.cpp
-        src/vaccininterface.ui
-        src/Gegevens.cpp src/Gegevens.h)
+        src/Gegevens.cpp
+        src/Gegevens.h
+        )
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
@@ -64,7 +58,6 @@ set(DEBUG_SOURCE_FILES
         src/ProjectInputTests.cpp
         src/ProjectOutputTests.cpp
         src/ProjectTests.cpp
-        testInput/test.xml
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp
@@ -79,14 +72,10 @@ set(DEBUG_SOURCE_FILES
         src/TicTacToeUtils.cpp
         src/Simulation.cpp
         src/Simulation.h
-        src/simulationImporter.cpp
-        src/simulationImporter.h
-        src/VaccinType.cpp
-        src/VaccinType.h
-        src/vaccininterface.h
-        src/vaccininterface.cpp
-        src/vaccininterface.ui
-        src/Gegevens.cpp src/Gegevens.h)
+        src/simulationImporter.cpp src/simulationImporter.h src/VaccinType.cpp src/VaccinType.h
+        src/Gegevens.cpp
+        src/Gegevens.h
+        )
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})
