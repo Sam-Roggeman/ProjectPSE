@@ -23,10 +23,15 @@ void VaccinInterface::on_pushButton_clicked() {
         Simulation s = Simulation();
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, s);
         s.autoSimulationUntilDone();
+        if(this->ui->pushButton->isEnabled()){
+            std::cout << "hallo";
+        }
+
     }
 }
 
 void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 {
         this->ui->stackedWidget->setCurrentIndex(arg1);
+
 }
