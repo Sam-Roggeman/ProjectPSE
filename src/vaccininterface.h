@@ -2,6 +2,8 @@
 #define VACCININTERFACE_H
 
 #include "Simulation.h"
+#include "simulationImporter.h"
+#include <string>
 #include <QWidget>
 #include <QFileDialog>
 #include <QDialog>

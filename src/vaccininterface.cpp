@@ -15,11 +15,12 @@ VaccinInterface::~VaccinInterface()
     delete ui;
 }
 
-void VaccinInterface::on_pushButton_clicked()
-{
+void VaccinInterface::on_pushButton_clicked() {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open Image"), "/home/jana", tr("Image Files ( *.xml)"));
-//    Hub h = Hub();
-//    Simulation s = Simulation(&h);
-//    simulationImporter::importSimulation(filename,s);
+    if (!fileName.isEmpty()) {
+        Simulation s = Simulation();
+        simulationImporter::importSimulation(fileName.toStdString(), std::cout, s);
+        s.autoSimulationUntilDone();
+    }
 }

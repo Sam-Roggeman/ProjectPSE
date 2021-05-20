@@ -15,8 +15,8 @@
 #include "DesignByContract.h"
 #include "Simulation.h"
 #include "simulationImporter.h"
-#include <QApplication>
 #include "vaccininterface.h"
+#include <QApplication>
 
 using namespace std;
 
