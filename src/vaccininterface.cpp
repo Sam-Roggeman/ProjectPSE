@@ -1,6 +1,8 @@
 #include "vaccininterface.h"
 #include "ui_vaccininterface.h"
 
+
+
 VaccinInterface::VaccinInterface(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::VaccinInterface)
@@ -17,4 +19,7 @@ void VaccinInterface::on_pushButton_clicked()
 {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open Image"), "/home/jana", tr("Image Files ( *.xml)"));
+//    Hub h = Hub();
+//    Simulation s = Simulation(&h);
+//    simulationImporter::importSimulation(filename,s);
 }

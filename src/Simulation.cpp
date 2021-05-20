@@ -25,6 +25,11 @@
 //}
 
 bool Simulation::correctlyInitialized() const {
+    for(unsigned int i = 0; i < hubs.size(); i++){
+        if (!hubs[i]->correctlyInitialized()){
+            return false;
+        }
+    }
     return this == _initcheck;
 }
 
@@ -48,7 +53,6 @@ void Simulation::outputSimulation() {
 }
 
 void Simulation::autoSimulation(int start, int eind) {
-    REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
     autoSimulation(start, eind, std::cout);
 }
@@ -57,8 +61,6 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
     REQUIRE(start>=0, "startdag <0");
     REQUIRE(eind >start, "einddag <=startdag");
-    REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autosimulation");
-    REQUIRE(getHub()->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulation");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep autosimulation");
     Gegevens gegevens = Gegevens();
     dag = start;
@@ -80,11 +82,19 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra2(dag,std::cout);
-        this->graphicIntegration("./src/engine","./graphics1",oss.str());
+
+            (*it)->transportToCentra2(dag, std::cout, gegevens);
+        }
+
+//        this->graphicIntegration("./src/engine","./graphics1",oss.str());
 //    1.3 FOR elk centrum
 //    1.3.1 voer use case 3.2 uit
-        hub->vaccineren(dag,out);
+        for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
+            (*it)->vaccineren(dag, out);
+        }
+        gegevens.set_gevaccineerden(getAantalGevaccineerden());
+        gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+        statistische_gegevens[dag] = gegevens;
         nextDay();
         out << std::endl;
     }
@@ -99,8 +109,6 @@ void Simulation::autoSimulationUntilDone() {
 
 void Simulation::autoSimulationUntilDone(std::ostream &out) {
 // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
-    REQUIRE(getHub()->correctlyInitialized(), "hub niet geinitializeerd bij aanroep autoSimulationUntilDone");
-    REQUIRE(getHub()->completelyInitialized(), "hub niet compleet geinitializeerd bij aanroep autoSimulationUntilDone");
     REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
     std::ostringstream oss;
@@ -111,16 +119,22 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
         out << "DAG " << dag << ":" << std::endl;
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
-        hub->vacLeveringen(dag);
-        hub->outputHub(out);
+        for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+            out << "DAG " << dag << ": Hub" << (*it)->getID() << ":" << std::endl;
+            (*it)->vacLeveringen(dag);
+            (*it)->outputHub(out);
+        }
 //        this->impressie(std::cout);
-        oss.str("");
-        oss.clear();
-        oss << "dag" << dag;
+        for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+            oss.str("");
+            oss.clear();
+            oss << "dag" << dag;
+
 
 //    1.2 FOR elk centrum verbonden met de hub
 //    1.2.1 voer use case 3.1 uit
-        hub->transportToCentra2(dag,out);
+            (*it)->transportToCentra2(dag, out, gegevens);
+        }
 //        this->graphicIntegration("./src/engine","./graphics",oss.str());
 
 //    1.3 FOR elk centrum
@@ -136,15 +150,19 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
         nextDay();
 
     }
-    hub->outputHub(out);
-    ENSURE(this->getHub()->aantalOngevaccineerden() == 0,"Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntillDone");
+    for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->outputHub(out);
+        ENSURE((*it)->aantalOngevaccineerden() == 0,
+               "Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntillDone");
+    }
+    this->outputGegevens(out);
 }
 
-void Simulation::addcentrum(Vaccinatiecentrum *v) {
+void Simulation::addcentrum(Vaccinatiecentrum *v, Hub * h) {
     REQUIRE(v->correctlyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     REQUIRE(v->completelyInitialized(),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     REQUIRE(correctlyInitialized(), "simulatie niet geinitializeerd bij aanroep addcentrum");
-    hub->addcentrum(v);
+    h->addcentrum(v);
 }
 
 void Simulation::nextDay(){
@@ -167,7 +185,9 @@ void Simulation::setDag(int d) {
 }
 
 void Simulation::clear() {
-    hub->clear();
+    for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->clear();
+    }
 }
 
 void Simulation::impressie(std::ostream &out) {

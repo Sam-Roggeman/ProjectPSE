@@ -63,7 +63,8 @@ void Hub::outputHub(std::ostream& out) const {
     }
 }
 
-void Hub::transportToCentra2(int dag, std::ostream &out){
+void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens &gegevens) {
+
     //map gesorteerd op grootte van het transport voor efficientie
     std::map<int,VaccinType*> transport_sorted_types;
 

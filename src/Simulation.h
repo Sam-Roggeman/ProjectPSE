@@ -16,6 +16,8 @@
 #include <sstream>
 #include <string>
 #include "DesignByContract.h"
+#include <map>
+#include "Gegevens.h"
 
 class Simulation {
     Simulation* _initcheck;
@@ -23,6 +25,7 @@ class Simulation {
     std::vector<Vaccinatiecentrum*> vaccinatiecentra;
 //    Hub* hub;
     int dag;
+    std::map<int,Gegevens> statistische_gegevens;
 public:
     /**Geeft de huidige dag van de simulatie terug
      * @returns Huidige dag

@@ -10,6 +10,9 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     int vaccincounter = 0;
     std::string vac_name;
     Vaccinatiecentrum* centrum;
+    std::map<std::string,Vaccinatiecentrum*> vaccinatiecentra;
+    std::map<Hub*,std::vector<std::string> > centra_van_hub;
+    std::vector<std::string> string_centra;
     TiXmlDocument doc;
     VaccinType* bedrijf;
     //open xml file indien: ASCII bestand met daarop een beschrijving van de vaccinatiecentra
@@ -47,8 +50,9 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                     errstream << "element niet herkend" << std::endl;
                 }
             }
-            sim.getHub()->addcentrum(centrum);
+            vaccinatiecentra[centrum->getNaamCentrum()] = centrum;
         } else if (elem_name == "HUB") {
+            Hub * hub = new Hub(hubcounter);
             hubcounter += 1;
             sim.addHub(hub);
             //loop over alle kinderelementen
@@ -108,7 +112,6 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
     }
     ENSURE((hubcounter >= 1),"Je moet meer dan 0 hubs hebben");
     ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
-    ENSURE(hubcounter > 0,"Je moet minstens 1 Hub hebben");
     ENSURE(vaccincounter > 0, "Je moet minstens 1 vaccintype hebben");
     doc.Clear();
     return 0;
