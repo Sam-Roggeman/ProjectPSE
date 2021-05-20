@@ -8,6 +8,7 @@
 #include <QFileDialog>
 #include <QDialog>
 
+
 namespace Ui {
 class VaccinInterface;
 }
@@ -22,6 +23,8 @@ public:
 
 private slots:
     void on_pushButton_clicked();
+
+    void on_stackedWidget_currentChanged(int arg1);
 
 private:
     Ui::VaccinInterface *ui;

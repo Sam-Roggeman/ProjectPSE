@@ -19,8 +19,14 @@ void VaccinInterface::on_pushButton_clicked() {
     QString fileName = QFileDialog::getOpenFileName(this,
                                                     tr("Open Image"), "/home/jana", tr("Image Files ( *.xml)"));
     if (!fileName.isEmpty()) {
+        this->on_stackedWidget_currentChanged(1);
         Simulation s = Simulation();
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, s);
         s.autoSimulationUntilDone();
     }
+}
+
+void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
+{
+        this->ui->stackedWidget->setCurrentIndex(arg1);
 }

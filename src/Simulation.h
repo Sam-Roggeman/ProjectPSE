@@ -18,6 +18,8 @@
 #include "DesignByContract.h"
 #include <map>
 #include "Gegevens.h"
+#include <stdio.h>
+#include <unistd.h>
 
 class Simulation {
     Simulation* _initcheck;
@@ -170,6 +172,8 @@ public:
     bool notDone();
 
     void outputGegevens(std::ostream &out);
+
+    void autosimulationuntildoneui(std::ostream &out);
 };
 
 

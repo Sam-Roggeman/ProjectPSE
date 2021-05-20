@@ -329,3 +329,55 @@ void Simulation::outputGegevens(std::ostream& rapportstream){
 
     }
 }
+
+void Simulation::autosimulationuntildoneui(std::ostream &out) {
+    // Het systeem bevat een simulatie met de verschillende vaccinatiecentra
+    REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
+//    1.  WHILE not done
+    std::ostringstream oss;
+    Gegevens gegevens = Gegevens();
+    sleep(5);
+    while (notDone()) {
+        gegevens = Gegevens(gegevens);
+
+        out << "DAG " << dag << ":" << std::endl;
+//    1.1 IF er vaccins geleverd worden op de huidige dag
+//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
+        for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+            out << "DAG " << dag << ": Hub" << (*it)->getID() << ":" << std::endl;
+            (*it)->vacLeveringen(dag);
+            (*it)->outputHub(out);
+        }
+//        this->impressie(std::cout);
+        for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+            oss.str("");
+            oss.clear();
+            oss << "dag" << dag;
+
+
+//    1.2 FOR elk centrum verbonden met de hub
+//    1.2.1 voer use case 3.1 uit
+            (*it)->transportToCentra2(dag, out, gegevens);
+        }
+//        this->graphicIntegration("./src/engine","./graphics",oss.str());
+
+//    1.3 FOR elk centrum
+//    1.3.1 voer use case 3.2 uit
+        for (std::vector<Vaccinatiecentrum*>::iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
+            (*it)->vaccineren(dag, out);
+        }
+        gegevens.set_gevaccineerden(getAantalGevaccineerden());
+        gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+        statistische_gegevens[dag] = gegevens;
+        out << std::endl;
+
+        nextDay();
+
+    }
+    for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->outputHub(out);
+        ENSURE((*it)->aantalOngevaccineerden() == 0,
+               "Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntillDone");
+    }
+    this->outputGegevens(out);
+}
