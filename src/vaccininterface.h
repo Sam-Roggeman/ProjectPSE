@@ -8,6 +8,7 @@
 #include <QWidget>
 #include <QFileDialog>
 #include <QDialog>
+#include <QStackedWidget>
 
 
 
