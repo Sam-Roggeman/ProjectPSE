@@ -28,7 +28,6 @@ class Simulation {
     Simulation* _initcheck;
     std::vector<Hub*> hubs;
     std::vector<Vaccinatiecentrum*> vaccinatiecentra;
-//    Hub* hub;
     int dag;
     std::map<int,Gegevens> statistische_gegevens;
 public:
