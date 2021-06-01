@@ -20,7 +20,7 @@ class VaccinInterface;
 class VaccinInterface : public QDialog
 {
     Q_OBJECT
-    variable Simulation * simulatie;
+    Simulation * simulatie;
 
 public:
     explicit VaccinInterface(QWidget *parent = nullptr);
@@ -33,8 +33,6 @@ private slots:
 
     void on_Start_clicked();
 
-    void on_Stop_clicked();
-
     void on_Vorige_dag_clicked();
 
     void on_Volgende_dag_clicked();
@@ -42,6 +40,10 @@ private slots:
     void on_Grafische_impressie_clicked();
 
     void on_Normale_impressie_clicked();
+
+    void on_Exit_clicked();
+
+    void on_Impressies_currentChanged(int arg1);
 
 private:
     Ui::VaccinInterface *ui;
