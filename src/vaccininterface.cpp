@@ -36,12 +36,21 @@ void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 
 void VaccinInterface::on_Start_clicked()
 {
+    unsigned int sleep_delay = 5;
+    std::stringstream stringstream;
+    Gegevens gegevens = Gegevens();
 
-}
+    int dag;
 
-void VaccinInterface::on_Stop_clicked()
-{
 
+    while (simulatie->notDone() && !stopped){
+
+        stringstream.clear();
+        simulatie->simulateDay(gegevens,stringstream);
+        ui->textEdit->clear();
+        ui->textEdit->setText(QString::fromStdString(stringstream.str()));
+        sleep(sleep_delay);
+    }
 }
 
 void VaccinInterface::on_Vorige_dag_clicked()
@@ -62,4 +71,9 @@ void VaccinInterface::on_Grafische_impressie_clicked()
 void VaccinInterface::on_Normale_impressie_clicked()
 {
 
+}
+
+void VaccinInterface::on_Exit_clicked()
+{
+    this->close();
 }
