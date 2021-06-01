@@ -22,16 +22,44 @@ void VaccinInterface::on_pushButton_clicked() {
         this->on_stackedWidget_currentChanged(1);
         Simulation s = Simulation();
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, s);
-        s.autoSimulationUntilDone();
-        if(this->ui->pushButton->isEnabled()){
-            std::cout << "hallo";
-        }
-
+        simulatie = &s;
     }
 }
 
 void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 {
         this->ui->stackedWidget->setCurrentIndex(arg1);
+
+}
+
+
+
+void VaccinInterface::on_Start_clicked()
+{
+
+}
+
+void VaccinInterface::on_Stop_clicked()
+{
+
+}
+
+void VaccinInterface::on_Vorige_dag_clicked()
+{
+
+}
+
+void VaccinInterface::on_Volgende_dag_clicked()
+{
+
+}
+
+void VaccinInterface::on_Grafische_impressie_clicked()
+{
+
+}
+
+void VaccinInterface::on_Normale_impressie_clicked()
+{
 
 }

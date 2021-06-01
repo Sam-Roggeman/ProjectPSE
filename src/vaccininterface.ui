@@ -29,8 +29,8 @@
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>230</y>
+       <x>310</x>
+       <y>270</y>
        <width>93</width>
        <height>28</height>
       </rect>
@@ -41,20 +41,10 @@
     </widget>
    </widget>
    <widget class="QWidget" name="page_2">
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QPushButton" name="Start">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>30</y>
-       <width>601</width>
-       <height>331</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
+       <x>40</x>
        <y>410</y>
        <width>93</width>
        <height>28</height>
@@ -64,10 +54,10 @@
       <string>Start</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_3">
+    <widget class="QPushButton" name="Stop">
      <property name="geometry">
       <rect>
-       <x>160</x>
+       <x>170</x>
        <y>410</y>
        <width>93</width>
        <height>28</height>
@@ -77,10 +67,10 @@
       <string>Stop</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="Vorige_dag">
      <property name="geometry">
       <rect>
-       <x>270</x>
+       <x>310</x>
        <y>410</y>
        <width>93</width>
        <height>28</height>
@@ -90,10 +80,10 @@
       <string>Vorige dag</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_5">
+    <widget class="QPushButton" name="Volgende_dag">
      <property name="geometry">
       <rect>
-       <x>380</x>
+       <x>440</x>
        <y>410</y>
        <width>93</width>
        <height>28</height>
@@ -102,6 +92,82 @@
      <property name="text">
       <string>Volgende dag</string>
      </property>
+    </widget>
+    <widget class="QPushButton" name="Exit">
+     <property name="geometry">
+      <rect>
+       <x>570</x>
+       <y>410</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Exit</string>
+     </property>
+    </widget>
+    <widget class="QStackedWidget" name="Impressies">
+     <property name="geometry">
+      <rect>
+       <x>49</x>
+       <y>59</y>
+       <width>601</width>
+       <height>331</height>
+      </rect>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="page_3">
+      <widget class="QTextEdit" name="textEdit">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>491</width>
+         <height>241</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="Grafische_impressie">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>280</y>
+         <width>131</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Grafische impressie</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="page_4">
+      <widget class="QTextEdit" name="textEdit_2">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>20</y>
+         <width>491</width>
+         <height>241</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="Normale_impressie">
+       <property name="geometry">
+        <rect>
+         <x>230</x>
+         <y>280</y>
+         <width>131</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Normale impressie</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
    </widget>
   </widget>
