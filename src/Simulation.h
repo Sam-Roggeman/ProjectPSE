@@ -20,7 +20,9 @@
 #include "Gegevens.h"
 #include <stdio.h>
 #include <unistd.h>
-#include "vaccininterface.h"
+
+
+class VaccinInterface;
 
 class Simulation {
     Simulation* _initcheck;
@@ -138,7 +140,7 @@ public:
 
     void graphicIntegration(std::string path_to_engine, std::string path_to_safe,std::string name);
 
-    const std::vector<Hub *> & getHubs();
+    const std::vector<Hub *>& getHubs() const;
 
     void addHub(Hub* hub1);
     void addcentrumToSim(Vaccinatiecentrum* centrum);
@@ -175,6 +177,12 @@ public:
     void outputGegevens(std::ostream &out);
 
     void autosimulationuntildoneui(std::ostream &out, VaccinInterface* vaccinInterface);
+
+    Simulation(const Simulation& sim);
+
+    virtual ~Simulation();
+
+    void simulateDay(Gegevens &gegevens, std::ostream &out);
 };
 
 

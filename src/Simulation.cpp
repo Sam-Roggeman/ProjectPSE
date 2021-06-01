@@ -67,40 +67,13 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 //    1.  WHILE huidige dag<eind dag
     std::ostringstream oss;
     while (dag < eind) {
-        out << "DAG " << dag << ":" << std::endl;
-        gegevens = Gegevens(gegevens);
-//    1.1 IF er vaccins geleverd worden op de huidige dag
-//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
-        for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
-            (*it)->vacLeveringen(dag);
-            (*it)->outputHub(out);
-        }
-        for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
-            oss.str("");
-            oss.clear();
-            oss << "dag" << dag;
-
-//    1.2 FOR elk centrum verbonden met de hub
-//    1.2.1 voer use case 3.1 uit
-
-            (*it)->transportToCentra2(dag, std::cout, gegevens);
-        }
-
-//        this->graphicIntegration("./src/engine","./graphics1",oss.str());
-//    1.3 FOR elk centrum
-//    1.3.1 voer use case 3.2 uit
-        for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
-            (*it)->vaccineren(dag, out);
-        }
-        gegevens.set_gevaccineerden(getAantalGevaccineerden());
-        gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
-        statistische_gegevens[dag] = gegevens;
-        nextDay();
-        out << std::endl;
+        simulateDay(gegevens,out);
     }
     ENSURE(getDag() == eind, "de autosimulation eindigde niet op de einddag");
     this->outputGegevens(std::cout);
 }
+
+
 
 void Simulation::autoSimulationUntilDone() {
     autoSimulationUntilDone(std::cout);
@@ -114,41 +87,7 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
     std::ostringstream oss;
     Gegevens gegevens = Gegevens();
     while (notDone()) {
-        gegevens = Gegevens(gegevens);
-
-        out << "DAG " << dag << ":" << std::endl;
-//    1.1 IF er vaccins geleverd worden op de huidige dag
-//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
-        for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
-            out << "DAG " << dag << ": Hub" << (*it)->getID() << ":" << std::endl;
-            (*it)->vacLeveringen(dag);
-            (*it)->outputHub(out);
-        }
-//        this->impressie(std::cout);
-        for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
-            oss.str("");
-            oss.clear();
-            oss << "dag" << dag;
-
-
-//    1.2 FOR elk centrum verbonden met de hub
-//    1.2.1 voer use case 3.1 uit
-            (*it)->transportToCentra2(dag, out, gegevens);
-        }
-//        this->graphicIntegration("./src/engine","./graphics",oss.str());
-
-//    1.3 FOR elk centrum
-//    1.3.1 voer use case 3.2 uit
-        for (std::vector<Vaccinatiecentrum*>::iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
-            (*it)->vaccineren(dag, out);
-        }
-        gegevens.set_gevaccineerden(getAantalGevaccineerden());
-        gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
-        statistische_gegevens[dag] = gegevens;
-        out << std::endl;
-
-        nextDay();
-
+        simulateDay(gegevens, out);
     }
     for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
         (*it)->outputHub(out);
@@ -287,7 +226,7 @@ void Simulation::addcentrumToSim(Vaccinatiecentrum* centrum){
 
 }
 
-const std::vector<Hub *>& Simulation::getHubs() {
+const std::vector<Hub *>& Simulation::getHubs() const {
     return hubs;
 }
 
@@ -385,3 +324,66 @@ void Simulation::autosimulationuntildoneui(std::ostream &out, VaccinInterface* v
     }
     this->outputGegevens(out);
 }
+
+Simulation::Simulation(const Simulation& sim) {
+    _initcheck = this;
+    statistische_gegevens.insert(sim.statistische_gegevens.begin(), sim.statistische_gegevens.end());
+    this->dag = sim.getDag();
+    std::map<std::string, Vaccinatiecentrum*> vac_map;
+    const std::vector<Hub *> hubs_sim = sim.getHubs();
+    for (std::vector<Vaccinatiecentrum *>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
+        vaccinatiecentra.push_back(new Vaccinatiecentrum(*it));
+        vac_map.insert(std::make_pair(vaccinatiecentra.back()->getNaamCentrum(), vaccinatiecentra.back()));
+    }
+    for (std::vector<Hub *>::const_iterator it = hubs_sim.begin(); it != hubs_sim.end(); it++) {
+        hubs.push_back(new Hub(*it, vac_map ));
+    }
+
+
+}
+
+Simulation::~Simulation() {
+    for(unsigned int i = 0; i < hubs.size(); i++){
+        delete hubs[i];
+    }
+    for(unsigned int i = 0; i < vaccinatiecentra.size(); i++){
+        delete vaccinatiecentra[i];
+    }
+}
+
+void Simulation::simulateDay(Gegevens &gegevens, std::ostream &out) {
+    out << "DAG " << dag << ":" << std::endl;
+    gegevens = Gegevens(gegevens);
+//    1.1 IF er vaccins geleverd worden op de huidige dag
+//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->vacLeveringen(dag);
+        (*it)->outputHub(out);
+    }
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+//        oss.str("");
+//        oss.clear();
+//        oss << "dag" << dag;
+
+//    1.2 FOR elk centrum verbonden met de hub
+//    1.2.1 voer use case 3.1 uit
+
+        (*it)->transportToCentra2(dag, out, gegevens);
+    }
+
+//        this->graphicIntegration("./src/engine","./graphics1",oss.str());
+//    1.3 FOR elk centrum
+//    1.3.1 voer use case 3.2 uit
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
+        (*it)->vaccineren(dag, out);
+    }
+    gegevens.set_gevaccineerden(getAantalGevaccineerden());
+    gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+    statistische_gegevens[dag] = gegevens;
+    nextDay();
+    out << std::endl;
+}
+
+
+
+

@@ -391,7 +391,7 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
     out << ']' << " " << vol_gevac_verhouding << '%' << std::endl;
 }
 
-void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType*> types1) {
+void Vaccinatiecentrum::insertTypes(std::map<std::string, VaccinType*> types1) {
     REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van setTypes");
     types.insert(types1.begin(),types1.end());
     for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++) {
@@ -448,6 +448,19 @@ const std::map<std::string, VaccinType *> &Vaccinatiecentrum::getTypes() const {
 
 const std::map<std::string, std::map<int, int > > &Vaccinatiecentrum::getHernieuwingen() const {
     return hernieuwingen;
+}
+
+Vaccinatiecentrum::Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum) {
+    this->_initCheck = this;
+    this->hernieuwingen.insert(pVaccinatiecentrum->hernieuwingen.begin(),pVaccinatiecentrum->hernieuwingen.end());
+    this->vaccins.insert(pVaccinatiecentrum->vaccins.begin(),pVaccinatiecentrum->vaccins.end());
+    this->aantal_gevaccineerden = pVaccinatiecentrum->aantal_gevaccineerden;
+    this->aantal_vol_gevaccineerden = pVaccinatiecentrum->aantal_vol_gevaccineerden;
+    this->capaciteit = pVaccinatiecentrum->capaciteit;
+    this->aantal_inwoners = pVaccinatiecentrum->aantal_inwoners;
+    this->naam_centrum = pVaccinatiecentrum->naam_centrum;
+    this->adres_centrum = pVaccinatiecentrum->adres_centrum;
+
 }
 
 

@@ -17,7 +17,7 @@
 
 class HubOutputTest: public ::testing::Test {
 protected:
-    HubOutputTest() {}
+    HubOutputTest() : v(nullptr) {}
 
     friend class Hub;
 
@@ -111,7 +111,7 @@ TEST_F(HubOutputTest,Impressie){
     EXPECT_TRUE(FileCompare("./testOutput/testOutput/ImpressieOutput2.txt",
                             "./testOutput/testFiles/ImpressieOutput2.txt"));
 
-    Vaccinatiecentrum vaccinatiecentrum;
+    Vaccinatiecentrum vaccinatiecentrum(nullptr);
     vaccinatiecentrum.setNaamCentrum("b");
     vaccinatiecentrum.setAdresCentrum("b");
     vaccinatiecentrum.setAantalInwoners(2000);

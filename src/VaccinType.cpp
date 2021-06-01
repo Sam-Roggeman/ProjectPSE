@@ -184,3 +184,12 @@ void VaccinType::subGereserveerd(int aantal) {
     ENSURE(gereserveerd>=0, "gereserveerd moet >= 0 bij einde van subGereserveerd");
     ENSURE(start-aantal == gereserveerd, "gereserveerd != start-aantal bij einde van subGereserveerd");
 }
+
+VaccinType::VaccinType(const VaccinType& v2) : name(v2.name), levering(v2.levering),
+                                                                             transport(v2.transport), interval(v2.interval),
+                                                                             aantal_vaccins(v2.aantal_vaccins),
+                                                                             hernieuwing(v2.hernieuwing),
+                                                                             temperatuur(v2.temperatuur),
+                                                                             gereserveerd(v2.gereserveerd) {
+    this->_init_check = this;
+}

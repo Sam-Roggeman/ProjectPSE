@@ -27,6 +27,7 @@ public:
 
     Gegevens(const Gegevens& gegevens);
 
+
     void outputGegevens(std::ostream& out) const;
 };
 

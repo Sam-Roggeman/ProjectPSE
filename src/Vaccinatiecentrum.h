@@ -233,7 +233,7 @@ public:
      * @pre this->correctlyinitialized
      * @post getVaccins()[type.getname] == 0;
      */
-    void setTypes(std::map<std::string, VaccinType*> map);
+    void insertTypes(std::map<std::string, VaccinType*> map);
 
     /**
      * vraagt het aantal gereserveerde vaccins op van type met naam naam_type
@@ -279,6 +279,8 @@ public:
      * @pre this->correctlyinitialized
      */
     int aantalOnvolledigGev();
+
+    Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum);
 };
 
 

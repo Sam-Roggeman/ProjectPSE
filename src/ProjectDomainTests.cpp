@@ -16,7 +16,7 @@
 
 class HubDomainTest: public ::testing::Test {
 protected:
-    HubDomainTest() : hub2(0) {}
+    HubDomainTest() : hub2(0), v(nullptr), vac(nullptr) {}
 
     friend class Hub;
 

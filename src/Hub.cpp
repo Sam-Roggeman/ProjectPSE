@@ -330,9 +330,9 @@ void Hub::impressie(std::ostream &out) {
     }
 }
 
-void Hub::setCentrumTypes() const  {
+void Hub::insertCentrumTypes() const  {
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
-        it->second->setTypes(this->getTypes());
+        it->second->insertTypes(this->getTypes());
     }
 }
 
@@ -395,4 +395,20 @@ int Hub::getAantalVolGevaccineerden(){
         aantal += it->second->getAantalVolGevaccineerden();
     }
     return aantal;
+}
+
+
+Hub::Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector) : _hub_ID (pHub->getID()) {
+    _initCheck = this;
+    for (std::map<std::string, VaccinType*>::const_iterator it = pHub->types.begin(); it != pHub->types.end(); it++){
+
+        this->addType(new VaccinType(*(it->second)));
+    }
+    for (std::map<std::string, Vaccinatiecentrum *>::const_iterator it = pHub->vaccinatiecentra.begin();
+         it != pHub->vaccinatiecentra.end(); it++) {
+        this->addcentrum(vector[it->second->getNaamCentrum()]);
+    }
+    this->insertCentrumTypes();
+    aantal_ladingen_vorige_dag.insert(pHub->aantal_ladingen_vorige_dag.begin(), pHub->aantal_ladingen_vorige_dag.end());
+
 }

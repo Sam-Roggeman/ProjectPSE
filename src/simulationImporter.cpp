@@ -104,7 +104,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
         for (std::vector<std::string>::const_iterator c_name = string_centra.begin(); c_name != string_centra.end(); c_name++) {
             sim.addcentrum(vaccinatiecentra[(*c_name)],(*it));
         }
-        (*it)->setCentrumTypes();
+        (*it)->insertCentrumTypes();
     }
 
     for (std::vector<Hub*>::const_iterator it = sim.getHubs().begin(); it != sim.getHubs().end(); it++) {

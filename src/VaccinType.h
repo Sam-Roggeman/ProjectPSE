@@ -148,6 +148,7 @@ public:
      */
     VaccinType();
 
+
     /**Geeft het aantal vaccins van dit type in de hub terug
      *@returns aantal vaccins van dit type in de hub
      * @pre this->correctlyInitialized
@@ -217,6 +218,8 @@ public:
      * @post getGereserveerd() >= 0
      * */
     void subGereserveerd(int aantal);
+
+    VaccinType(const VaccinType& v2);
 };
 
 

@@ -156,7 +156,7 @@ public:
      * zet een kopie van de map met getTypes() in elk centrum
      * @pre this->correctlyinitialized()
      */
-    void setCentrumTypes() const;
+    void insertCentrumTypes() const;
 
     void vacLeveringen(int dag);
 
@@ -177,6 +177,9 @@ public:
     int getAantalEnkelGevaccineerden();
 
     int getAantalVolGevaccineerden();
+
+
+    Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector);
 };
 
 
