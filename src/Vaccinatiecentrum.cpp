@@ -359,7 +359,7 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
     int vac_verhouding = 100 * this->getAantalVaccins() / (this->getCapaciteit() * 2);
     int gevac_verhouding = 100*this->getAantalGevaccineerden()/this->getAantalInwoners();
     int vol_gevac_verhouding = 100*this->getAantalVolGevaccineerden()/this->getAantalInwoners();
-    out << this->getNaamCentrum() << ':' << std::endl << '\t' << "- vaccins\t\t\t\t";
+    out << this->getNaamCentrum() << ':' << std::endl << "    "  << "- vaccins               ";
 
     out << '[';
     for(int i = 0; i < vac_verhouding/5; i++){
@@ -370,7 +370,7 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
     }
     out << ']' << " " << vac_verhouding << '%' << std::endl;
 
-    out << '\t' << "- gevaccineerd\t\t\t";
+    out << "    " << "- gevaccineerd          ";
     out << '[';
     for(int i = 0; i < gevac_verhouding/5; i++){
         out << '=';
@@ -380,7 +380,7 @@ void Vaccinatiecentrum::impressie(std::ostream &out) {
     }
     out << ']' << " " << gevac_verhouding << '%' << std::endl;
 
-    out << '\t' << "- volledig gevaccineerd\t";
+    out << "    " << "- volledig gevaccineerd ";
     out << '[';
     for(int i = 0; i < vol_gevac_verhouding/5; i++){
         out << '=';

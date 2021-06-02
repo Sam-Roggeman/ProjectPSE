@@ -149,6 +149,7 @@ public:
     int getAantalVolGevaccineerden();
     Simulation();
 
+    const std::vector<Vaccinatiecentrum *> &getVaccinatiecentra() const;
 //    /**Zet de gegeven hub in als de hub van de simulatie
 // * @param h: De hub die in de simulatie wordt gezet
 // * @pre this->getHub()->correctlyInitialized()

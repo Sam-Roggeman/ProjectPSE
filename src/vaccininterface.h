@@ -10,6 +10,7 @@
 #include <QDialog>
 #include <QStackedWidget>
 #include "Simulation.h"
+#include <stack>
 
 
 
@@ -21,6 +22,11 @@ class VaccinInterface : public QDialog
 {
     Q_OBJECT
     Simulation * simulatie;
+    QFont* textFont;
+    std::stack<Simulation> redoStack;
+    std::stack<Simulation> undoStack;
+    std::map<int , std::pair<QString,QString>> dayToString;
+
 
 public:
     explicit VaccinInterface(QWidget *parent = nullptr);
@@ -47,6 +53,8 @@ private slots:
 
 private:
     Ui::VaccinInterface *ui;
+
+    void doSimulation(int aantal_dagen);
 };
 
 #endif // VACCININTERFACE_H

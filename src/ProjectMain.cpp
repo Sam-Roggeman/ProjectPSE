@@ -39,16 +39,22 @@ int main(int argc, char *argv[])
 
 //int main(int argc, char **argv) {
 //    Simulation* simulatie;
-//
+//    Gegevens gegevens = Gegevens();
 //    simulatie = new Simulation();
-//    simulationImporter::importSimulation("/mnt/a/School/2020-2021/pse/ProjectPSE/testInput/Juist.xml", std::cout, *simulatie);
-
 //    ofstream o;
-//    o.open("test.txt");
-//    Simulation s;
-//    simulationImporter::importSimulation("./testInput/t2.xml",  std::cout, s);
-//    s.autoSimulationUntilDone(std::cout);
-//    o.close();
+//    simulationImporter::importSimulation("/mnt/a/School/2020-2021/pse/ProjectPSE/testInput/Juist.xml", std::cout, *simulatie);
+//
+//    simulatie->simulateDay(gegevens, o);
+//    simulatie->impressie(std::cout);
+//
+//    simulatie = new Simulation(*simulatie);
+//
+////    ofstream o;
+////    o.open("test.txt");
+////    Simulation s;
+////    simulationImporter::importSimulation("./testInput/t2.xml",  std::cout, s);
+////    s.autoSimulationUntilDone(std::cout);
+////    o.close();
 //    return 0;
 //}
 
