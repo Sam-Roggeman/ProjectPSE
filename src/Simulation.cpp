@@ -131,6 +131,7 @@ void Simulation::clear() {
 
 void Simulation::impressie(std::ostream &out) {
     REQUIRE(this->correctlyInitialized(), "simulatie was niet correct geinitializeerd bij oproep van impressie");
+    out << "DAG " <<dag << " :" <<std::endl;
     for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
         (*it)->impressie(out);
     }
@@ -330,8 +331,10 @@ Simulation::Simulation(const Simulation& sim) {
     statistische_gegevens.insert(sim.statistische_gegevens.begin(), sim.statistische_gegevens.end());
     this->dag = sim.getDag();
     std::map<std::string, Vaccinatiecentrum*> vac_map;
+
     const std::vector<Hub *> hubs_sim = sim.getHubs();
-    for (std::vector<Vaccinatiecentrum *>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
+    const std::vector<Vaccinatiecentrum *> vac_sim = sim.getVaccinatiecentra();
+    for (std::vector<Vaccinatiecentrum *>::const_iterator it = vac_sim.begin(); it != vac_sim.end(); it++) {
         vaccinatiecentra.push_back(new Vaccinatiecentrum(*it));
         vac_map.insert(std::make_pair(vaccinatiecentra.back()->getNaamCentrum(), vaccinatiecentra.back()));
     }
@@ -382,6 +385,10 @@ void Simulation::simulateDay(Gegevens &gegevens, std::ostream &out) {
     statistische_gegevens[dag] = gegevens;
     nextDay();
     out << std::endl;
+}
+
+const std::vector<Vaccinatiecentrum *> &Simulation::getVaccinatiecentra() const {
+    return vaccinatiecentra;
 }
 
 

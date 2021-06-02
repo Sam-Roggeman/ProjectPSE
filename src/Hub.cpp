@@ -401,7 +401,6 @@ int Hub::getAantalVolGevaccineerden(){
 Hub::Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector) : _hub_ID (pHub->getID()) {
     _initCheck = this;
     for (std::map<std::string, VaccinType*>::const_iterator it = pHub->types.begin(); it != pHub->types.end(); it++){
-
         this->addType(new VaccinType(*(it->second)));
     }
     for (std::map<std::string, Vaccinatiecentrum *>::const_iterator it = pHub->vaccinatiecentra.begin();
