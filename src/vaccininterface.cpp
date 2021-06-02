@@ -18,6 +18,7 @@ VaccinInterface::VaccinInterface(QWidget *parent) :
 
 
     simulatie = new Simulation();
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 VaccinInterface::~VaccinInterface()
