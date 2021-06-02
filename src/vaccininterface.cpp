@@ -138,3 +138,8 @@ void VaccinInterface::on_Impressies_currentChanged(int arg1)
 {
     this->ui->Impressies->setCurrentIndex(arg1);
 }
+
+void VaccinInterface::on_Confirm_clicked()
+{
+
+}
