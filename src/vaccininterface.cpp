@@ -143,3 +143,23 @@ void VaccinInterface::on_Confirm_clicked()
 {
 
 }
+
+void VaccinInterface::on_pushButton_5_clicked()
+{
+    on_Impressies_currentChanged(2);
+}
+
+void VaccinInterface::on_pushButton_6_clicked()
+{
+    on_Impressies_currentChanged(2);
+}
+
+void VaccinInterface::on_pushButton_3_clicked()
+{
+    on_Impressies_currentChanged(0);
+}
+
+void VaccinInterface::on_pushButton_4_clicked()
+{
+    on_Impressies_currentChanged(1);
+}
