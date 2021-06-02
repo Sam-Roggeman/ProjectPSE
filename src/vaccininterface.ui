@@ -16,10 +16,10 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>10</x>
+     <x>0</x>
      <y>0</y>
-     <width>701</width>
-     <height>561</height>
+     <width>711</width>
+     <height>571</height>
     </rect>
    </property>
    <property name="currentIndex">
@@ -37,6 +37,19 @@
      </property>
      <property name="text">
       <string>Generate sim</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pushButton_2">
+     <property name="geometry">
+      <rect>
+       <x>310</x>
+       <y>310</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>PushButton</string>
      </property>
     </widget>
    </widget>
@@ -96,14 +109,14 @@
     <widget class="QStackedWidget" name="Impressies">
      <property name="geometry">
       <rect>
-       <x>49</x>
-       <y>59</y>
+       <x>40</x>
+       <y>20</y>
        <width>601</width>
        <height>331</height>
       </rect>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="page_3">
       <widget class="QTextEdit" name="textEdit">
@@ -155,12 +168,59 @@
        </property>
       </widget>
      </widget>
+     <widget class="QWidget" name="page_5">
+      <widget class="QTableWidget" name="tableWidget">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>10</y>
+         <width>531</width>
+         <height>251</height>
+        </rect>
+       </property>
+       <property name="dragEnabled">
+        <bool>false</bool>
+       </property>
+       <attribute name="horizontalHeaderCascadingSectionResizes">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>New Column</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>New Column</string>
+        </property>
+       </column>
+      </widget>
+      <widget class="QPushButton" name="Confirm">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>280</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Confirm</string>
+       </property>
+      </widget>
+     </widget>
     </widget>
     <widget class="QSpinBox" name="spinBox">
      <property name="geometry">
       <rect>
        <x>140</x>
-       <y>390</y>
+       <y>370</y>
        <width>42</width>
        <height>22</height>
       </rect>

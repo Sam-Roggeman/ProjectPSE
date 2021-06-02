@@ -8,6 +8,7 @@ VaccinInterface::VaccinInterface(QWidget *parent) :
     ui(new Ui::VaccinInterface)
 {
     ui->setupUi(this);
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 VaccinInterface::~VaccinInterface()
@@ -83,4 +84,9 @@ void VaccinInterface::on_Exit_clicked()
 void VaccinInterface::on_Impressies_currentChanged(int arg1)
 {
     this->ui->Impressies->setCurrentIndex(arg1);
+}
+
+void VaccinInterface::on_Confirm_clicked()
+{
+
 }

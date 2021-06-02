@@ -45,6 +45,8 @@ private slots:
 
     void on_Impressies_currentChanged(int arg1);
 
+    void on_Confirm_clicked();
+
 private:
     Ui::VaccinInterface *ui;
 };
