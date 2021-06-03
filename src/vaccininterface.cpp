@@ -277,3 +277,33 @@ void VaccinInterface::on_pushButton_4_clicked()
 {
     on_Impressies_currentChanged(1);
 }
+
+void VaccinInterface::on_Statististische_gegevens_clicked()
+{
+    on_Impressies_currentChanged(3);
+}
+
+void VaccinInterface::on_Statistische_gegevens_2_clicked()
+{
+    on_Impressies_currentChanged(3);
+}
+
+void VaccinInterface::on_Statistische_gegevens_3_clicked()
+{
+    on_Impressies_currentChanged(3);
+}
+
+void VaccinInterface::on_Normale_impressie_2_clicked()
+{
+    on_Impressies_currentChanged(0);
+}
+
+void VaccinInterface::on_Grafische_impressie_2_clicked()
+{
+    on_Impressies_currentChanged(1);
+}
+
+void VaccinInterface::on_Manuele_vaccins_clicked()
+{
+    on_Impressies_currentChanged(2);
+}

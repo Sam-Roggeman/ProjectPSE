@@ -62,6 +62,18 @@ private slots:
 
     void on_pushButton_4_clicked();
 
+    void on_Statististische_gegevens_clicked();
+
+    void on_Statistische_gegevens_2_clicked();
+
+    void on_Statistische_gegevens_3_clicked();
+
+    void on_Normale_impressie_2_clicked();
+
+    void on_Grafische_impressie_2_clicked();
+
+    void on_Manuele_vaccins_clicked();
+
 private:
     Ui::VaccinInterface *ui;
 
