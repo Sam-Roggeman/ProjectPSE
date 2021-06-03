@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>710</width>
-    <height>571</height>
+    <width>907</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,9 @@
   <widget class="QStackedWidget" name="stackedWidget">
    <property name="geometry">
     <rect>
-     <x>0</x>
+     <x>-10</x>
      <y>0</y>
-     <width>711</width>
+     <width>911</width>
      <height>571</height>
     </rect>
    </property>
@@ -29,27 +29,14 @@
     <widget class="QPushButton" name="pushButton">
      <property name="geometry">
       <rect>
-       <x>310</x>
-       <y>270</y>
+       <x>400</x>
+       <y>250</y>
        <width>93</width>
        <height>28</height>
       </rect>
      </property>
      <property name="text">
-      <string>Generate sim</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="pushButton_2">
-     <property name="geometry">
-      <rect>
-       <x>310</x>
-       <y>310</y>
-       <width>93</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>PushButton</string>
+      <string>Import sim</string>
      </property>
     </widget>
    </widget>
@@ -109,8 +96,8 @@
     <widget class="QStackedWidget" name="Impressies">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>30</y>
+       <x>90</x>
+       <y>40</y>
        <width>561</width>
        <height>331</height>
       </rect>
@@ -132,7 +119,7 @@
       <widget class="QPushButton" name="Grafische_impressie">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>140</x>
          <y>280</y>
          <width>131</width>
          <height>28</height>
@@ -145,7 +132,7 @@
       <widget class="QPushButton" name="Statististische_gegevens_2">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>340</x>
          <y>280</y>
          <width>121</width>
          <height>28</height>
@@ -155,25 +142,12 @@
         <string>Manueel vaccins</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="Statistische_gegevens_2">
-       <property name="geometry">
-        <rect>
-         <x>402</x>
-         <y>280</y>
-         <width>151</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Statistische gegevens</string>
-       </property>
-      </widget>
      </widget>
      <widget class="QWidget" name="page_4">
       <widget class="QTextEdit" name="textEdit_2">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>40</x>
          <y>20</y>
          <width>491</width>
          <height>241</height>
@@ -183,7 +157,7 @@
       <widget class="QPushButton" name="Normale_impressie">
        <property name="geometry">
         <rect>
-         <x>60</x>
+         <x>90</x>
          <y>280</y>
          <width>131</width>
          <height>28</height>
@@ -196,7 +170,7 @@
       <widget class="QPushButton" name="pushButton_6">
        <property name="geometry">
         <rect>
-         <x>250</x>
+         <x>320</x>
          <y>280</y>
          <width>121</width>
          <height>28</height>
@@ -204,19 +178,6 @@
        </property>
        <property name="text">
         <string>Manueel vaccins</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="Statistische_gegevens_3">
-       <property name="geometry">
-        <rect>
-         <x>422</x>
-         <y>280</y>
-         <width>131</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Statistische gegevens</string>
        </property>
       </widget>
      </widget>
@@ -256,7 +217,7 @@
       <widget class="QPushButton" name="Confirm">
        <property name="geometry">
         <rect>
-         <x>170</x>
+         <x>240</x>
          <y>280</y>
          <width>93</width>
          <height>28</height>
@@ -282,7 +243,7 @@
       <widget class="QPushButton" name="pushButton_4">
        <property name="geometry">
         <rect>
-         <x>280</x>
+         <x>430</x>
          <y>280</y>
          <width>121</width>
          <height>28</height>
@@ -292,61 +253,8 @@
         <string>Grafische impressie</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="Statististische_gegevens">
-       <property name="geometry">
-        <rect>
-         <x>420</x>
-         <y>280</y>
-         <width>131</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Statistische gegevens</string>
-       </property>
-      </widget>
      </widget>
-     <widget class="QWidget" name="page_6">
-      <widget class="QPushButton" name="Normale_impressie_2">
-       <property name="geometry">
-        <rect>
-         <x>70</x>
-         <y>280</y>
-         <width>131</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Normale impressie</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="Grafische_impressie_2">
-       <property name="geometry">
-        <rect>
-         <x>250</x>
-         <y>280</y>
-         <width>131</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Grafische impressie</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="Manuele_vaccins">
-       <property name="geometry">
-        <rect>
-         <x>432</x>
-         <y>280</y>
-         <width>121</width>
-         <height>28</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>Manuele vaccins</string>
-       </property>
-      </widget>
-     </widget>
+     <widget class="QWidget" name="page_6"/>
     </widget>
     <widget class="QSpinBox" name="spinBox">
      <property name="geometry">
@@ -357,6 +265,18 @@
        <height>22</height>
       </rect>
      </property>
+    </widget>
+    <widget class="QStackedWidget" name="Grafiek">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>50</y>
+       <width>181</width>
+       <height>291</height>
+      </rect>
+     </property>
+     <widget class="QWidget" name="page_7"/>
+     <widget class="QWidget" name="page_8"/>
     </widget>
    </widget>
   </widget>
