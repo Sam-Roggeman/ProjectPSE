@@ -34,7 +34,7 @@ class VaccinInterface : public QDialog
     QBarSet *gevaccineerden = new QBarSet("gevaccineerden");
     QBarSet *ongevaccineerden = new QBarSet("ongevaccineerden");
     std::map<std::string, QBarSet*> barsets;
-    QValueAxis *axisY;
+    QValueAxis *axisY_types;
 
 
 

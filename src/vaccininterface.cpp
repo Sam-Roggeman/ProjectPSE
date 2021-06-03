@@ -102,7 +102,7 @@ void VaccinInterface::on_pushButton_clicked() {
 //                std::cout << type_it->first <<std::endl;
 
                 barsets[type_it->first] = qBarSet;
-                *(barsets[type_it->first]) << 1;
+                *(barsets[type_it->first]) << 0;
                 types->append(barsets[type_it->first]);
 
             }
@@ -129,7 +129,7 @@ void VaccinInterface::on_pushButton_clicked() {
         chart->setTitle("Progress");
         chart->setAnimationOptions(QChart::SeriesAnimations);
         chart->setBackgroundVisible(false);
-        axisY = new QValueAxis();
+        QValueAxis * axisY = new QValueAxis();
         axisY->setLabelFormat("%.0i");
         chart->addAxis(axisY, Qt::AlignLeft);
         progress->attachAxis(axisY);
@@ -148,10 +148,10 @@ void VaccinInterface::on_pushButton_clicked() {
 
         QChart *chart_types = new QChart();
         chart_types->addSeries(types);
-        chart_types->setTitle("Types");
+        chart_types->setTitle("Types/1000");
         chart_types->setAnimationOptions(QChart::SeriesAnimations);
         chart_types->setBackgroundVisible(false);
-        QValueAxis *axisY_types = new QValueAxis();
+        axisY_types = new QValueAxis();
 //        axisY_types->setLabelFormat("%.0f");
         chart_types->addAxis(axisY_types, Qt::AlignLeft);
         types->attachAxis(axisY_types);
@@ -194,10 +194,10 @@ void VaccinInterface::replaceChart(const Gegevens* gegevens)
 //    QBarSet * curr_barset;
     int totaal = 0;
     for (std::map<std::string, int>::const_iterator it = gegevens->getGeleverdType().begin(); it != gegevens->getGeleverdType().end(); it++){
-        barsets[it->first]->replace(0,it->second);
-        totaal += it->second;
+        barsets[it->first]->replace(0,(it->second+500)/1000);
+        totaal += (it->second+500)/1000;
     }
-    axisY->setMax(totaal);
+    axisY_types->setMax(totaal);
 
 
 }
