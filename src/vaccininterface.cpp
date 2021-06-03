@@ -41,6 +41,54 @@ void VaccinInterface::on_pushButton_clicked() {
     if (!fileName.isEmpty()) {
         this->on_stackedWidget_currentChanged(1);
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, *simulatie);
+
+        for (std::vector<Hub*>::const_iterator hub_it = simulatie->getHubs().begin(); hub_it != simulatie->getHubs().end(); hub_it++){
+            aantal_rows++;
+            for (std::map<std::string,Vaccinatiecentrum*>::const_iterator vac_it = (*hub_it)->getVaccinatiecentra().begin();
+            vac_it != (*hub_it)->getVaccinatiecentra().end(); vac_it++) {
+                aantal_rows++;
+            }
+        }
+
+        ui->tableWidget->setRowCount(aantal_rows);
+        for(int i = 0; i < ui->tableWidget->rowCount(); i++){
+            qTableWidgetItem = new QTableWidgetItem();
+            ui->tableWidget->setItem(i,1,qTableWidgetItem);
+
+            qTableWidgetItem = new QTableWidgetItem();
+            ui->tableWidget->setItem(i,0,qTableWidgetItem);
+
+        }
+        ui->tableWidget->horizontalHeaderItem(0)->setText("VaccinatieCentra");
+        ui->tableWidget->horizontalHeaderItem(1)->setText("Aantal Vaccins");
+
+        for (std::vector<Hub*>::const_iterator hub_it = simulatie->getHubs().begin(); hub_it != simulatie->getHubs().end(); hub_it++){
+            current_row++;
+            hubnaam = QString::fromStdString("Hub "+std::to_string((*hub_it)->getID()));
+            qTableWidgetItem = ui->tableWidget->item(current_row,0);
+            qTableWidgetItem->setText(hubnaam);
+            qTableWidgetItem->setFlags(qTableWidgetItem->flags() & Qt::ItemIsEditable);
+            qTableWidgetItem->setTextColor(QColor("black"));
+            qTableWidgetItem->setBackgroundColor(QColor("lightGrey"));
+            qTableWidgetItem = ui->tableWidget->item(current_row,1);
+            qTableWidgetItem->setFlags(qTableWidgetItem->flags() & Qt::ItemIsEditable);
+            qTableWidgetItem->setBackgroundColor(QColor("lightGrey"));
+
+
+            for (std::map<std::string,Vaccinatiecentrum*>::const_iterator vac_it = (*hub_it)->getVaccinatiecentra().begin();
+                 vac_it != (*hub_it)->getVaccinatiecentra().end(); vac_it++) {
+                current_row++;
+                centrumnaam = QString::fromStdString((*vac_it).first);
+                qTableWidgetItem = ui->tableWidget->item(current_row,0);
+                qTableWidgetItem->setText(centrumnaam);
+                qTableWidgetItem->setFlags(qTableWidgetItem->flags() & Qt::ItemIsEditable);
+                qTableWidgetItem->setTextColor(QColor("black"));
+                qTableWidgetItem->setBackgroundColor(QColor("lightGrey"));
+
+                ui->tableWidget->item(current_row,1)->setText(zero);
+
+            }
+        }
     }
 }
 

@@ -97,4 +97,4 @@ add_executable(project_debug ${DEBUG_SOURCE_FILES})
 
 # Link library
 target_link_libraries(project_debug gtest)
-target_link_libraries(project Qt5::Widgets)
+target_link_libraries(project Qt5::Widgets Qt5::Charts)
