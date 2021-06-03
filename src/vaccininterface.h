@@ -12,6 +12,8 @@
 #include "Simulation.h"
 #include <stack>
 #include <QMessageBox>
+#include <QtCharts>
+
 
 
 
@@ -27,6 +29,13 @@ class VaccinInterface : public QDialog
     std::stack<Simulation> redoStack;
     std::stack<Simulation> undoStack;
     std::map<int , std::pair<QString,QString>> dayToString;
+    Gegevens curr_gegevens;
+    QBarSet *volledig_gevaccineerden = new QBarSet("volledig_gevaccineerden");
+    QBarSet *gevaccineerden = new QBarSet("gevaccineerden");
+    QBarSet *ongevaccineerden = new QBarSet("ongevaccineerden");
+    std::map<std::string, QBarSet*> barsets;
+    QValueAxis *axisY;
+
 
 
 public:
@@ -66,6 +75,8 @@ private:
     Ui::VaccinInterface *ui;
 
     void doSimulation(int aantal_dagen);
+
+    void replaceChart(const Gegevens *gegevens);
 };
 
 #endif // VACCININTERFACE_H

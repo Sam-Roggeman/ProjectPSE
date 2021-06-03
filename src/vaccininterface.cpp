@@ -19,6 +19,8 @@ VaccinInterface::VaccinInterface(QWidget *parent) :
 
     simulatie = new Simulation();
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+
+
 }
 
 VaccinInterface::~VaccinInterface()
@@ -37,13 +39,19 @@ void VaccinInterface::on_pushButton_clicked() {
     QString zero("0");
     QString centrumnaam("");
     QString hubnaam("");
-
+    int aantal_types = 0;
+    QBarSet * qBarSet;
+    QStackedBarSeries *types = new QStackedBarSeries();
     if (!fileName.isEmpty()) {
+        curr_gegevens = Gegevens();
+
         this->on_stackedWidget_currentChanged(1);
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, *simulatie);
 
         for (std::vector<Hub*>::const_iterator hub_it = simulatie->getHubs().begin(); hub_it != simulatie->getHubs().end(); hub_it++){
             aantal_rows++;
+            aantal_types += (*hub_it)->getTypes().size();
+
             for (std::map<std::string,Vaccinatiecentrum*>::const_iterator vac_it = (*hub_it)->getVaccinatiecentra().begin();
             vac_it != (*hub_it)->getVaccinatiecentra().end(); vac_it++) {
                 aantal_rows++;
@@ -88,7 +96,80 @@ void VaccinInterface::on_pushButton_clicked() {
                 ui->tableWidget->item(current_row,1)->setText(zero);
 
             }
+
+            for (std::map<std::string,VaccinType*>::const_iterator type_it = (*hub_it)->getTypes().begin();type_it != (*hub_it)->getTypes().end();type_it++)  {
+                qBarSet = new QBarSet(QString::fromStdString(type_it->first));
+//                std::cout << type_it->first <<std::endl;
+
+                barsets[type_it->first] = qBarSet;
+                *(barsets[type_it->first]) << 1;
+                types->append(barsets[type_it->first]);
+
+            }
         }
+
+//        volledig_gevaccineerden->labelFont() = QFont::({pointSize: 10});
+//        gevaccineerden->labelFont() = QFont::({pointSize: 10});
+//        ongevaccineerden->labelFont() = QFont::({pointSize: 10});
+//        volledig_gevaccineerden->labelFont().setPointSize(10);
+//        gevaccineerden->labelFont().setPointSize(10);
+//        ongevaccineerden->labelFont().setPointSize(10);
+
+        *volledig_gevaccineerden << 0;
+        *gevaccineerden << 0;
+        *ongevaccineerden << simulatie->getAantalInwoners();
+        QStackedBarSeries *progress = new QStackedBarSeries();
+
+        progress->append(volledig_gevaccineerden);
+        progress->append(gevaccineerden);
+        progress->append(ongevaccineerden);
+
+        QChart *chart = new QChart();
+        chart->addSeries(progress);
+        chart->setTitle("Progress");
+        chart->setAnimationOptions(QChart::SeriesAnimations);
+        chart->setBackgroundVisible(false);
+        axisY = new QValueAxis();
+        axisY->setLabelFormat("%.0i");
+        chart->addAxis(axisY, Qt::AlignLeft);
+        progress->attachAxis(axisY);
+        chart->legend()->setVisible(false);
+//        chart->legend()->setAlignment(Qt::AlignRight);
+//        chart->legend()->font().setPointSize(1);
+//        chart->legend()->setVisible(false);
+        QChartView *chartView;
+        QChartView *chartView_2;
+
+        chartView = new QChartView(chart);
+        chartView->setRenderHint(QPainter::Antialiasing);
+        ui->Grafiek->insertWidget(0,chartView);
+        chartView->show();
+        chartView->resize(ui->Grafiek->size());
+
+        QChart *chart_types = new QChart();
+        chart_types->addSeries(types);
+        chart_types->setTitle("Types");
+        chart_types->setAnimationOptions(QChart::SeriesAnimations);
+        chart_types->setBackgroundVisible(false);
+        QValueAxis *axisY_types = new QValueAxis();
+//        axisY_types->setLabelFormat("%.0f");
+        chart_types->addAxis(axisY_types, Qt::AlignLeft);
+        types->attachAxis(axisY_types);
+        chart_types->legend()->setVisible(true);
+        chart_types->legend()->setAlignment(Qt::AlignRight);
+//        chart_types->legend()->font().setPointSize(1);
+//        chart_types->legend()->setVisible(false);
+        chartView_2 = new QChartView(chart_types);
+        chartView_2->setRenderHint(QPainter::Antialiasing);
+        ui->Grafiek_2->insertWidget(0,chartView_2);
+        chartView_2->show();
+        chartView_2->resize(ui->Grafiek_2->size());
+
+
+
+
+//        chartView->move(300,50);
+
     }
 }
 
@@ -102,11 +183,27 @@ void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 void VaccinInterface::on_Start_clicked()
 {
     doSimulation(ui->spinBox->value());
+    replaceChart(simulatie->getGegevens(simulatie->getDag()-1));
+}
+
+void VaccinInterface::replaceChart(const Gegevens* gegevens)
+{
+    this->gevaccineerden->replace(0,gegevens->getGevaccineerden());
+    this->ongevaccineerden->replace(0,simulatie->getAantalInwoners() - gegevens->getGevaccineerden( )- gegevens->getGevaccineerden());
+    this->volledig_gevaccineerden->replace(0,gegevens->getTotaalGevaccineerden());
+//    QBarSet * curr_barset;
+    int totaal = 0;
+    for (std::map<std::string, int>::const_iterator it = gegevens->getGeleverdType().begin(); it != gegevens->getGeleverdType().end(); it++){
+        barsets[it->first]->replace(0,it->second);
+        totaal += it->second;
+    }
+    axisY->setMax(totaal);
+
+
 }
 
 void VaccinInterface::doSimulation(int aantal_dagen){
     std::stringstream stringstream;
-    Gegevens gegevens = Gegevens();
     QString output_string_text;
     QString output_string_imp;
     int einddag = aantal_dagen + simulatie->getDag();
@@ -118,7 +215,7 @@ void VaccinInterface::doSimulation(int aantal_dagen){
         }
 
         stringstream.str(std::string());
-        simulatie->simulateDay(gegevens,stringstream);
+        simulatie->simulateDay(curr_gegevens,stringstream);
         output_string_text = QString::fromStdString(stringstream.str());
         ui->textEdit->append(output_string_text);
 
@@ -136,6 +233,7 @@ void VaccinInterface::on_Vorige_dag_clicked()
 {
     int start_day = simulatie->getDag();
     if (!undoStack.empty()){
+        replaceChart(simulatie->getGegevens(simulatie->getDag()-1));
         redoStack.push(Simulation(*simulatie));
         delete simulatie;
         simulatie = new Simulation(undoStack.top());
@@ -155,6 +253,7 @@ void VaccinInterface::on_Vorige_dag_clicked()
             }
         }
         int end_day = simulatie->getDag();
+
         ENSURE(end_day == start_day-1, "end_day != start_day=1");
     }
 }
@@ -171,6 +270,7 @@ void VaccinInterface::on_Volgende_dag_clicked()
     else{
         doSimulation(1);
     }
+    replaceChart(simulatie->getGegevens(simulatie->getDag()-1));
 }
 
 void VaccinInterface::on_Grafische_impressie_clicked()
@@ -212,9 +312,6 @@ void VaccinInterface::on_Confirm_clicked()
     std::map<std::string,std::map<int,int>> vaccins_to_centra;
     QMessageBox messageBox;
     std::stringstream out;
-    Gegevens gegevens;
-
-
 
 //    out << "DAG " << dag << ":" << std::endl;
 
@@ -248,7 +345,7 @@ void VaccinInterface::on_Confirm_clicked()
 
 
     out.str(std::string(""));
-    simulatie->simulateManual(vaccins_to_centra, gegevens,out);
+    simulatie->simulateManual(vaccins_to_centra, curr_gegevens,out);
     ui->textEdit->append(QString::fromStdString(out.str()));
     out.str(std::string(""));
     simulatie->impressie(out);

@@ -233,6 +233,8 @@ const std::vector<Hub *>& Simulation::getHubs() const {
 
 Simulation::Simulation() {
     dag = 0;
+    statistische_gegevens[dag] = Gegevens();
+
     _initcheck = this;
 }
 
@@ -328,7 +330,12 @@ void Simulation::autosimulationuntildoneui(std::ostream &out, VaccinInterface* v
 
 Simulation::Simulation(const Simulation& sim) {
     _initcheck = this;
-    statistische_gegevens.insert(sim.statistische_gegevens.begin(), sim.statistische_gegevens.end());
+    for (std::map<int, Gegevens>::const_iterator it = sim.statistische_gegevens.begin(); it != sim.statistische_gegevens.end(); it++) {
+        this->statistische_gegevens[it->first] = Gegevens(it->second);
+    }
+
+
+//        statistische_gegevens.insert(sim.statistische_gegevens.begin(), sim.statistische_gegevens.end());
     this->dag = sim.getDag();
     std::map<std::string, Vaccinatiecentrum*> vac_map;
 
@@ -440,6 +447,15 @@ void Simulation::sendVaccins(const int vaccins, const int hub_id, const std::str
     hubs.at(hub_id)->sendVaccins(vaccins, name_centrum, this->getDag(),out);
 }
 
+int Simulation::getAantalInwoners(){
+    int inwoners = 0;
+    for (std::vector<Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++ ) {
+        inwoners += (*it)->getAantalInwoners();
+    }
+    return inwoners;
+}
 
-
+const Gegevens* Simulation::getGegevens(int _dag){
+    return &(this->statistische_gegevens.at(_dag));
+}
 

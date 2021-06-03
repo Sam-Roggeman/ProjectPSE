@@ -25,11 +25,11 @@
 class VaccinInterface;
 
 class Simulation {
-    Simulation* _initcheck;
-    std::vector<Hub*> hubs;
-    std::vector<Vaccinatiecentrum*> vaccinatiecentra;
+    Simulation *_initcheck;
+    std::vector<Hub *> hubs;
+    std::vector<Vaccinatiecentrum *> vaccinatiecentra;
     int dag;
-    std::map<int,Gegevens> statistische_gegevens;
+    std::map<int, Gegevens> statistische_gegevens;
 public:
     /**Geeft de huidige dag van de simulatie terug
      * @returns Huidige dag
@@ -112,7 +112,7 @@ public:
      * @post this->getHub()->getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != vaccinatiecentra.end()
      * @post this->getHub()->getVaccinatiecentra().size() += 1
      */
-    void addcentrum(Vaccinatiecentrum *v,Hub * h);
+    void addcentrum(Vaccinatiecentrum *v, Hub *h);
 
     /**Zorgt ervoor dat de simulatie van de huidige dag naar de volgende dag gaat
      * @pre this->correctlyInitialized()
@@ -137,16 +137,18 @@ public:
      * */
     void impressie(std::ostream &out);
 
-    void graphicIntegration(std::string path_to_engine, std::string path_to_safe,std::string name);
+    void graphicIntegration(std::string path_to_engine, std::string path_to_safe, std::string name);
 
-    const std::vector<Hub *>& getHubs() const;
+    const std::vector<Hub *> &getHubs() const;
 
-    void addHub(Hub* hub1);
-    void addcentrumToSim(Vaccinatiecentrum* centrum);
+    void addHub(Hub *hub1);
+
+    void addcentrumToSim(Vaccinatiecentrum *centrum);
 
     int getAantalGevaccineerden();
 
     int getAantalVolGevaccineerden();
+
     Simulation();
 
     const std::vector<Vaccinatiecentrum *> &getVaccinatiecentra() const;
@@ -176,9 +178,9 @@ public:
 
     void outputGegevens(std::ostream &out);
 
-    void autosimulationuntildoneui(std::ostream &out, VaccinInterface* vaccinInterface);
+    void autosimulationuntildoneui(std::ostream &out, VaccinInterface *vaccinInterface);
 
-    Simulation(const Simulation& sim);
+    Simulation(const Simulation &sim);
 
     virtual ~Simulation();
 
@@ -190,7 +192,10 @@ public:
 
     void simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, Gegevens &gegevens,
                         std::ostream &out);
-};
 
+    int getAantalInwoners();
+
+    const Gegevens *getGegevens(int _dag);
+};
 
 #endif //PROJECT_SIMULATION_H
