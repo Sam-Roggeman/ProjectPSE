@@ -387,8 +387,57 @@ void Simulation::simulateDay(Gegevens &gegevens, std::ostream &out) {
     out << std::endl;
 }
 
+void Simulation::simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, Gegevens &gegevens,
+                                std::ostream &out) {
+    out << "DAG " << dag << ":" << std::endl;
+    gegevens = Gegevens(gegevens);
+//    1.1 IF er vaccins geleverd worden op de huidige dag
+//    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+        (*it)->vacLeveringen(dag);
+        (*it)->outputHub(out);
+    }
+//    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
+//        oss.str("");
+//        oss.clear();
+//        oss << "dag" << dag;
+
+//    1.2 FOR elk centrum verbonden met de hub
+//    1.2.1 voer use case 3.1 uit
+
+//        (*it)->transportToCentra2(dag, out, gegevens);
+//    }
+    for (std::map<std::string,std::map<int,int>>::const_iterator it = vaccins_to_centra.begin(); it!= vaccins_to_centra.end(); it++) {
+        for (std::map<int, int>::const_iterator hub_it = (*it).second.begin(); hub_it != (*it).second.end(); hub_it++) {
+            sendVaccins(hub_it->second, hub_it->first, it->first,out);
+        }
+    }
+
+
+//        this->graphicIntegration("./src/engine","./graphics1",oss.str());
+//    1.3 FOR elk centrum
+//    1.3.1 voer use case 3.2 uit
+    for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
+        (*it)->vaccineren(dag, out);
+    }
+    gegevens.set_gevaccineerden(getAantalGevaccineerden());
+    gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+    statistische_gegevens[dag] = gegevens;
+    nextDay();
+    out << std::endl;
+}
+
 const std::vector<Vaccinatiecentrum *> &Simulation::getVaccinatiecentra() const {
     return vaccinatiecentra;
+}
+
+bool Simulation::isAllowed(const int vaccins, const int hub_id, const std::string name_centrum) {
+
+    return hubs.at(hub_id)->isAllowed(vaccins,name_centrum);
+}
+
+void Simulation::sendVaccins(const int vaccins, const int hub_id, const std::string name_centrum, std::ostream &out) {
+    hubs.at(hub_id)->sendVaccins(vaccins, name_centrum, this->getDag(),out);
 }
 
 

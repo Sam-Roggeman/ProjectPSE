@@ -281,6 +281,10 @@ public:
     int aantalOnvolledigGev();
 
     Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum);
+
+    bool isAllowed(const int vaccins);
+
+    void sendVaccins(const std::string basicString, int aantal, std::ostream &out, int aantal_ladingen);
 };
 
 

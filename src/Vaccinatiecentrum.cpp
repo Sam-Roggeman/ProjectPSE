@@ -463,6 +463,13 @@ Vaccinatiecentrum::Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum
 
 }
 
+bool Vaccinatiecentrum::isAllowed(const int _vaccins) {
+    return 2*this->capaciteit + getAantalVaccins() >= _vaccins;
+}
+
+void Vaccinatiecentrum::sendVaccins(const std::string name_type, int aantal, std::ostream &out, int aantal_ladingen) {
+}
+
 
 
 

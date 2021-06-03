@@ -11,6 +11,7 @@
 #include <QStackedWidget>
 #include "Simulation.h"
 #include <stack>
+#include <QMessageBox>
 
 
 

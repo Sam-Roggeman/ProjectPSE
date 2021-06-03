@@ -15,7 +15,19 @@ class Gegevens {
     std::map<std::string, int> geleverd_type;
     Gegevens* _init;
 public:
+
+    /**
+     * Constructor van gegevens, bevat gegevens voor een dag
+     * @post correctlyInitialized()
+     * @post
+     */
     Gegevens();
+
+    const int getGevaccineerden() const;
+
+    const int getTotaalGevaccineerden() const;
+
+    const std::map<std::string, int> &getGeleverdType() const;
 
     bool correctlyInitialized();
 

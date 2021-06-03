@@ -43,6 +43,18 @@ void Gegevens::outputGegevens(std::ostream &out) const {
 
 }
 
+const int Gegevens::getGevaccineerden() const {
+    return gevaccineerden;
+}
+
+const int Gegevens::getTotaalGevaccineerden() const {
+    return totaal_gevaccineerden;
+}
+
+const std::map<std::string, int> &Gegevens::getGeleverdType() const {
+    return geleverd_type;
+}
+
 
 
 

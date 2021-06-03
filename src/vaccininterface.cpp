@@ -30,7 +30,14 @@ VaccinInterface::~VaccinInterface()
 
 void VaccinInterface::on_pushButton_clicked() {
     QString fileName = QFileDialog::getOpenFileName(this,
-                                                    tr("Open Image"), "./testInput", tr("Image Files ( *.xml)"));
+                                                            tr("Open Image"), "./testInput", tr("Image Files ( *.xml)"));
+    QTableWidgetItem * qTableWidgetItem;
+    int aantal_rows = 0;
+    int current_row = -1;
+    QString zero("0");
+    QString centrumnaam("");
+    QString hubnaam("");
+
     if (!fileName.isEmpty()) {
         this->on_stackedWidget_currentChanged(1);
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, *simulatie);
@@ -40,7 +47,6 @@ void VaccinInterface::on_pushButton_clicked() {
 void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 {
         this->ui->stackedWidget->setCurrentIndex(arg1);
-
 }
 
 
@@ -141,6 +147,66 @@ void VaccinInterface::on_Impressies_currentChanged(int arg1)
 
 void VaccinInterface::on_Confirm_clicked()
 {
+
+    undoStack.push(Simulation(*simulatie));
+    while (!redoStack.empty()){
+        redoStack.pop();
+    }
+
+
+
+    int hub_counter = 0;
+    int tot_vac;
+    int hub;
+    std::string key;
+    std::string key1;
+    // vaccincentrum_naam -> hubID-> aantal_vaccins
+    std::map<std::string,std::map<int,int>> vaccins_to_centra;
+    QMessageBox messageBox;
+    std::stringstream out;
+    Gegevens gegevens;
+
+
+
+//    out << "DAG " << dag << ":" << std::endl;
+
+    for(int i = 0; i < ui->tableWidget->rowCount(); i++){
+        key = this->ui->tableWidget->item(i,0)->text().toStdString();
+        key1 = key.substr(0,key.find_last_of(' '));
+        if (key1 == "Hub"){
+            hub_counter = std::atoi((key.substr(key.find_last_of(' ')+1,key.size())).c_str());
+        }
+        else{
+//            if (simulatie->getHubs().at(hub_counter)->getVaccinatiecentra().find()) {
+            vaccins_to_centra[key][hub_counter] = std::atoi(this->ui->tableWidget->item(i, 1)->text().toStdString().c_str());
+//            }
+        }
+    }
+
+    for (std::map<std::string,std::map<int,int>>::const_iterator it = vaccins_to_centra.begin(); it!= vaccins_to_centra.end(); it++){
+        tot_vac = 0;
+        for(std::map<int,int>::const_iterator hub_it = (*it).second.begin(); hub_it != (*it).second.end(); hub_it++){
+            tot_vac += hub_it->second;
+            hub = hub_it->first;
+        }
+
+        if (!simulatie->isAllowed(tot_vac, hub,it->first)){
+            messageBox.critical(0,"Capaciteit overschreden",QString::fromStdString(std::string("Capaciteit in " + it->first + " overschreden")));
+            messageBox.setFixedSize(500,200);
+            messageBox.open();
+            return;
+        }
+    }
+
+
+    out.str(std::string(""));
+    simulatie->simulateManual(vaccins_to_centra, gegevens,out);
+    ui->textEdit->append(QString::fromStdString(out.str()));
+    out.str(std::string(""));
+    simulatie->impressie(out);
+
+    ui->textEdit_2->append(QString::fromStdString(out.str()));
+
 
 }
 

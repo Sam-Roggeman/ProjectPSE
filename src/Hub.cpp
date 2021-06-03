@@ -411,3 +411,52 @@ Hub::Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector) : _
     aantal_ladingen_vorige_dag.insert(pHub->aantal_ladingen_vorige_dag.begin(), pHub->aantal_ladingen_vorige_dag.end());
 
 }
+
+bool Hub::isAllowed(const int vaccins, const std::string name_centrum) {
+
+    return this->vaccinatiecentra.at(name_centrum)->isAllowed(vaccins);
+}
+
+void Hub::sendVaccins(const int vaccins, const std::string name_centrum, const int dag,std::ostream &out) {
+    Vaccinatiecentrum* centrum = vaccinatiecentra.at(name_centrum);
+    int ladingen = 0, overschot, aantal, totaal = 0;
+
+    for (std::map<std::string, VaccinType*>::const_iterator it = types.begin(); it != types.end(); it++) {
+        aantal = std::min(centrum->getAantalGeres(it->first,dag),vaccins-totaal);
+        totaal += aantal;
+
+        ladingen += aantal / it->second->getTransport();
+        overschot = aantal % it->second->getTransport();
+        if (overschot > 0) {
+            ladingen++;
+        }
+
+        centrum->addVaccins(aantal,it->first);
+        it->second->substractVaccins(aantal);
+        if (vaccins == totaal){
+            goto end;
+        }
+    }
+    for (std::map<std::string, VaccinType*>::const_iterator it = types.begin(); it != types.end(); it++) {
+
+        aantal = std::min(it->second->getAantalVaccins(),vaccins-totaal);
+        totaal += aantal;
+
+        ladingen += aantal / it->second->getTransport();
+        overschot = aantal % it->second->getTransport();
+        if (overschot > 0) {
+            ladingen++;
+        }
+
+        centrum->addVaccins(aantal,it->first);
+        it->second->substractVaccins(aantal);
+
+        if (vaccins == totaal){
+            goto end;
+        }
+    }
+end:
+    out << "Er werden " << ladingen << " ladingen (" << totaal
+        << " vaccins) getransporteerd naar " <<
+        centrum->getNaamCentrum() << "." << std::endl;
+}

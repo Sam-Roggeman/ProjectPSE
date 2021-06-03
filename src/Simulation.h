@@ -183,6 +183,13 @@ public:
     virtual ~Simulation();
 
     void simulateDay(Gegevens &gegevens, std::ostream &out);
+
+    bool isAllowed(const int vaccins, const int hub_id, const std::string name_centrum);
+
+    void sendVaccins(const int vaccins, const int hub_id, const std::string name_centrum, std::ostream &out);
+
+    void simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, Gegevens &gegevens,
+                        std::ostream &out);
 };
 
 

@@ -180,6 +180,10 @@ public:
 
 
     Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector);
+
+    bool isAllowed(const int vaccins, const std::string name_centrum);
+
+    void sendVaccins(const int vaccins, const std::string name_centrum, const int dag, std::ostream &out);
 };
 
 
