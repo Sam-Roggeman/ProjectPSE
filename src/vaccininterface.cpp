@@ -190,7 +190,7 @@ void VaccinInterface::replaceChart(const Gegevens* gegevens)
 {
     this->gevaccineerden->replace(0,gegevens->getGevaccineerden());
     this->ongevaccineerden->replace(0,simulatie->getAantalInwoners() - gegevens->getGevaccineerden( )- gegevens->getGevaccineerden());
-    this->volledig_gevaccineerden->replace(0,gegevens->getTotaalGevaccineerden());
+    this->volledig_gevaccineerden->replace(0, gegevens->getVolledigGevaccineerden());
 //    QBarSet * curr_barset;
     int totaal = 0;
     for (std::map<std::string, int>::const_iterator it = gegevens->getGeleverdType().begin(); it != gegevens->getGeleverdType().end(); it++){
@@ -209,13 +209,13 @@ void VaccinInterface::doSimulation(int aantal_dagen){
     int einddag = aantal_dagen + simulatie->getDag();
 
     while (simulatie->notDone() && simulatie->getDag() != einddag){
-        undoStack.push(Simulation(*simulatie));
+        undoStack.push(new Simulation(simulatie));
         while (!redoStack.empty()){
             redoStack.pop();
         }
 
         stringstream.str(std::string());
-        simulatie->simulateDay(curr_gegevens,stringstream);
+        simulatie->simulateDay(stringstream);
         output_string_text = QString::fromStdString(stringstream.str());
         ui->textEdit->append(output_string_text);
 
@@ -233,9 +233,7 @@ void VaccinInterface::on_Vorige_dag_clicked()
 {
     int start_day = simulatie->getDag();
     if (!undoStack.empty()){
-        replaceChart(simulatie->getGegevens(simulatie->getDag()-1));
-        redoStack.push(Simulation(*simulatie));
-        delete simulatie;
+        redoStack.push(new Simulation(simulatie));
         simulatie = new Simulation(undoStack.top());
         undoStack.pop();
 
@@ -253,7 +251,7 @@ void VaccinInterface::on_Vorige_dag_clicked()
             }
         }
         int end_day = simulatie->getDag();
-
+        replaceChart(simulatie->getGegevens(end_day-1));
         ENSURE(end_day == start_day-1, "end_day != start_day=1");
     }
 }
@@ -261,7 +259,7 @@ void VaccinInterface::on_Vorige_dag_clicked()
 void VaccinInterface::on_Volgende_dag_clicked()
 {
     if (!redoStack.empty()){
-        undoStack.push(Simulation(*simulatie));
+        undoStack.push(new Simulation(simulatie));
         simulatie = new Simulation(redoStack.top());
         redoStack.pop();
         ui->textEdit->append(dayToString[simulatie->getDag()].first);
@@ -296,7 +294,7 @@ void VaccinInterface::on_Impressies_currentChanged(int arg1)
 void VaccinInterface::on_Confirm_clicked()
 {
 
-    undoStack.push(Simulation(*simulatie));
+    undoStack.push(new Simulation(simulatie));
     while (!redoStack.empty()){
         redoStack.pop();
     }
@@ -345,7 +343,7 @@ void VaccinInterface::on_Confirm_clicked()
 
 
     out.str(std::string(""));
-    simulatie->simulateManual(vaccins_to_centra, curr_gegevens,out);
+    simulatie->simulateManual(vaccins_to_centra, out);
     ui->textEdit->append(QString::fromStdString(out.str()));
     out.str(std::string(""));
     simulatie->impressie(out);
@@ -375,5 +373,7 @@ void VaccinInterface::on_pushButton_4_clicked()
     on_Impressies_currentChanged(1);
 }
 
-
-
+void VaccinInterface::on_Manueel_2_clicked()
+{
+    on_Impressies_currentChanged(2);
+}

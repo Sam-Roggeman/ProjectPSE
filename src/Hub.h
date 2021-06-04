@@ -85,7 +85,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start voor elk type
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra2(int dag, std::ostream &out, Gegevens &gegevens);
+    void transportToCentra2(int dag, std::ostream &out, Gegevens *gegevens);
 
     /**alle centra van de hub voeren vaccinaties uit
      * @param out: de output stream die de output binnenkrijgt

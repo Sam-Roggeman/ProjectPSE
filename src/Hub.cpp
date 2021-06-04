@@ -63,7 +63,9 @@ void Hub::outputHub(std::ostream& out) const {
     }
 }
 
-void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens &gegevens) {
+void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens *gegevens) {
+    REQUIRE(gegevens->correctlyInitialized(),
+           "gegevens was niet correct geinitializeerd bij oproep van transportToCentra2");
 
     //map gesorteerd op grootte van het transport voor efficientie
     std::map<int,VaccinType*> transport_sorted_types;
@@ -135,7 +137,7 @@ void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens &gegevens) {
                 //aftrekken van hub
                 type->substractVaccins((lading_type_centrum));
                 //toevoegen aan statistische gegevens
-                gegevens.add_vaccin_per_type(type->getName(),lading_type_centrum);
+                gegevens->add_vaccin_per_type(type->getName(),lading_type_centrum);
             }
             //als er nog mensen zijn zonder eerste prik
             if (centrum->aantalOngevaccineerden() > 0) {
@@ -195,7 +197,7 @@ void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens &gegevens) {
                     }
                     type->substractVaccins((lading_type_centrum));
                     //toevoegen aan statistische gegevens
-                    gegevens.add_vaccin_per_type(type->getName(),lading_type_centrum);
+                    gegevens->add_vaccin_per_type(type->getName(),lading_type_centrum);
                 }
             }
             out << "Er werden " << aantal_ladingen << " ladingen (" << totale_lading

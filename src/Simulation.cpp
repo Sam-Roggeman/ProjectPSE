@@ -67,7 +67,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
 //    1.  WHILE huidige dag<eind dag
     std::ostringstream oss;
     while (dag < eind) {
-        simulateDay(gegevens,out);
+        simulateDay(out);
     }
     ENSURE(getDag() == eind, "de autosimulation eindigde niet op de einddag");
     this->outputGegevens(std::cout);
@@ -85,14 +85,13 @@ void Simulation::autoSimulationUntilDone(std::ostream &out) {
     REQUIRE(this->correctlyInitialized(), "centrum niet geinitializeerd bij aanroep autoSimulationUntilDone");
 //    1.  WHILE not done
     std::ostringstream oss;
-    Gegevens gegevens = Gegevens();
     while (notDone()) {
-        simulateDay(gegevens, out);
+        simulateDay(out);
     }
     for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
         (*it)->outputHub(out);
         ENSURE((*it)->aantalOngevaccineerden() == 0,
-               "Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntillDone");
+               "Aantal ongevaccineerden was niet 0 bij afloop van autoSimulationUntilDone");
     }
     this->outputGegevens(out);
 }
@@ -233,7 +232,7 @@ const std::vector<Hub *>& Simulation::getHubs() const {
 
 Simulation::Simulation() {
     dag = 0;
-    statistische_gegevens[dag] = Gegevens();
+    statistische_gegevens[-1] = new Gegevens();
 
     _initcheck = this;
 }
@@ -264,10 +263,10 @@ int Simulation::getAantalVolGevaccineerden(){
 }
 
 void Simulation::outputGegevens(std::ostream& rapportstream){
-    for (std::map<int,Gegevens>::const_iterator it = statistische_gegevens.begin()
-            ; it!= statistische_gegevens.end(); it++){
+    for (std::map<int,Gegevens*>::const_iterator it = statistische_gegevens.begin()
+            ; it != statistische_gegevens.end(); it++){
         rapportstream << "DAG " << it->first <<":"<< std::endl;
-        it->second.outputGegevens(rapportstream);
+        it->second->outputGegevens(rapportstream);
 
     }
 }
@@ -313,7 +312,7 @@ void Simulation::autosimulationuntildoneui(std::ostream &out, VaccinInterface* v
 //            (*it)->vaccineren(dag, out);
 //        }
 //        gegevens.set_gevaccineerden(getAantalGevaccineerden());
-//        gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+//        gegevens.set_volledig_gevaccineerden(getAantalVolGevaccineerden());
 //        statistische_gegevens[dag] = gegevens;
 //        out << std::endl;
 //
@@ -328,19 +327,19 @@ void Simulation::autosimulationuntildoneui(std::ostream &out, VaccinInterface* v
 //    this->outputGegevens(out);
 }
 
-Simulation::Simulation(const Simulation& sim) {
+Simulation::Simulation(const Simulation* const sim) {
     _initcheck = this;
-    for (std::map<int, Gegevens>::const_iterator it = sim.statistische_gegevens.begin(); it != sim.statistische_gegevens.end(); it++) {
-        this->statistische_gegevens[it->first] = Gegevens(it->second);
+    for (std::map<int, Gegevens*>::const_iterator it = sim->statistische_gegevens.begin(); it != sim->statistische_gegevens.end(); it++) {
+        this->statistische_gegevens[it->first] = new Gegevens(it->second);
     }
 
 
-//        statistische_gegevens.insert(sim.statistische_gegevens.begin(), sim.statistische_gegevens.end());
-    this->dag = sim.getDag();
+//        statistische_gegevens.insert(sim->statistische_gegevens.begin(), sim->statistische_gegevens.end());
+    this->dag = sim->getDag();
     std::map<std::string, Vaccinatiecentrum*> vac_map;
 
-    const std::vector<Hub *> hubs_sim = sim.getHubs();
-    const std::vector<Vaccinatiecentrum *> vac_sim = sim.getVaccinatiecentra();
+    const std::vector<Hub *> hubs_sim = sim->getHubs();
+    const std::vector<Vaccinatiecentrum *> vac_sim = sim->getVaccinatiecentra();
     for (std::vector<Vaccinatiecentrum *>::const_iterator it = vac_sim.begin(); it != vac_sim.end(); it++) {
         vaccinatiecentra.push_back(new Vaccinatiecentrum(*it));
         vac_map.insert(std::make_pair(vaccinatiecentra.back()->getNaamCentrum(), vaccinatiecentra.back()));
@@ -359,11 +358,15 @@ Simulation::~Simulation() {
     for(unsigned int i = 0; i < vaccinatiecentra.size(); i++){
         delete vaccinatiecentra[i];
     }
+    for (std::map<int,Gegevens*>::iterator it = statistische_gegevens.begin(); it != statistische_gegevens.end(); it++) {
+        delete it->second;
+    }
 }
 
-void Simulation::simulateDay(Gegevens &gegevens, std::ostream &out) {
+void Simulation::simulateDay(std::ostream &out) {
     out << "DAG " << dag << ":" << std::endl;
-    gegevens = Gegevens(gegevens);
+    Gegevens* gegevens = new Gegevens(statistische_gegevens.at(dag-1));
+
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
     for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
@@ -387,17 +390,16 @@ void Simulation::simulateDay(Gegevens &gegevens, std::ostream &out) {
     for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
         (*it)->vaccineren(dag, out);
     }
-    gegevens.set_gevaccineerden(getAantalGevaccineerden());
-    gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+    gegevens->set_gevaccineerden(getAantalGevaccineerden());
+    gegevens->set_volledig_gevaccineerden(getAantalVolGevaccineerden());
     statistische_gegevens[dag] = gegevens;
     nextDay();
     out << std::endl;
 }
 
-void Simulation::simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, Gegevens &gegevens,
-                                std::ostream &out) {
+void Simulation::simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, std::ostream &out) {
     out << "DAG " << dag << ":" << std::endl;
-    gegevens = Gegevens(gegevens);
+    Gegevens* gegevens = new Gegevens(statistische_gegevens.at(dag-1));
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal
     for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
@@ -427,8 +429,8 @@ void Simulation::simulateManual(std::map<std::string, std::map<int, int>> vaccin
     for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
         (*it)->vaccineren(dag, out);
     }
-    gegevens.set_gevaccineerden(getAantalGevaccineerden());
-    gegevens.set_totaal_gevaccineerden(getAantalVolGevaccineerden());
+    gegevens->set_gevaccineerden(getAantalGevaccineerden());
+    gegevens->set_volledig_gevaccineerden(getAantalVolGevaccineerden());
     statistische_gegevens[dag] = gegevens;
     nextDay();
     out << std::endl;
@@ -456,6 +458,6 @@ int Simulation::getAantalInwoners(){
 }
 
 const Gegevens* Simulation::getGegevens(int _dag){
-    return &(this->statistische_gegevens.at(_dag));
+    return this->statistische_gegevens.at(_dag);
 }
 

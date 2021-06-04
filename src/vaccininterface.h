@@ -26,8 +26,8 @@ class VaccinInterface : public QDialog
     Q_OBJECT
     Simulation * simulatie;
     QFont* textFont;
-    std::stack<Simulation> redoStack;
-    std::stack<Simulation> undoStack;
+    std::stack<Simulation*> redoStack;
+    std::stack<Simulation*> undoStack;
     std::map<int , std::pair<QString,QString>> dayToString;
     Gegevens curr_gegevens;
     QBarSet *volledig_gevaccineerden = new QBarSet("volledig_gevaccineerden");
@@ -70,6 +70,9 @@ private slots:
     void on_pushButton_3_clicked();
 
     void on_pushButton_4_clicked();
+
+
+    void on_Manueel_2_clicked();
 
 private:
     Ui::VaccinInterface *ui;

@@ -29,7 +29,7 @@ class Simulation {
     std::vector<Hub *> hubs;
     std::vector<Vaccinatiecentrum *> vaccinatiecentra;
     int dag;
-    std::map<int, Gegevens> statistische_gegevens;
+    std::map<int, Gegevens*> statistische_gegevens;
 public:
     /**Geeft de huidige dag van de simulatie terug
      * @returns Huidige dag
@@ -180,22 +180,21 @@ public:
 
     void autosimulationuntildoneui(std::ostream &out, VaccinInterface *vaccinInterface);
 
-    Simulation(const Simulation &sim);
+    Simulation(const Simulation* const sim);
 
     virtual ~Simulation();
 
-    void simulateDay(Gegevens &gegevens, std::ostream &out);
+    void simulateDay(std::ostream &out);
 
     bool isAllowed(const int vaccins, const int hub_id, const std::string name_centrum);
 
     void sendVaccins(const int vaccins, const int hub_id, const std::string name_centrum, std::ostream &out);
 
-    void simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, Gegevens &gegevens,
-                        std::ostream &out);
+    void simulateManual(std::map<std::string, std::map<int, int>> vaccins_to_centra, std::ostream &out);
 
     int getAantalInwoners();
 
-    const Gegevens *getGegevens(int _dag);
+    const Gegevens* getGegevens(int _dag);
 };
 
 #endif //PROJECT_SIMULATION_H
