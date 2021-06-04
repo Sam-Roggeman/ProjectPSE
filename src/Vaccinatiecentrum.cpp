@@ -470,6 +470,10 @@ bool Vaccinatiecentrum::isAllowed(const int _vaccins) {
 void Vaccinatiecentrum::sendVaccins(const std::string name_type, int aantal, std::ostream &out, int aantal_ladingen) {
 }
 
+void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType *> map) {
+    this->types = map;
+}
+
 
 
 

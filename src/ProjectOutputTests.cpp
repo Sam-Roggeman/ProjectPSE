@@ -17,7 +17,7 @@
 
 class HubOutputTest: public ::testing::Test {
 protected:
-    HubOutputTest() : v(nullptr) {}
+    HubOutputTest();
 
     friend class Hub;
 
@@ -32,7 +32,8 @@ protected:
 
 TEST_F(HubOutputTest, Fouteoutput){
     hub.addcentrum(&v);
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
+    s.addHub(&hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
@@ -60,7 +61,8 @@ TEST_F(HubOutputTest, Fouteoutput){
 }
 TEST_F(HubOutputTest, outputSimulation){
     hub.addcentrum(&v);
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
+    s.addHub(&hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
@@ -86,7 +88,8 @@ TEST_F(HubOutputTest, outputSimulation){
 
 TEST_F(HubOutputTest,Impressie){
     hub.addcentrum(&v);
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
+    s.addHub(&hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
@@ -111,7 +114,7 @@ TEST_F(HubOutputTest,Impressie){
     EXPECT_TRUE(FileCompare("./testOutput/testOutput/ImpressieOutput2.txt",
                             "./testOutput/testFiles/ImpressieOutput2.txt"));
 
-    Vaccinatiecentrum vaccinatiecentrum(nullptr);
+    Vaccinatiecentrum vaccinatiecentrum;
     vaccinatiecentrum.setNaamCentrum("b");
     vaccinatiecentrum.setAdresCentrum("b");
     vaccinatiecentrum.setAantalInwoners(2000);
@@ -137,7 +140,8 @@ TEST_F(HubOutputTest,Impressie){
 TEST_F(HubOutputTest,Autosimulation){
     std::ofstream o;
     Hub h = Hub(0);
-    Simulation s = Simulation(&h);
+    Simulation s = Simulation();
+    s.addHub(&h);
     simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
     o.open("./testOutput/testOutput/Autosim1.txt");
     s.autoSimulationUntilDone(o);
@@ -148,7 +152,8 @@ TEST_F(HubOutputTest,Autosimulation){
                             "./testOutput/testFiles/ImpressieOutput3.txt"));
 
     o.clear();
-    Simulation s2 = Simulation(&h);
+    Simulation s2 = Simulation();
+    s2.addHub(&h);
     simulationImporter::importSimulation("./testInput/t.xml",  o, s2);
     o.open("./testOutput/testOutput/Autosim2.txt");
     s.autoSimulationUntilDone(o);
@@ -159,7 +164,8 @@ TEST_F(HubOutputTest,Autosimulation){
                              "./testOutput/testFiles/ImpressieOutput3.txt"));
 
     o.clear();
-    Simulation s3 = Simulation(&h);
+    Simulation s3 = Simulation();
+    s3.addHub(&h);
     simulationImporter::importSimulation("./testInput/t3.xml",  o, s3);
     o.open("./testOutput/testOutput/Autosim3.txt");
     s.autoSimulationUntilDone(o);
@@ -173,7 +179,8 @@ TEST_F(HubOutputTest,Autosimulation){
 TEST_F(HubOutputTest,GraphicIntegration){
     std::ofstream o;
     Hub h = Hub(0);
-    Simulation s = Simulation(&h);
+    Simulation s = Simulation();
+    s.addHub(&h);
     simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
     s.autoSimulation(0,1,o);
     srand(0);

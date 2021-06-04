@@ -16,7 +16,7 @@
 
 class HubDomainTest: public ::testing::Test {
 protected:
-    HubDomainTest() : hub2(0), v(nullptr), vac(nullptr) {}
+    HubDomainTest();
 
     friend class Hub;
 
@@ -249,23 +249,23 @@ TEST_F(HubDomainTest, addVaccins){
 }
 
 //Tests voor de functie clear
-TEST_F(HubDomainTest, clear){
-
-    Simulation s = Simulation(&hub);
-
-    //Initialisering alle waardes
-    simulationImporter::importSimulation("./testInput/tt.xml", ofs,s);
-    hub.vacLeveringen(17);
-
-    EXPECT_EQ(0,s.getDag());
-    EXPECT_EQ(40000,s.getHub()->getAantalVac());
-    EXPECT_EQ(0,s.getHub()->getAantalGer());
-    s.clear();
-
-    EXPECT_EQ(0,s.getDag());
-    EXPECT_EQ(0,s.getHub()->getAantalVac());
-    EXPECT_EQ(0,s.getHub()->getAantalGer());
-}
+//TEST_F(HubDomainTest, clear){
+//
+//    Simulation s = Simulation(&hub);
+//
+//    //Initialisering alle waardes
+//    simulationImporter::importSimulation("./testInput/tt.xml", ofs,s);
+//    hub.vacLeveringen(17);
+//
+//    EXPECT_EQ(0,s.getDag());
+//    EXPECT_EQ(40000,s.getHub()->getAantalVac());
+//    EXPECT_EQ(0,s.getHub()->getAantalGer());
+//    s.clear();
+//
+//    EXPECT_EQ(0,s.getDag());
+//    EXPECT_EQ(0,s.getHub()->getAantalVac());
+//    EXPECT_EQ(0,s.getHub()->getAantalGer());
+//}
 
 //Tests voor de functie substractvaccins
 TEST_F(HubDomainTest,substractvaccin){

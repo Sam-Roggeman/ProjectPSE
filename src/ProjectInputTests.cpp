@@ -33,12 +33,11 @@ protected:
     }
 
     // Declares the variables your tests want to use.
-    Hub hub;
     std::ofstream ofs;
 
 };
 TEST_F (ProjectTest, Juistteruggeven){
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/test.xml",  ofs, s));
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/Juist.xml",  ofs, s));
@@ -47,7 +46,7 @@ TEST_F (ProjectTest, Juistteruggeven){
 }
 
 TEST_F(ProjectTest, verkeerde_input){
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
     //file not found
     EXPECT_EQ(1, simulationImporter::importSimulation("./testInput/abc.xml",  ofs, s));
     s.clear();
@@ -100,22 +99,22 @@ TEST_F(ProjectTest, verkeerde_input){
 }
 //inconsistente simulaties
 TEST_F(ProjectTest,inconsistent1){
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
 
     ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim.xml",  ofs, s),"Er bestaat al een vaccintype met dezelfde naam");
 }
 TEST_F(ProjectTest,inconsistent2){
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
 
     ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
 }
 TEST_F(ProjectTest,inconsistent3){
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
 
     ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim2.xml",  ofs, s),"Je moet minstens 1 Hub hebben");
 }
 TEST_F(ProjectTest,inconsistent4){
-    Simulation s = Simulation(&hub);
+    Simulation s = Simulation();
 
     ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim3.xml",ofs,s),"Je moet minstens 1 vaccintype hebben");
 }
