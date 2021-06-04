@@ -16,7 +16,6 @@
 
 class HubDomainTest: public ::testing::Test {
 protected:
-    HubDomainTest();
 
     friend class Hub;
 
@@ -29,9 +28,9 @@ protected:
     virtual void TearDown() {
     }
 
-    Hub hub;
+    Hub hub = Hub(1);
     Vaccinatiecentrum v;
-    Hub hub2;
+    Hub hub2 = Hub(2);
     Vaccinatiecentrum vac;
     Vaccinatiecentrum *vac2;
     std::ofstream  ofs;

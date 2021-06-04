@@ -59,7 +59,7 @@ public:
      * @param gevaccineerden2
      * @post getGevaccineerden() = gevaccineerden2
      */
-    void set_gevaccineerden(int gevaccineerden2);
+    void setGevaccineerden(int gevaccineerden2);
 
     /**
      * veranderd het aantal volledig gevaccineerden naar vol_gevaccineerden2
@@ -68,7 +68,7 @@ public:
      * @param vol_gevaccineerden2
      * @post getVolledigGevaccineerden() = vol_gevaccineerden2
      */
-    void set_volledig_gevaccineerden(int vol_gevaccineerden2);
+    void setVolledigGevaccineerden(int vol_gevaccineerden2);
 
     /**
      * adds "aantal" vaccins bij het huidige aantal van vaccin met naam "vaccin"
@@ -77,7 +77,7 @@ public:
      * @param vaccin_name de naam van het vaccin
      * @param aantal het aantal vaccins dat toegevoegd is
      */
-    void add_vaccin_per_type(std::string vaccin_name, int aantal);
+    void addVaccinPerType(std::string vaccin_name, int aantal);
 
     /**
      * constructs een copy van "to_copy"

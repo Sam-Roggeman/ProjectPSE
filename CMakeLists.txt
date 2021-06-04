@@ -34,7 +34,7 @@ link_directories(./gtest/lib)
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
         src/ProjectMain.cpp
-        testInput/test.xml
+
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp
@@ -57,7 +57,9 @@ set(RELEASE_SOURCE_FILES
         src/vaccininterface.h
         src/vaccininterface.cpp
         src/vaccininterface.ui
-        src/Gegevens.cpp src/Gegevens.h)
+        src/Gegevens.cpp
+        src/Gegevens.h
+        )
 
 # Set source files for DEBUG target
 set(DEBUG_SOURCE_FILES
@@ -65,7 +67,7 @@ set(DEBUG_SOURCE_FILES
         src/ProjectInputTests.cpp
         src/ProjectOutputTests.cpp
         src/ProjectTests.cpp
-        testInput/test.xml
+
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp
@@ -87,7 +89,11 @@ set(DEBUG_SOURCE_FILES
         src/vaccininterface.h
         src/vaccininterface.cpp
         src/vaccininterface.ui
-        src/Gegevens.cpp src/Gegevens.h)
+        src/Gegevens.cpp
+        src/Gegevens.h
+
+
+        )
 
 # Create RELEASE target
 add_executable(project ${RELEASE_SOURCE_FILES})
@@ -96,5 +102,5 @@ add_executable(project ${RELEASE_SOURCE_FILES})
 add_executable(project_debug ${DEBUG_SOURCE_FILES})
 
 # Link library
-target_link_libraries(project_debug gtest)
+target_link_libraries(project_debug gtest Qt5::Widgets Qt5::Charts)
 target_link_libraries(project Qt5::Widgets Qt5::Charts)

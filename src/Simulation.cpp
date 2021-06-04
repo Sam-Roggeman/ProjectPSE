@@ -123,9 +123,19 @@ void Simulation::setDag(int d) {
 }
 
 void Simulation::clear() {
+    dag = 0;
     for (std::vector<Hub *>::const_iterator it = hubs.begin(); it != hubs.end(); it++) {
-        (*it)->clear();
+        delete *it;
     }
+    hubs.clear();
+    for (std::vector<Vaccinatiecentrum *>::const_iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
+        delete *it;
+    }
+    vaccinatiecentra.clear();
+    for (std::map<int, Gegevens *>::const_iterator it = statistische_gegevens.begin(); it != statistische_gegevens.end(); it++) {
+        delete it->second;
+    }
+    statistische_gegevens.clear();
 }
 
 void Simulation::impressie(std::ostream &out) {
@@ -219,6 +229,7 @@ void Simulation::graphicIntegration(std::string path_to_engine, std::string path
 }
 
 void Simulation::addHub(Hub *hub1) {
+    REQUIRE(correctlyInitialized(), "Simulatie was niet geinitializeerd bij aanroep van addhub" );
     hubs.push_back(hub1);
 }
 void Simulation::addcentrumToSim(Vaccinatiecentrum* centrum){
@@ -311,8 +322,8 @@ void Simulation::autosimulationuntildoneui(std::ostream &out, VaccinInterface* v
 //        for (std::vector<Vaccinatiecentrum*>::iterator it = vaccinatiecentra.begin(); it != vaccinatiecentra.end(); it++) {
 //            (*it)->vaccineren(dag, out);
 //        }
-//        gegevens.set_gevaccineerden(getAantalGevaccineerden());
-//        gegevens.set_volledig_gevaccineerden(getAantalVolGevaccineerden());
+//        gegevens.setGevaccineerden(getAantalGevaccineerden());
+//        gegevens.setVolledigGevaccineerden(getAantalVolGevaccineerden());
 //        statistische_gegevens[dag] = gegevens;
 //        out << std::endl;
 //
@@ -353,13 +364,19 @@ Simulation::Simulation(const Simulation* const sim) {
 
 Simulation::~Simulation() {
     for(unsigned int i = 0; i < hubs.size(); i++){
-        delete hubs[i];
+        if (hubs[i]->correctlyInitialized()){
+            delete hubs[i];
+        }
     }
     for(unsigned int i = 0; i < vaccinatiecentra.size(); i++){
-        delete vaccinatiecentra[i];
+        if (vaccinatiecentra[i]->correctlyInitialized()) {
+            delete vaccinatiecentra[i];
+        }
     }
     for (std::map<int,Gegevens*>::iterator it = statistische_gegevens.begin(); it != statistische_gegevens.end(); it++) {
-        delete it->second;
+        if (it->second->correctlyInitialized()) {
+            delete it->second;
+        }
     }
 }
 
@@ -390,8 +407,8 @@ void Simulation::simulateDay(std::ostream &out) {
     for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
         (*it)->vaccineren(dag, out);
     }
-    gegevens->set_gevaccineerden(getAantalGevaccineerden());
-    gegevens->set_volledig_gevaccineerden(getAantalVolGevaccineerden());
+    gegevens->setGevaccineerden(getAantalGevaccineerden());
+    gegevens->setVolledigGevaccineerden(getAantalVolGevaccineerden());
     statistische_gegevens[dag] = gegevens;
     nextDay();
     out << std::endl;
@@ -429,8 +446,8 @@ void Simulation::simulateManual(std::map<std::string, std::map<int, int>> vaccin
     for (std::vector<Hub*>::const_iterator it = hubs.begin(); it != hubs.end(); it++){
         (*it)->vaccineren(dag, out);
     }
-    gegevens->set_gevaccineerden(getAantalGevaccineerden());
-    gegevens->set_volledig_gevaccineerden(getAantalVolGevaccineerden());
+    gegevens->setGevaccineerden(getAantalGevaccineerden());
+    gegevens->setVolledigGevaccineerden(getAantalVolGevaccineerden());
     statistische_gegevens[dag] = gegevens;
     nextDay();
     out << std::endl;

@@ -137,7 +137,7 @@ void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens *gegevens) {
                 //aftrekken van hub
                 type->substractVaccins((lading_type_centrum));
                 //toevoegen aan statistische gegevens
-                gegevens->add_vaccin_per_type(type->getName(),lading_type_centrum);
+                gegevens->addVaccinPerType(type->getName(), lading_type_centrum);
             }
             //als er nog mensen zijn zonder eerste prik
             if (centrum->aantalOngevaccineerden() > 0) {
@@ -197,7 +197,7 @@ void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens *gegevens) {
                     }
                     type->substractVaccins((lading_type_centrum));
                     //toevoegen aan statistische gegevens
-                    gegevens->add_vaccin_per_type(type->getName(),lading_type_centrum);
+                    gegevens->addVaccinPerType(type->getName(), lading_type_centrum);
                 }
             }
             out << "Er werden " << aantal_ladingen << " ladingen (" << totale_lading

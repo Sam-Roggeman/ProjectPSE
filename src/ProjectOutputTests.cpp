@@ -17,7 +17,6 @@
 
 class HubOutputTest: public ::testing::Test {
 protected:
-    HubOutputTest();
 
     friend class Hub;
 
@@ -26,14 +25,14 @@ protected:
 
     virtual void TearDown() {
     }
-    Hub hub;
+    Hub* hub = new Hub(1);
     Vaccinatiecentrum v;
 };
 
 TEST_F(HubOutputTest, Fouteoutput){
-    hub.addcentrum(&v);
+    hub->addcentrum(&v);
     Simulation s = Simulation();
-    s.addHub(&hub);
+    s.addHub(hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
@@ -60,9 +59,9 @@ TEST_F(HubOutputTest, Fouteoutput){
     o.clear();
 }
 TEST_F(HubOutputTest, outputSimulation){
-    hub.addcentrum(&v);
+    hub->addcentrum(&v);
     Simulation s = Simulation();
-    s.addHub(&hub);
+    s.addHub(hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
@@ -87,9 +86,9 @@ TEST_F(HubOutputTest, outputSimulation){
 }
 
 TEST_F(HubOutputTest,Impressie){
-    hub.addcentrum(&v);
+    hub->addcentrum(&v);
     Simulation s = Simulation();
-    s.addHub(&hub);
+    s.addHub(hub);
     std::ofstream o;
     v.setNaamCentrum("a");
     v.setAdresCentrum("A");
@@ -119,7 +118,7 @@ TEST_F(HubOutputTest,Impressie){
     vaccinatiecentrum.setAdresCentrum("b");
     vaccinatiecentrum.setAantalInwoners(2000);
     vaccinatiecentrum.setCapaciteit(1000);
-    hub.addcentrum(&vaccinatiecentrum);
+    hub->addcentrum(&vaccinatiecentrum);
     VaccinType b = VaccinType();
     b.setName("b");
     b.sethernieuwing(1);
@@ -139,9 +138,9 @@ TEST_F(HubOutputTest,Impressie){
 
 TEST_F(HubOutputTest,Autosimulation){
     std::ofstream o;
-    Hub h = Hub(0);
+    Hub* h = new Hub(0);
     Simulation s = Simulation();
-    s.addHub(&h);
+    s.addHub(h);
     simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
     o.open("./testOutput/testOutput/Autosim1.txt");
     s.autoSimulationUntilDone(o);
@@ -153,7 +152,7 @@ TEST_F(HubOutputTest,Autosimulation){
 
     o.clear();
     Simulation s2 = Simulation();
-    s2.addHub(&h);
+    s2.addHub(h);
     simulationImporter::importSimulation("./testInput/t.xml",  o, s2);
     o.open("./testOutput/testOutput/Autosim2.txt");
     s.autoSimulationUntilDone(o);
@@ -165,7 +164,7 @@ TEST_F(HubOutputTest,Autosimulation){
 
     o.clear();
     Simulation s3 = Simulation();
-    s3.addHub(&h);
+    s3.addHub(h);
     simulationImporter::importSimulation("./testInput/t3.xml",  o, s3);
     o.open("./testOutput/testOutput/Autosim3.txt");
     s.autoSimulationUntilDone(o);
@@ -178,9 +177,9 @@ TEST_F(HubOutputTest,Autosimulation){
 
 TEST_F(HubOutputTest,GraphicIntegration){
     std::ofstream o;
-    Hub h = Hub(0);
+    Hub* h = new Hub(0);
     Simulation s = Simulation();
-    s.addHub(&h);
+    s.addHub(h);
     simulationImporter::importSimulation("./testInput/t2.xml",  o, s);
     s.autoSimulation(0,1,o);
     srand(0);

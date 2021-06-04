@@ -11,27 +11,27 @@ Gegevens::Gegevens() {
 
 }
 
-void Gegevens::set_gevaccineerden(int gevaccineerden2) {
+void Gegevens::setGevaccineerden(int gevaccineerden2) {
     ENSURE(correctlyInitialized(),
-           "Gegevens niet correct geinitializeerd bij aanroep van set_gevaccineerden");
+           "Gegevens niet correct geinitializeerd bij aanroep van setGevaccineerden");
     gevaccineerden = gevaccineerden2;
     ENSURE(gevaccineerden == gevaccineerden2,
-           "aantal gevaccineerden is niet correct gewijzigd bij afloop van set_gevaccineerden");
+           "aantal gevaccineerden is niet correct gewijzigd bij afloop van setGevaccineerden");
 }
 
-void Gegevens::set_volledig_gevaccineerden(int vol_gevaccineerden2){
+void Gegevens::setVolledigGevaccineerden(int vol_gevaccineerden2){
     ENSURE(correctlyInitialized(),
-           "Gegevens niet correct geinitializeerd bij aanroep van set_volledig_gevaccineerden");
+           "Gegevens niet correct geinitializeerd bij aanroep van setVolledigGevaccineerden");
 
     volledig_gevaccineerden = vol_gevaccineerden2;
 }
 
-void Gegevens::add_vaccin_per_type(std::string vaccin_name, int aantal) {
+void Gegevens::addVaccinPerType(std::string vaccin_name, int aantal) {
     ENSURE(correctlyInitialized(),
-           "Gegevens niet correct geinitializeerd bij aanroep van add_vaccin_per_type");
-    ENSURE(aantal >=0 , "aantal toe te voegen vaccins moet >=0 bij oproep van add_vaccin_per_type");
+           "Gegevens niet correct geinitializeerd bij aanroep van addVaccinPerType");
+    ENSURE(aantal >=0 , "aantal toe te voegen vaccins moet >=0 bij oproep van addVaccinPerType");
     ENSURE(!vaccin_name.empty(),
-           "de mee gegeven vaccin_name mag niet leeg zijn bij operoep van add_vaccin_per_type");
+           "de mee gegeven vaccin_name mag niet leeg zijn bij operoep van addVaccinPerType");
 
 
 
