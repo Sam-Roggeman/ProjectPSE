@@ -24,14 +24,6 @@
             <temperatuur>15</temperatuur>
             <hernieuwing>26</hernieuwing>
         </VACCIN>
-        <CENTRA>
-            <centrum>Park Spoor Oost</centrum>
-            <centrum>AED Studios</centrum>
-            <centrum>De Zoerla</centrum>
-            <centrum>Flanders Expo</centrum>
-        </CENTRA>
-    </HUB>
-    <HUB>
         <VACCIN>
             <type>Pfizer</type>
             <levering>40000</levering>
@@ -40,6 +32,14 @@
             <temperatuur>-20</temperatuur>
             <hernieuwing>6</hernieuwing>
         </VACCIN>
+        <CENTRA>
+            <centrum>Park Spoor Oost</centrum>
+            <centrum>AED Studios</centrum>
+            <centrum>De Zoerla</centrum>
+            <centrum>Flanders Expo</centrum>
+        </CENTRA>
+    </HUB>
+    <HUB>
         <VACCIN>
             <type>Moderna</type>
             <levering>60000</levering>

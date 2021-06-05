@@ -73,13 +73,11 @@ TEST_F(ProjectTest, verkeerde_input){
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar4.xml",  ofs, s));
     s.clear();
-    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar5.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar6.xml",  ofs, s),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     s.clear();
-    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar6.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    EXPECT_DEATH( simulationImporter::importSimulation("./testInput/onherkenbaar7.xml",  ofs, s),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     s.clear();
-    EXPECT_DEATH( simulationImporter::importSimulation("./testInput/onherkenbaar7.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
-    s.clear();
-    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar8.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    EXPECT_DEATH(simulationImporter::importSimulation("./testInput/onherkenbaar8.xml",  ofs, s),"De vaccinatiecentrum moet correct geinitialiseerd zijn");
     s.clear();
     EXPECT_EQ(0, simulationImporter::importSimulation("./testInput/onherkenbaar9.xml",  ofs, s));
     s.clear();
@@ -105,12 +103,12 @@ TEST_F(ProjectTest,inconsistent1){
 TEST_F(ProjectTest,inconsistent2){
     Simulation s = Simulation();
 
-    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  ofs, s),"De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  ofs, s),"Je moet minstens 1 vaccinatiecentrum hebben");
 }
 TEST_F(ProjectTest,inconsistent3){
     Simulation s = Simulation();
 
-    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim2.xml",  ofs, s),"Je moet minstens 1 Hub hebben");
+    ASSERT_DEATH(simulationImporter::importSimulation("./testInput/Inconsistentesim2.xml",  ofs, s),"Je moet meer dan 0 hubs hebben");
 }
 TEST_F(ProjectTest,inconsistent4){
     Simulation s = Simulation();

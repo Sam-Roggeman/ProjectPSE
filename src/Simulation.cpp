@@ -382,7 +382,8 @@ Simulation::~Simulation() {
 
 void Simulation::simulateDay(std::ostream &out) {
     out << "DAG " << dag << ":" << std::endl;
-    Gegevens* gegevens = new Gegevens(statistische_gegevens.at(dag-1));
+    Gegevens *gegevens;
+    gegevens = new Gegevens(statistische_gegevens.at(dag - 1));
 
 //    1.1 IF er vaccins geleverd worden op de huidige dag
 //    1.1.1 verhoog het aantal vaccins in de hub met het correcte aantal

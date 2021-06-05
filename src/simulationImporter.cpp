@@ -5,6 +5,7 @@
 #include "simulationImporter.h"
 int simulationImporter::importSimulation(const char *filename, std::ostream &errstream, Simulation& sim) {
     sim.clear();
+    std::string a = filename;
     int hubcounter = 0;
     int vaccinatiecentracounter = 0;
     int vaccincounter = 0;
@@ -80,6 +81,11 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
                             errstream << "element" << vac_name << "niet herkend" << std::endl;
                         }
                     }
+                    for (std::vector<Hub*>::const_iterator it = sim.getHubs().begin(); it != sim.getHubs().end(); it++){
+                        if((*it)->getTypes().find(bedrijf->getName()) != (*it)->getTypes().end()){
+                            errstream << "Er bestaat al een vaccintype met dezelfde naam" << std::endl;
+                        }
+                    }
                     hub->addType(bedrijf);
                 }else if (elem_name == "CENTRA") {
                     for (TiXmlElement *name = hub_elem->FirstChildElement();
@@ -99,6 +105,7 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
             errstream << "element niet herkend" << std::endl;
         }
     }
+    ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     for (std::vector<Hub*>::const_iterator it = sim.getHubs().begin(); it != sim.getHubs().end(); it++) {
         string_centra = centra_van_hub[(*it)];
         for (std::vector<std::string>::const_iterator c_name = string_centra.begin(); c_name != string_centra.end(); c_name++) {
@@ -111,7 +118,6 @@ int simulationImporter::importSimulation(const char *filename, std::ostream &err
         ENSURE((*it)->completelyInitialized(), "De hub en alle vaccinatiecentra moeten juist gesimuleerd zijn");
     }
     ENSURE((hubcounter >= 1),"Je moet meer dan 0 hubs hebben");
-    ENSURE((vaccinatiecentracounter > 0),"Je moet minstens 1 vaccinatiecentrum hebben");
     ENSURE(vaccincounter > 0, "Je moet minstens 1 vaccintype hebben");
     doc.Clear();
     return 0;

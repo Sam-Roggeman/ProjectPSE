@@ -1,3 +1,4 @@
+DAG 0 :
 a:
 	- vaccins				[                    ] 0%
 	- gevaccineerd			[                    ] 0%
