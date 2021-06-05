@@ -155,7 +155,7 @@ TEST_F(HubOutputTest,Autosimulation){
     s2.addHub(h);
     simulationImporter::importSimulation("./testInput/t.xml",  o, s2);
     o.open("./testOutput/testOutput/Autosim2.txt");
-    s.autoSimulationUntilDone(o);
+    s2.autoSimulationUntilDone(o);
     o.close();
     EXPECT_TRUE(FileCompare("./testOutput/testOutput/Autosim2.txt",
                             "./testOutput/testFiles/Autosim2.txt"));

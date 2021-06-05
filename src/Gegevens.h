@@ -66,7 +66,7 @@ public:
      * @pre correctlyInitialized()
      * @pre vol_gevaccineerden2 >= 0
      * @param vol_gevaccineerden2
-     * @post getVolledigGevaccineerden() = vol_gevaccineerden2
+     * @post getVolledigGevaccineerden() == vol_gevaccineerden2
      */
     void setVolledigGevaccineerden(int vol_gevaccineerden2);
 
@@ -76,6 +76,7 @@ public:
      * @pre !vaccin_name.empty()
      * @param vaccin_name de naam van het vaccin
      * @param aantal het aantal vaccins dat toegevoegd is
+     * @post getGeleverdType().at(vaccin_name) += aantal
      */
     void addVaccinPerType(std::string vaccin_name, int aantal);
 

@@ -8,34 +8,38 @@ Gegevens::Gegevens() {
     _init = this;
     ENSURE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd na afloop van de lege constructor");
-
+    ENSURE(geleverd_type.empty(), "!getGeleverdType().empty() bij einde van de constructor");
+    ENSURE(getGevaccineerden() == 0, "getGevaccineerden() != 0 bij einde van de constructor");
+    ENSURE(getVolledigGevaccineerden() == 0, "getVolledigGevaccineerden() != 0 bij einde van de constructor");
 }
 
 void Gegevens::setGevaccineerden(int gevaccineerden2) {
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van setGevaccineerden");
+    REQUIRE(gevaccineerden2 >= 0 , "gevaccineerden2 < 0");
     gevaccineerden = gevaccineerden2;
     ENSURE(gevaccineerden == gevaccineerden2,
            "aantal gevaccineerden is niet correct gewijzigd bij afloop van setGevaccineerden");
 }
 
 void Gegevens::setVolledigGevaccineerden(int vol_gevaccineerden2){
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van setVolledigGevaccineerden");
+    REQUIRE(vol_gevaccineerden2 >= 0 , "vol_gevaccineerden2 < 0");
 
     volledig_gevaccineerden = vol_gevaccineerden2;
+    ENSURE(getVolledigGevaccineerden() == vol_gevaccineerden2, "getVolledigGevaccineerden() != vol_gevaccineerden2");
 }
 
 void Gegevens::addVaccinPerType(std::string vaccin_name, int aantal) {
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van addVaccinPerType");
-    ENSURE(aantal >=0 , "aantal toe te voegen vaccins moet >=0 bij oproep van addVaccinPerType");
-    ENSURE(!vaccin_name.empty(),
+    REQUIRE(aantal >=0 , "aantal toe te voegen vaccins moet >=0 bij oproep van addVaccinPerType");
+    REQUIRE(!vaccin_name.empty(),
            "de mee gegeven vaccin_name mag niet leeg zijn bij operoep van addVaccinPerType");
-
-
-
+    int start = geleverd_type[vaccin_name];
     geleverd_type[vaccin_name] += aantal;
+    ENSURE(getGeleverdType().at(vaccin_name) == start + aantal, "getGeleverdType().at(vaccin_name) != start + aantal");
 }
 
 bool Gegevens::correctlyInitialized() const  {
@@ -43,7 +47,7 @@ bool Gegevens::correctlyInitialized() const  {
 }
 
 Gegevens::Gegevens(const Gegevens * const to_copy) {
-    ENSURE(to_copy->correctlyInitialized(),
+    REQUIRE(to_copy->correctlyInitialized(),
            "te-kopieren gegevens niet correct geinitializeerd bij aanroep van de copy-constructor");
     _init = this;
     this->volledig_gevaccineerden = to_copy->volledig_gevaccineerden;
@@ -61,7 +65,7 @@ Gegevens::Gegevens(const Gegevens * const to_copy) {
 }
 
 const void Gegevens::outputGegevens(std::ostream &out) const {
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van outputGegevens");
 
     out<<'\t' << "Aantal geleverde vaccins per type:" << std::endl;
@@ -73,24 +77,22 @@ const void Gegevens::outputGegevens(std::ostream &out) const {
 }
 
 const int Gegevens::getGevaccineerden() const {
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van getGevaccineerden");
 
     return gevaccineerden;
 }
 
 const int Gegevens::getVolledigGevaccineerden() const {
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van getVolledigGevaccineerden");
 
     return volledig_gevaccineerden;
 }
 
 const std::map<std::string, int> &Gegevens::getGeleverdType() const {
-    ENSURE(correctlyInitialized(),
+    REQUIRE(correctlyInitialized(),
            "Gegevens niet correct geinitializeerd bij aanroep van getGeleverdType");
-
-
     return geleverd_type;
 }
 
