@@ -1086,3 +1086,406 @@ AED Studios: 70000 inwoners volledig gevaccineerd, 0 enkel gevaccineerd, nog 0 i
 De Zoerla: 40000 inwoners volledig gevaccineerd, 0 enkel gevaccineerd, nog 0 inwoners niet gevaccineerd
 Flanders Expo: 30000 inwoners volledig gevaccineerd, 0 enkel gevaccineerd, nog 0 inwoners niet gevaccineerd
 Park Spoor Oost: 75000 inwoners volledig gevaccineerd, 0 enkel gevaccineerd, nog 0 inwoners niet gevaccineerd
+Start:
+	Aantal geleverde vaccins per type:
+	 Aantal onvolledig gevaccineerden:0
+	 Aantal volledig gevaccineerden:0
+DAG 0:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 300
+		Moderna: 1600
+		Pfizer: 2000
+	 Aantal onvolledig gevaccineerden:2300
+	 Aantal volledig gevaccineerden:1600
+DAG 1:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 700
+		Moderna: 4000
+		Pfizer: 3500
+	 Aantal onvolledig gevaccineerden:4200
+	 Aantal volledig gevaccineerden:4000
+DAG 2:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 1100
+		Moderna: 6400
+		Pfizer: 5000
+	 Aantal onvolledig gevaccineerden:6100
+	 Aantal volledig gevaccineerden:6400
+DAG 3:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 1500
+		Moderna: 8800
+		Pfizer: 6500
+	 Aantal onvolledig gevaccineerden:8000
+	 Aantal volledig gevaccineerden:8800
+DAG 4:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 1800
+		Moderna: 12000
+		Pfizer: 7500
+	 Aantal onvolledig gevaccineerden:9300
+	 Aantal volledig gevaccineerden:12000
+DAG 5:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 2100
+		Moderna: 16000
+		Pfizer: 8000
+	 Aantal onvolledig gevaccineerden:10100
+	 Aantal volledig gevaccineerden:16000
+DAG 6:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 3100
+		Moderna: 17600
+		Pfizer: 10500
+	 Aantal onvolledig gevaccineerden:9600
+	 Aantal volledig gevaccineerden:19600
+DAG 7:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 3600
+		Moderna: 20000
+		Pfizer: 13000
+	 Aantal onvolledig gevaccineerden:9600
+	 Aantal volledig gevaccineerden:23500
+DAG 8:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 4400
+		Moderna: 23200
+		Pfizer: 15000
+	 Aantal onvolledig gevaccineerden:9400
+	 Aantal volledig gevaccineerden:28200
+DAG 9:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 5500
+		Moderna: 27200
+		Pfizer: 16500
+	 Aantal onvolledig gevaccineerden:9000
+	 Aantal volledig gevaccineerden:33700
+DAG 10:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 6200
+		Moderna: 32000
+		Pfizer: 18500
+	 Aantal onvolledig gevaccineerden:9700
+	 Aantal volledig gevaccineerden:39500
+DAG 11:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 6500
+		Moderna: 38400
+		Pfizer: 20500
+	 Aantal onvolledig gevaccineerden:11000
+	 Aantal volledig gevaccineerden:46400
+DAG 12:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 7300
+		Moderna: 47200
+		Pfizer: 21500
+	 Aantal onvolledig gevaccineerden:11800
+	 Aantal volledig gevaccineerden:55700
+DAG 13:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 7400
+		Moderna: 57600
+		Pfizer: 26500
+	 Aantal onvolledig gevaccineerden:14900
+	 Aantal volledig gevaccineerden:67100
+DAG 14:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 7400
+		Moderna: 92800
+		Pfizer: 27000
+	 Aantal onvolledig gevaccineerden:14400
+	 Aantal volledig gevaccineerden:88600
+DAG 15:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 8200
+		Moderna: 105600
+		Pfizer: 27500
+	 Aantal onvolledig gevaccineerden:15700
+	 Aantal volledig gevaccineerden:108800
+DAG 16:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 13400
+		Moderna: 117600
+		Pfizer: 30500
+	 Aantal onvolledig gevaccineerden:21900
+	 Aantal volledig gevaccineerden:123100
+DAG 17:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 14500
+		Moderna: 117600
+		Pfizer: 32000
+	 Aantal onvolledig gevaccineerden:21500
+	 Aantal volledig gevaccineerden:130100
+DAG 18:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 14900
+		Moderna: 118400
+		Pfizer: 33500
+	 Aantal onvolledig gevaccineerden:22400
+	 Aantal volledig gevaccineerden:131400
+DAG 19:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 15300
+		Moderna: 118400
+		Pfizer: 38000
+	 Aantal onvolledig gevaccineerden:19300
+	 Aantal volledig gevaccineerden:135400
+DAG 20:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 16100
+		Moderna: 118400
+		Pfizer: 40000
+	 Aantal onvolledig gevaccineerden:22100
+	 Aantal volledig gevaccineerden:135400
+DAG 21:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 16500
+		Moderna: 118400
+		Pfizer: 42500
+	 Aantal onvolledig gevaccineerden:24000
+	 Aantal volledig gevaccineerden:135900
+DAG 22:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 16900
+		Moderna: 118400
+		Pfizer: 46000
+	 Aantal onvolledig gevaccineerden:23900
+	 Aantal volledig gevaccineerden:137900
+DAG 23:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 17600
+		Moderna: 118400
+		Pfizer: 48500
+	 Aantal onvolledig gevaccineerden:27100
+	 Aantal volledig gevaccineerden:137900
+DAG 24:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 18300
+		Moderna: 118400
+		Pfizer: 51000
+	 Aantal onvolledig gevaccineerden:28300
+	 Aantal volledig gevaccineerden:138900
+DAG 25:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 19000
+		Moderna: 118400
+		Pfizer: 54000
+	 Aantal onvolledig gevaccineerden:31000
+	 Aantal volledig gevaccineerden:139400
+DAG 26:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 20200
+		Moderna: 118400
+		Pfizer: 57000
+	 Aantal onvolledig gevaccineerden:30600
+	 Aantal volledig gevaccineerden:141700
+DAG 27:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 20600
+		Moderna: 118400
+		Pfizer: 62500
+	 Aantal onvolledig gevaccineerden:31700
+	 Aantal volledig gevaccineerden:144100
+DAG 28:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 21000
+		Moderna: 132000
+		Pfizer: 64500
+	 Aantal onvolledig gevaccineerden:30300
+	 Aantal volledig gevaccineerden:159600
+DAG 29:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 21400
+		Moderna: 154400
+		Pfizer: 67000
+	 Aantal onvolledig gevaccineerden:27400
+	 Aantal volledig gevaccineerden:181100
+DAG 30:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 22300
+		Moderna: 157600
+		Pfizer: 69000
+	 Aantal onvolledig gevaccineerden:26700
+	 Aantal volledig gevaccineerden:186600
+DAG 31:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 22600
+		Moderna: 161600
+		Pfizer: 71500
+	 Aantal onvolledig gevaccineerden:23900
+	 Aantal volledig gevaccineerden:191100
+DAG 32:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 23600
+		Moderna: 161600
+		Pfizer: 72500
+	 Aantal onvolledig gevaccineerden:21900
+	 Aantal volledig gevaccineerden:193100
+DAG 33:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 24100
+		Moderna: 161600
+		Pfizer: 76000
+	 Aantal onvolledig gevaccineerden:17900
+	 Aantal volledig gevaccineerden:197100
+DAG 34:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 24900
+		Moderna: 161600
+		Pfizer: 76500
+	 Aantal onvolledig gevaccineerden:16600
+	 Aantal volledig gevaccineerden:198400
+DAG 35:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 26000
+		Moderna: 161600
+		Pfizer: 76500
+	 Aantal onvolledig gevaccineerden:15500
+	 Aantal volledig gevaccineerden:199500
+DAG 36:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 26700
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:14300
+	 Aantal volledig gevaccineerden:200700
+DAG 37:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 27000
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:14000
+	 Aantal volledig gevaccineerden:201000
+DAG 38:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 27800
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:13200
+	 Aantal volledig gevaccineerden:201800
+DAG 39:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 27900
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:13100
+	 Aantal volledig gevaccineerden:201900
+DAG 40:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 27900
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:13100
+	 Aantal volledig gevaccineerden:201900
+DAG 41:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 28700
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:12300
+	 Aantal volledig gevaccineerden:202700
+DAG 42:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 33900
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:7100
+	 Aantal volledig gevaccineerden:207900
+DAG 43:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 35000
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:6000
+	 Aantal volledig gevaccineerden:209000
+DAG 44:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 35400
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:5600
+	 Aantal volledig gevaccineerden:209400
+DAG 45:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 35800
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:5200
+	 Aantal volledig gevaccineerden:209800
+DAG 46:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 36600
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:4400
+	 Aantal volledig gevaccineerden:210600
+DAG 47:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 37000
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:4000
+	 Aantal volledig gevaccineerden:211000
+DAG 48:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 37400
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:3600
+	 Aantal volledig gevaccineerden:211400
+DAG 49:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 38100
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:2900
+	 Aantal volledig gevaccineerden:212100
+DAG 50:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 38800
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:2200
+	 Aantal volledig gevaccineerden:212800
+DAG 51:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 39500
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:1500
+	 Aantal volledig gevaccineerden:213500
+DAG 52:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 40400
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:600
+	 Aantal volledig gevaccineerden:214400
+DAG 53:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 40400
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:600
+	 Aantal volledig gevaccineerden:214400
+DAG 54:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 40400
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:600
+	 Aantal volledig gevaccineerden:214400
+DAG 55:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 40400
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:600
+	 Aantal volledig gevaccineerden:214400
+DAG 56:
+	Aantal geleverde vaccins per type:
+		AstraZeneca: 41000
+		Moderna: 161600
+		Pfizer: 77000
+	 Aantal onvolledig gevaccineerden:0
+	 Aantal volledig gevaccineerden:215000
