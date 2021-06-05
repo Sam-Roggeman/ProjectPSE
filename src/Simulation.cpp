@@ -70,7 +70,7 @@ void Simulation::autoSimulation(int start, int eind, std::ostream &out) {
         simulateDay(out);
     }
     ENSURE(getDag() == eind, "de autosimulation eindigde niet op de einddag");
-    this->outputGegevens(std::cout);
+    this->outputGegevens(out);
 }
 
 
@@ -136,6 +136,7 @@ void Simulation::clear() {
         delete it->second;
     }
     statistische_gegevens.clear();
+    statistische_gegevens[-1] = new Gegevens();
 }
 
 void Simulation::impressie(std::ostream &out) {
@@ -276,7 +277,12 @@ int Simulation::getAantalVolGevaccineerden(){
 void Simulation::outputGegevens(std::ostream& rapportstream){
     for (std::map<int,Gegevens*>::const_iterator it = statistische_gegevens.begin()
             ; it != statistische_gegevens.end(); it++){
-        rapportstream << "DAG " << it->first <<":"<< std::endl;
+        if (it->first == -1){
+            rapportstream << "Start:" << std::endl;
+        }
+        else {
+            rapportstream << "DAG " << it->first << ":" << std::endl;
+        }
         it->second->outputGegevens(rapportstream);
 
     }

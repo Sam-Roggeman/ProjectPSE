@@ -200,7 +200,7 @@ TEST_F(HubDomainTest, aantalOngevaccineerden){
     //Initialisering alle waardes
     vac.setAantalInwoners(1000);
     vac.setCapaciteit(1000);
-    vac.vaccineren(0);
+    vac.vaccineren(0, ofs);
     hub2.addcentrum(&vac);
 
     //Testen op de return waarde van de functie

@@ -1,3 +1,0 @@
-Hub (0 vaccins)
-	-> a (0 vaccins)
-a: 0 inwoners volledig gevaccineerd, 0 enkel gevaccineerd, nog 2000 inwoners niet gevaccineerd

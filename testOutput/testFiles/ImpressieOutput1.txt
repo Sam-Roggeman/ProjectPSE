@@ -1,5 +1,5 @@
 DAG 0 :
 a:
-	- vaccins				[                    ] 0%
-	- gevaccineerd			[                    ] 0%
-	- volledig gevaccineerd	[                    ] 0%
+    - vaccins               [                    ] 0%
+    - gevaccineerd          [                    ] 0%
+    - volledig gevaccineerd [                    ] 0%
