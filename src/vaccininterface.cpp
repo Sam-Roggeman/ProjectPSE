@@ -379,3 +379,14 @@ void VaccinInterface::on_Manueel_2_clicked()
     on_Impressies_currentChanged(2);
 }
 
+void VaccinInterface::on_Gif_export_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    tr("Save gif"), "/home",
+                                                    tr("Gif ( *.gif)"));
+    if(!fileName.isEmpty()){
+        simulatie->exportToGif(fileName.toStdString());
+        on_stackedWidget_currentChanged(0);
+    }
+}
+
