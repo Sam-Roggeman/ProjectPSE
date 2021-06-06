@@ -80,6 +80,7 @@ private:
     void doSimulation(int aantal_dagen);
 
     void replaceChart(const Gegevens *gegevens);
+
 };
 
 #endif // VACCININTERFACE_H

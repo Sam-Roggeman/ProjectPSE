@@ -9,15 +9,19 @@
 #include "Hub.h"
 
 Hub::Hub(int ID):_hub_ID(ID) {
+    REQUIRE(ID >= 0, "ID moet een positief getal zijn");
+
 
     _initCheck = this;
     types.clear();
     vaccinatiecentra.clear();
 
+    ENSURE(this->getID() == ID, "ID is niet juist geinitialiseerd bij afloop van de constructor");
     ENSURE(this->correctlyInitialized(),
            "Het hub object was niet goed geinitializeerd bij het einde van de constructor");
     ENSURE(this->getTypes().size() == 0, "De map types is niet correct geinitialiseerd");
     ENSURE(this->getVaccinatiecentra().size() == 0, "De map types is niet correct geinitialiseerd");
+    ENSURE(ID == getID(), "ID is niet juist geinitalizeerd bij het einde van de constructor");
 }
 
 bool Hub::correctlyInitialized() const {
@@ -33,7 +37,7 @@ bool Hub::correctlyInitialized() const {
         }
     }
     //is elk type correct geinitializeerd
-    for (std::map<std::string, VaccinType*>::const_iterator it = getTypes().begin(); it != types.end() ;it++) {
+    for (std::map<std::string, VaccinType*>::const_iterator it = types.begin(); it != types.end() ;it++) {
         if (!it->second->correctlyInitialized()){
             return false;
         }
@@ -46,7 +50,7 @@ void Hub::outputHub() const {
 }
 
 void Hub::outputHub(std::ostream& out) const {
-    REQUIRE(this->correctlyInitialized(), "foutieve hub");
+    REQUIRE(this->correctlyInitialized(), "foutieve hub bij aanroep outputHub");
 
     out << "Hub (" << this->getAantalVac() << " vaccins)" << std::endl;
     for (std::map<std::string,Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin()
@@ -211,14 +215,18 @@ void Hub::transportToCentra2(int dag, std::ostream &out, Gegevens *gegevens) {
 }
 
 const std::map<Vaccinatiecentrum *, int> &Hub::getAantalLadingenVorigeDag() const {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van getAantalLadingenVorigeDag");
     return aantal_ladingen_vorige_dag;
 }
 
 void Hub::setAantalLadingenVorigeDag(const std::map<Vaccinatiecentrum *, int> &aantalLadingenVorigeDag) {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van setAantalLadingenVorigeDag");
     aantal_ladingen_vorige_dag = aantalLadingenVorigeDag;
+    ENSURE(this->getAantalLadingenVorigeDag().size() == aantalLadingenVorigeDag.size(), "de mappgrootte is verkeerd bij afloop van setAantalLadingenVorigeDag");
 }
 
 void Hub::vaccineren(int dag) {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van vaccineren");
     vaccineren(dag, std::cout);
 }
 
@@ -244,7 +252,7 @@ void Hub::addcentrum(Vaccinatiecentrum * const vaccinatiecentrum) {
     unsigned int s1 = this->vaccinatiecentra.size();
     vaccinatiecentra[vaccinatiecentrum->getNaamCentrum()] = vaccinatiecentrum;
     this->aantal_ladingen_vorige_dag[vaccinatiecentrum] = 0;
-    ENSURE(this->aantal_ladingen_vorige_dag[vaccinatiecentrum] == 0,
+    ENSURE(this->getAantalLadingenVorigeDag().at(vaccinatiecentrum) == 0,
            "aantal ladingen van de vorige dag van het centrum moet 0 zijn na addcentrum");
     ENSURE(getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != getVaccinatiecentra().end(),
 "Naam van centrum komt niet voor in centra op het einde van addcentrum");
@@ -335,21 +343,31 @@ void Hub::impressie(std::ostream &out) {
 void Hub::insertCentrumTypes() const  {
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
         it->second->insertTypes(this->getTypes());
+        ENSURE(this->getTypes().size() == it->second->getTypes().size(), "getTypes().size() != vaccinatiecentrum.getTypes().size() bij een centrum");
     }
 }
 
 void Hub::vacLeveringen(int dag) {
+    int start;
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van leveringToHub");
+    REQUIRE(dag >=0, "dag moet een positief getal zijn");
     for (std::map<std::string,VaccinType*>::iterator type_it = types.begin(); type_it!=types.end();type_it++){
+        start = type_it->second->getAantalVaccins();
         if (type_it->second->isLeveringsDag(dag)){
             type_it->second->leveringVanTypeToHub();
         }
+        ENSURE(type_it->second->getAantalVaccins() >= start, "vaccins van type gezakt na vacLeveringen");
     }
 }
 
-int Hub::nextLevDag(int dag) {
+int Hub::nextLevDag(int dag) const {
+    REQUIRE(dag >=0, "dag moet een positief getal zijn");
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van nextLevDag");
+
+
     int min = std::numeric_limits<int>::max();
     int next;
-    for (std::map<std::string, VaccinType *>::iterator type_it = types.begin(); type_it != types.end(); type_it++) {
+    for (std::map<std::string, VaccinType *>::const_iterator type_it = types.begin(); type_it != types.end(); type_it++) {
         next = type_it->second->nextLeveringsDag(dag);
         if ((min > next)&&next !=0){
             min = next;
@@ -367,23 +385,30 @@ int Hub::getAantalGer() {
     return ger;
 }
 
-void Hub::transportToCentra2(int dag, Gegevens &gegevens) {
-    transportToCentra2(dag, gegevens);
+void Hub::transportToCentra2(int dag, Gegevens *gegevens) {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van transportToCentra2");
+
+    transportToCentra2(dag, std::cout,gegevens);
 }
 
 const std::map<std::string, Vaccinatiecentrum *> &Hub::getVaccinatiecentra() const {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van getVaccinatiecentra");
+
     return vaccinatiecentra;
 }
 
 const std::map<std::string, VaccinType *> &Hub::getTypes() const {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van getTypes");
     return types;
 }
 
 int Hub::getID() {
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van getID");
     return this->_hub_ID;
 }
 
 int Hub::getAantalEnkelGevaccineerden(){
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van getAantalEnkelGevaccineerden");
     int gevac = 0;
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++) {
         gevac += it->second->getAantalGevaccineerden();
@@ -392,6 +417,7 @@ int Hub::getAantalEnkelGevaccineerden(){
 }
 
 int Hub::getAantalVolGevaccineerden(){
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van getAantalVolGevaccineerden");
     int aantal = 0;
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
         aantal += it->second->getAantalVolGevaccineerden();
@@ -400,26 +426,40 @@ int Hub::getAantalVolGevaccineerden(){
 }
 
 
-Hub::Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector) : _hub_ID (pHub->getID()) {
+Hub::Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vaccinatiecentra_vector) : _hub_ID (pHub->getID()) {
     _initCheck = this;
+    REQUIRE(pHub->correctlyInitialized(), "pHub was niet geinitalizeerd bij oproep van de copy constructor");
+
     for (std::map<std::string, VaccinType*>::const_iterator it = pHub->types.begin(); it != pHub->types.end(); it++){
         this->addType(new VaccinType(*(it->second)));
     }
     for (std::map<std::string, Vaccinatiecentrum *>::const_iterator it = pHub->vaccinatiecentra.begin();
          it != pHub->vaccinatiecentra.end(); it++) {
-        this->addcentrum(vector[it->second->getNaamCentrum()]);
+        this->addcentrum(vaccinatiecentra_vector[it->second->getNaamCentrum()]);
     }
     this->insertCentrumTypes();
     aantal_ladingen_vorige_dag.insert(pHub->aantal_ladingen_vorige_dag.begin(), pHub->aantal_ladingen_vorige_dag.end());
+    ENSURE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van copy constructor");
+    ENSURE(getID() == pHub->getID(),"ID is niet juist gekopieerd bij copy constructor");
+    ENSURE(this->getTypes().size() == pHub->getTypes().size(),"types niet juist gekopieerd bij copy constructor");
+    ENSURE(this->getVaccinatiecentra().size() == pHub->getVaccinatiecentra().size(),"Vaccinatiecentra niet juist gekopieerd bij copy constructor");
+    ENSURE(this->getAantalLadingenVorigeDag().size() == pHub->getAantalLadingenVorigeDag().size(),"AantalLadingenVorigeDag niet juist gekopieerd bij copy constructor");
+
 
 }
 
 bool Hub::isAllowed(const int vaccins, const std::string name_centrum) {
+    REQUIRE(name_centrum.length() >=0, "name_centrum mag niet leeg zijn bij aanroep van isAllowed");
+    REQUIRE(vaccins >= 0 , "vaccins > = vaccins was < 0 bij aanroep van isAllowed");
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van isAllowed");
 
     return this->vaccinatiecentra.at(name_centrum)->isAllowed(vaccins);
 }
 
 void Hub::sendVaccins(const int vaccins, const std::string name_centrum, const int dag,std::ostream &out) {
+    REQUIRE(name_centrum.length() >=0, "name_centrum mag niet leeg zijn bij aanroep van sendVaccins");
+    REQUIRE(vaccins >= 0 , "vaccins > = vaccins was < 0 bij aanroep van sendVaccins");
+    REQUIRE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van sendVaccins");
     Vaccinatiecentrum* centrum = vaccinatiecentra.at(name_centrum);
     int ladingen = 0, overschot, aantal, totaal = 0;
 

@@ -21,11 +21,12 @@ protected:
     friend class Hub;
 
     virtual void SetUp() {
+        initializeTmp();
     }
 
     virtual void TearDown() {
     }
-    Hub* hub = new Hub(1);
+    Hub* hub = new Hub(0);
     Vaccinatiecentrum v;
 };
 

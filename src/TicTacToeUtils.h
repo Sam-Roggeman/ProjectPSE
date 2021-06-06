@@ -24,5 +24,8 @@ bool FileCompare(const std::string leftFileName, const std::string rightFileName
 
 std::string ToString(int i);
 
+void initializeTmp();
+
+
 // Closing of the ``header guard''.
 #endif

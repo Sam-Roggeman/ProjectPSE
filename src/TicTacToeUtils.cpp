@@ -83,3 +83,12 @@ string ToString( int x ) {
 	delete[] buf;
 	return str;
 }
+
+void initializeTmp() {
+    if (!DirectoryExists("./tmp")){
+        system("mkdir -p ./tmp");
+    }
+    else {
+        system("rm ./tmp/*");
+    }
+}

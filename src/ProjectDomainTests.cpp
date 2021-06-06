@@ -23,6 +23,8 @@ protected:
         ofs.open("/dev/null");
         vac.setNaamCentrum("vac");
         hub.addcentrum(&v);
+        initializeTmp();
+
     }
 
     virtual void TearDown() {

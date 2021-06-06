@@ -439,10 +439,12 @@ int Vaccinatiecentrum::aantalOnvolledigGev() {
 }
 
 const std::map<std::string, int> &Vaccinatiecentrum::getVaccins() const {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van getVaccins");
     return vaccins;
 }
 
 const std::map<std::string, VaccinType *> &Vaccinatiecentrum::getTypes() const {
+    REQUIRE(this->correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd bij oproep van getTypes");
     return types;
 }
 
@@ -451,6 +453,8 @@ const std::map<std::string, std::map<int, int > > &Vaccinatiecentrum::getHernieu
 }
 
 Vaccinatiecentrum::Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum) {
+    REQUIRE(pVaccinatiecentrum->correctlyInitialized(), "pVaccinatiecentrum was niet correct geinitializeerd");
+
     this->_initCheck = this;
     this->hernieuwingen.insert(pVaccinatiecentrum->hernieuwingen.begin(),pVaccinatiecentrum->hernieuwingen.end());
     this->vaccins.insert(pVaccinatiecentrum->vaccins.begin(),pVaccinatiecentrum->vaccins.end());
@@ -460,17 +464,25 @@ Vaccinatiecentrum::Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum
     this->aantal_inwoners = pVaccinatiecentrum->aantal_inwoners;
     this->naam_centrum = pVaccinatiecentrum->naam_centrum;
     this->adres_centrum = pVaccinatiecentrum->adres_centrum;
+    ENSURE(correctlyInitialized(),"centrum was niet correct geinitializeerd bij afloop copy-constructor");
+    ENSURE(getAantalInwoners() == pVaccinatiecentrum->getAantalInwoners(), "aantal inwoners zijn niet juist gekopieerd");
+    ENSURE(getHernieuwingen().size() == pVaccinatiecentrum->getHernieuwingen().size(), "hernieuwingen is niet juist gekopieerd");
+    ENSURE(getCapaciteit() == pVaccinatiecentrum->getCapaciteit(), "capaciteit is niet juist gekopieerd");
+    ENSURE(getNaamCentrum() == pVaccinatiecentrum->getNaamCentrum(), "naam is niet juist gekopieerd");
+
+
 
 }
 
 bool Vaccinatiecentrum::isAllowed(const int _vaccins) {
+    REQUIRE(correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd");
+
     return 2*this->capaciteit + getAantalVaccins() >= _vaccins;
 }
 
-void Vaccinatiecentrum::sendVaccins(const std::string name_type, int aantal, std::ostream &out, int aantal_ladingen) {
-}
 
 void Vaccinatiecentrum::setTypes(std::map<std::string, VaccinType *> map) {
+    REQUIRE(correctlyInitialized(), "Vaccinatiecentrum was niet correct geinitializeerd");
     this->types = map;
 }
 

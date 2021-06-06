@@ -191,5 +191,14 @@ VaccinType::VaccinType(const VaccinType& v2) : name(v2.name), levering(v2.leveri
                                                                              hernieuwing(v2.hernieuwing),
                                                                              temperatuur(v2.temperatuur),
                                                                              gereserveerd(v2.gereserveerd) {
+    REQUIRE(v2.correctlyInitialized(), "v2 was niet geinitializeerd bij oproep van de copy constructor ");
     this->_init_check = this;
+    ENSURE(getLevering()== v2.getLevering(), "levering is niet hoed gekopieerd");
+    ENSURE(getAantalVaccins()== v2.getAantalVaccins(),"aantal vaccins is niet hoed gekopieerd");
+    ENSURE(getTransport()== v2.getTransport(),"transport is niet hoed gekopieerd");
+    ENSURE(getInterval()== v2.getInterval(),"interval is niet hoed gekopieerd");
+    ENSURE(getGereserveerd()== v2.getGereserveerd(),"gereserveerd is niet hoed gekopieerd");
+    ENSURE(gettemperatuur()== v2.gettemperatuur(),"temperatuur is niet hoed gekopieerd");
+    ENSURE(getName()== v2.getName(),"name is niet hoed gekopieerd");
+    ENSURE(correctlyInitialized(),"type is niet correct geinitializeerd bij afloop van de copy constructor");
 }

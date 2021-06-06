@@ -30,10 +30,26 @@ class Vaccinatiecentrum {
     int aantal_vol_gevaccineerden;
     std::map<std::string,std::map<int,int> > hernieuwingen;
 public:
+    
+    /**
+     * geeft de map met vaccinnaam -> aantal dat aanwezig is in het centrum
+     * @pre correctlyInitalized()
+     * @return de map met key vaccinnaam en value aantal in het centrum
+     */
     const std::map<std::string, int> &getVaccins() const;
 
+    /**
+    * geeft de map met types -> pointer naar VaccinType object
+    * @pre correctlyInitalized()
+    * @return de map met key types en value een pointer naar het object
+    */
     const std::map<std::string, VaccinType *> &getTypes() const;
 
+    /**
+    * geeft de map met vaccinnaam -> dag -> aantal dat gereserveerd is is in het centrum
+    * @pre correctlyInitalized()
+    * @return de hernieuwingsmap
+    */
     const std::map<std::string, std::map<int, int> > &getHernieuwingen() const;
 
 
@@ -280,12 +296,32 @@ public:
      */
     int aantalOnvolledigGev();
 
+    /**
+     * copy constructor voor vaccinatiecentrum
+     * @pre pVaccinatiecentrum->correctlyInitialized
+     * @param pVaccinatiecentrum pointer naar het te-kopieren centrum
+     * @post correctlyInitialized()
+     * @post getAantalInwoners() == pVaccinatiecentrum->getAantalInwoners()
+     * @post getHernieuwingen().size() == pVaccinatiecentrum->getHernieuwingen().size(
+     * @post getCapaciteit() == pVaccinatiecentrum->getCapaciteit()
+     * @post getNaamCentrum() == pVaccinatiecentrum->getNaamCentrum()
+     */
     Vaccinatiecentrum(Vaccinatiecentrum *const pVaccinatiecentrum);
 
+    /**
+     * @pre correctlyInitialized()
+     * kijkt of het aantal vaccins allowed is
+     * @param vaccins aantal
+     * @return true als vaccins + getAantalVaccins() <= 2* getCapaciteit()
+     */
     bool isAllowed(const int vaccins);
 
-    void sendVaccins(const std::string basicString, int aantal, std::ostream &out, int aantal_ladingen);
-
+    /**
+     * zet de types op map
+     * @pre correctlyInitialized()
+     * @param map de map die de types bijhoudt
+     * @post getTypes(),size() == map.size()
+     */
     void setTypes(std::map<std::string, VaccinType *> map);
 };
 

@@ -22,6 +22,7 @@ protected:
     // Otherwise, this can be skipped.
     virtual void SetUp() {
         ofs.open("/dev/null");
+        initializeTmp();
 
     }
 

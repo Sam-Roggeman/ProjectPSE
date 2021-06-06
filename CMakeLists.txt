@@ -34,7 +34,8 @@ link_directories(./gtest/lib)
 # Set source files for RELEASE target
 set(RELEASE_SOURCE_FILES
         src/ProjectMain.cpp
-
+        src/TicTacToeUtils.h
+        src/TicTacToeUtils.cpp
         src/tinystr.cpp
         src/tinystr.h
         src/tinyxml.cpp

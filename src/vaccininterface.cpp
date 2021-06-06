@@ -43,6 +43,7 @@ void VaccinInterface::on_pushButton_clicked() {
     QBarSet * qBarSet;
     QStackedBarSeries *types = new QStackedBarSeries();
     if (!fileName.isEmpty()) {
+        initializeTmp();
         curr_gegevens = Gegevens();
 
         this->on_stackedWidget_currentChanged(1);
@@ -377,3 +378,4 @@ void VaccinInterface::on_Manueel_2_clicked()
 {
     on_Impressies_currentChanged(2);
 }
+

@@ -219,6 +219,19 @@ public:
      * */
     void subGereserveerd(int aantal);
 
+    /**
+     * copy constructor voor vaccintype
+     * @pre v2.correctlyInitialized()
+     * @param v2 vaccinType to-copy
+     * @post getLevering()== v2.getLevering()
+     * @post getAantalVaccins()== v2.getAantalVaccins()
+     * @post getTransport()== v2.getTransport()
+     * @post getInterval()== v2.getInterval()
+     * @post getGereserveerd()== v2.getGereserveerd()
+     * @post gettemperatuur()== v2.gettemperatuur()
+     * @post getName()== v2.getName()
+     * @post correctlyInitialized()
+     */
     VaccinType(const VaccinType& v2);
 };
 

@@ -31,14 +31,19 @@ private:
 public:
     /**Maakt een hub object aan, zet demembervariabelen op 0 en initializeerd geen vaccinatiecentrum
      *@returns hub object
+     *@pre ID >= 0
+     *@param ID het id van de hub
      *@post: this->correctlyinitialized()
      *@post this->getTypes().size == 0
      *@post this->getVaccinatiecentra().size == 0
+     *@post this->getID() == ID
      * */
     Hub(int ID);
 
     /**
-     * berekend het totaal aantal gereserveerden
+     * berekend het totaal aantal gereserveerde vaccins van alle types in de hub
+     * @return totaal aantal gereserveerde vaccins
+     * @post returnvalue >= 0
      * */
     int getAantalGer();
 
@@ -50,7 +55,7 @@ public:
      * @pre getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) == getVaccinatiecentra().end()
      * @post getVaccinatiecentra().find(vaccinatiecentrum->getNaamCentrum()) != getVaccinatiecentra().end()
      * @post this->getVaccinatiecentra().size() += 1
-     * @post aantal_ladingen_vorige_dag[vaccinatiecentrum] == 0
+     * @post getAantalLadingenVorigeDag().at(vaccinatiecentrum) == 0
      * */
     void addcentrum(Vaccinatiecentrum* const vaccinatiecentrum);
 
@@ -76,7 +81,7 @@ public:
      * @post voor centrum : centra geldt dat aantal_vaccins >= aantal_vaccins_start voor elk type
      * @post aantal_vaccins_hub <= aantal_vaccins_hub_start
      * */
-    void transportToCentra2(int dag, Gegevens &gegevens);
+    void transportToCentra2(int dag, Gegevens *gegevens);
 
     /**transport vaccins vanuit de hub naar alle centra
      * @param out: de ostream waar outgeput wordt
@@ -155,34 +160,115 @@ public:
     /**
      * zet een kopie van de map met getTypes() in elk centrum
      * @pre this->correctlyinitialized()
+     * @post getTypes().size() == vaccinatiecentrum->getTypes().size() voor elk vaccinatiecentrum
      */
     void insertCentrumTypes() const;
 
+    /**
+     * vaccins worden geleverd aan de hub indien het een leveringsdag is
+     * @param dag de huidige dag
+     * @pre dag >=0
+     * @pre this->correctlyInitialized()
+     * @post voor elk type in getTypes() geld dat type->getAantalVaccins() >= type->getAantalVaccins() bij de start
+     */
     void vacLeveringen(int dag);
 
-    int nextLevDag(int dag);
+    /**
+     * kijkt na wat het kortste interval is tot de volgende levering
+     * @param dag de huidige dag
+     * @pre dag >=0
+     * @return het aantal dagen tot de volgende levering
+     */
+    int nextLevDag(int dag) const;
 
+    /**
+     * berekent het aantal onvolledig gevaccineerden (inwoners - volledig gevaccinneerden)
+     * @pre correctlyInitialized()
+     * @return  som van aantal ongevaccinneerden in alle centra
+     */
     int aantalOnvolledigGev() const;
 
+    /**
+     * @pre correctlyInitialized()
+     * geeft een map terug die de centra bevat
+     * @return map met vaccinecentrum name naar vaccinatie centrum pointer
+     */
     const std::map<std::string, Vaccinatiecentrum *> &getVaccinatiecentra() const;
 
+    /**
+    * @pre correctlyInitialized()
+    * geeft een map terug die de VaccinTypes bevat
+    * @return map met VaccinType name naar VaccinType pointer
+    */
     const std::map<std::string, VaccinType *> &getTypes() const;
 
+    /**
+     * @pre correctlyInitialized()
+     * vraagt een map op die vaccinatiecentrum pointer linkt met het aantal ladingen dat de vorige dag getransporteerd werd
+     * @return map met key vaccinatiecentrum* en value aantal ladingen van de vorige dag
+     */
     const std::map<Vaccinatiecentrum *, int> &getAantalLadingenVorigeDag() const;
 
+    /**
+     * stelt de map aaantalLadingenVorigeDag in in de hub
+     * @pre correctlyInitialized()
+     * @param aantalLadingenVorigeDag de meegegeven map
+     * @post aantalLadingenVorigeDag.size() == getAantalLadingenVorigeDag().size()
+     */
     void setAantalLadingenVorigeDag(const std::map<Vaccinatiecentrum *, int> &aantalLadingenVorigeDag);
 
+    /**
+     * @pre correctlyInitialized()
+     * @return ID van de hub
+     */
     int getID();
 
+    /**
+     * @pre correctlyInitialized()
+     * berekent het aantal mensen dat 1 (onvolledig) gevaccineerd is
+     * @return aantal deels gevaccineerden in de hub
+     */
     int getAantalEnkelGevaccineerden();
 
+    /**
+     * @pre correctlyInitialized()
+     * berekent het aantal mensen dat volledig gevaccineerd is
+     * @return aantal gevaccineerden in de hub
+     */
     int getAantalVolGevaccineerden();
 
+    /**
+     * copy constructor
+     * @pre pHub->correctlyInitialized()
+     * @post correctlyInitialized()
+     * @param pHub de te-kopieren hub
+     * @param vaccinatiecentra_vector vector met pointers naar alle centra
+     * @post pHub->getID() == getID()
+     * @post pHub->getTypes().size() == getTypes().size()
+     * @post pHub->getVaccinatiecentra().size() == getVaccinatiecentra().size()
+     * @post pHub->getAantalLadingenVorigeDag().size() == getAantalLadingenVorigeDag().size()
+     */
+    Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vaccinatiecentra_vector);
 
-    Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vector);
-
+    /**
+     * @pre correctlyInitialized()
+     * @pre vaccins > = 0
+     * @pre name_centrum.length() >=0
+     * @param vaccins het aantal dat toegevoegd wordt
+     * @param name_centrum naam van het centrum
+     * @return bool true als de capaciteit deze hoeveelheid toelaat
+     */
     bool isAllowed(const int vaccins, const std::string name_centrum);
 
+    /**
+     * @pre correctlyInitialized()
+     * @pre vaccins > = 0
+     * @pre name_centrum.length() >=0
+     * @param vaccins aantal dat verstuurd wordt
+     * @param name_centrum naam van het centrum waarnaar verstuurd wordt
+     * @param dag de huidige dag
+     * @param out outstream
+       */
     void sendVaccins(const int vaccins, const std::string name_centrum, const int dag, std::ostream &out);
 };
 
