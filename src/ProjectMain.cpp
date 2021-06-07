@@ -31,11 +31,11 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-//    QApplication a(argc, argv);
-//    VaccinInterface w;
-//    w.show();
-//    return a.exec();
-//}
+    QApplication a(argc, argv);
+    VaccinInterface w;
+    w.show();
+    return a.exec();
+}
 
 //int main(int argc, char **argv) {
 //    Simulation* simulatie;
@@ -48,12 +48,12 @@ int main(int argc, char *argv[])
 
 //    simulatie = new Simulation(*simulatie);
 
-    ofstream o;
-    o.open("test.txt");
-    Simulation s;
-    simulationImporter::importSimulation("./testInput/Inconsistentesim1.xml",  std::cout, s);
-    s.autoSimulationUntilDone(std::cout);
-    o.close();
-    return 0;
-}
+//    ofstream o;
+//    o.open("test.txt");
+//    Simulation s;
+//    simulationImporter::importSimulation("./testInput/MeerdereHubs2.xml",  std::cout, s);
+//    s.autoSimulationUntilDone(std::cout);
+//    o.close();
+//    return 0;
+//}
 

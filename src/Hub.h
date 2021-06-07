@@ -160,7 +160,7 @@ public:
     /**
      * zet een kopie van de map met getTypes() in elk centrum
      * @pre this->correctlyinitialized()
-     * @post getTypes().size() == vaccinatiecentrum->getTypes().size() voor elk vaccinatiecentrum
+     * @post vaccinatiecentrum->getTypes().size() += getTypes().size() voor elk vaccinatiecentrum
      */
     void insertCentrumTypes() const;
 

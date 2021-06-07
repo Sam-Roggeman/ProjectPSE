@@ -341,9 +341,11 @@ void Hub::impressie(std::ostream &out) {
 }
 
 void Hub::insertCentrumTypes() const  {
+    unsigned int start;
     for (std::map<std::string, Vaccinatiecentrum*>::const_iterator it = this->vaccinatiecentra.begin(); it != this->vaccinatiecentra.end(); it++){
+        start =  it->second->getTypes().size();
         it->second->insertTypes(this->getTypes());
-        ENSURE(this->getTypes().size() == it->second->getTypes().size(), "getTypes().size() != vaccinatiecentrum.getTypes().size() bij een centrum");
+        ENSURE(this->getTypes().size() +start== it->second->getTypes().size(), "vaccinatiecentrum.getTypes().size() was niet +=getTypes().size() bij een centrum");
     }
 }
 
@@ -438,7 +440,9 @@ Hub::Hub(Hub *const pHub, std::map<std::string, Vaccinatiecentrum *> vaccinatiec
         this->addcentrum(vaccinatiecentra_vector[it->second->getNaamCentrum()]);
     }
     this->insertCentrumTypes();
-    aantal_ladingen_vorige_dag.insert(pHub->aantal_ladingen_vorige_dag.begin(), pHub->aantal_ladingen_vorige_dag.end());
+    for (std::map<Vaccinatiecentrum*, int>::const_iterator it = pHub->aantal_ladingen_vorige_dag.begin(); it != pHub->aantal_ladingen_vorige_dag.end(); it++) {
+        this->aantal_ladingen_vorige_dag[this->vaccinatiecentra[it->first->getNaamCentrum()]] = it->second;
+    }
     ENSURE(this->correctlyInitialized(),"Hub was niet geinitalizeerd bij oproep van copy constructor");
     ENSURE(getID() == pHub->getID(),"ID is niet juist gekopieerd bij copy constructor");
     ENSURE(this->getTypes().size() == pHub->getTypes().size(),"types niet juist gekopieerd bij copy constructor");

@@ -89,6 +89,7 @@ void initializeTmp() {
         system("mkdir -p ./tmp");
     }
     else {
-        system("rm ./tmp/*");
+        system("rm -f ./tmp/*.ini");
+        system("rm -f ./tmp/*.bmp");
     }
 }

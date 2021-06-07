@@ -291,7 +291,7 @@ public:
      */
     const Gegevens* getGegevens(int _dag);
 
-    void exportToGif(std::string filepath);
+    void exportToGif(std::string filepat,std::string path_to_bmps);
 };
 
 #endif //PROJECT_SIMULATION_H

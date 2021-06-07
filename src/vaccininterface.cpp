@@ -7,6 +7,7 @@ VaccinInterface::VaccinInterface(QWidget *parent) :
     QDialog(parent),
     ui(new Ui::VaccinInterface)
 {
+
     textFont = new QFont();
     textFont->setFamily("monospace [Consolas]");
     textFont->setFixedPitch(true);
@@ -44,7 +45,6 @@ void VaccinInterface::on_pushButton_clicked() {
     QStackedBarSeries *types = new QStackedBarSeries();
     if (!fileName.isEmpty()) {
         initializeTmp();
-        curr_gegevens = Gegevens();
 
         this->on_stackedWidget_currentChanged(1);
         simulationImporter::importSimulation(fileName.toStdString().c_str(), std::cout, *simulatie);
@@ -108,14 +108,6 @@ void VaccinInterface::on_pushButton_clicked() {
 
             }
         }
-
-//        volledig_gevaccineerden->labelFont() = QFont::({pointSize: 10});
-//        gevaccineerden->labelFont() = QFont::({pointSize: 10});
-//        ongevaccineerden->labelFont() = QFont::({pointSize: 10});
-//        volledig_gevaccineerden->labelFont().setPointSize(10);
-//        gevaccineerden->labelFont().setPointSize(10);
-//        ongevaccineerden->labelFont().setPointSize(10);
-
         *volledig_gevaccineerden << 0;
         *gevaccineerden << 0;
         *ongevaccineerden << simulatie->getAantalInwoners();
@@ -167,10 +159,6 @@ void VaccinInterface::on_pushButton_clicked() {
         chartView_2->resize(ui->Grafiek_2->size());
 
 
-
-
-//        chartView->move(300,50);
-
     }
 }
 
@@ -183,12 +171,15 @@ void VaccinInterface::on_stackedWidget_currentChanged(int arg1)
 
 void VaccinInterface::on_Start_clicked()
 {
+    int start = simulatie->getDag();
     doSimulation(ui->spinBox->value());
     replaceChart(simulatie->getGegevens(simulatie->getDag()-1));
+    ENSURE(start + ui->spinBox->value() == simulatie->getDag(), "simulatie is niet ver genoeg doorgelopen");
 }
 
 void VaccinInterface::replaceChart(const Gegevens* gegevens)
 {
+    REQUIRE(gegevens->correctlyInitialized(), "gegevens moet correct geinitializeerd zijn bij oproep van replacechart");
     this->gevaccineerden->replace(0,gegevens->getGevaccineerden());
     this->ongevaccineerden->replace(0,simulatie->getAantalInwoners() - gegevens->getGevaccineerden( )- gegevens->getGevaccineerden());
     this->volledig_gevaccineerden->replace(0, gegevens->getVolledigGevaccineerden());
@@ -204,6 +195,9 @@ void VaccinInterface::replaceChart(const Gegevens* gegevens)
 }
 
 void VaccinInterface::doSimulation(int aantal_dagen){
+    REQUIRE(aantal_dagen >= 0, "aantal_dagen moet positief zijn");
+    REQUIRE(simulatie->correctlyInitialized(),"simulatie moet correct geinitializeerd zijn bij oproep van doSimulation");
+
     std::stringstream stringstream;
     QString output_string_text;
     QString output_string_imp;
@@ -232,7 +226,11 @@ void VaccinInterface::doSimulation(int aantal_dagen){
 
 void VaccinInterface::on_Vorige_dag_clicked()
 {
-    int start_day = simulatie->getDag();
+    REQUIRE(simulatie->correctlyInitialized(),"simulatie is niet geinitializeerd bij oproep van vorige dag");
+    unsigned int start_und = undoStack.size();
+    unsigned int start_redo = redoStack.size();
+    unsigned int start_day = simulatie->getDag();
+    unsigned int end_day = start_day;
     if (!undoStack.empty()){
         redoStack.push(new Simulation(simulatie));
         simulatie = new Simulation(undoStack.top());
@@ -251,14 +249,20 @@ void VaccinInterface::on_Vorige_dag_clicked()
                 ui->textEdit_2->append(it->second.second);
             }
         }
-        int end_day = simulatie->getDag();
+        end_day = simulatie->getDag();
         replaceChart(simulatie->getGegevens(end_day-1));
-        ENSURE(end_day == start_day-1, "end_day != start_day=1");
     }
+    ENSURE(end_day == start_day-1 || end_day == start_day, "end_day != start_day-1 && end_day != start_day");
+    ENSURE(start_und == undoStack.size() || start_und == undoStack.size()+1, "undoStack is niet gepopt/constant gebleven");
+    ENSURE(start_redo == redoStack.size() || start_redo+1 == redoStack.size(), "redoStack is niet gepusht/constant gebleven");
+
 }
 
 void VaccinInterface::on_Volgende_dag_clicked()
 {
+    unsigned int start_und = undoStack.size();
+    unsigned int start_redo = redoStack.size();
+    unsigned int start_day = simulatie->getDag();
     if (!redoStack.empty()){
         undoStack.push(new Simulation(simulatie));
         simulatie = new Simulation(redoStack.top());
@@ -270,6 +274,10 @@ void VaccinInterface::on_Volgende_dag_clicked()
         doSimulation(1);
     }
     replaceChart(simulatie->getGegevens(simulatie->getDag()-1));
+    ENSURE((unsigned int)simulatie->getDag() == start_day+1, "end_day != start_day+1 && end_day != start_day");
+    ENSURE(start_redo == redoStack.size() || start_redo == redoStack.size()+1, "redoStack is niet gepopt/constant gebleven");
+    ENSURE(start_und+1 == undoStack.size(), "undoStack is niet gepusht");
+
 }
 
 void VaccinInterface::on_Grafische_impressie_clicked()
@@ -379,14 +387,28 @@ void VaccinInterface::on_Manueel_2_clicked()
     on_Impressies_currentChanged(2);
 }
 
+Simulation *VaccinInterface::getSimulatie() const {
+    return simulatie;
+}
+
+const std::stack<Simulation *> &VaccinInterface::getRedoStack() const {
+    return redoStack;
+}
+
+const std::stack<Simulation *> &VaccinInterface::getUndoStack() const {
+    return undoStack;
+}
+
 void VaccinInterface::on_Gif_export_clicked()
 {
     QString fileName = QFileDialog::getSaveFileName(this,
-                                                    tr("Save gif"), "/home",
+                                                    tr("Save gif"), "./",
                                                     tr("Gif ( *.gif)"));
     if(!fileName.isEmpty()){
-        simulatie->exportToGif(fileName.toStdString());
-        on_stackedWidget_currentChanged(0);
+        simulatie->exportToGif(fileName.toStdString(), "./tmp");
+//        on_stackedWidget_currentChanged(0);
+
+
     }
 }
 
