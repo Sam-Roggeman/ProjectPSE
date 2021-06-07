@@ -107,6 +107,8 @@ private slots:
 
     void on_Gif_export_clicked();
 
+    void on_Exit_2_clicked();
+
 private:
     Ui::VaccinInterface *ui;
 

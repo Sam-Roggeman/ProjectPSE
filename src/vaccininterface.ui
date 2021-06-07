@@ -39,6 +39,19 @@
       <string>Import sim</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="Exit_2">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>310</y>
+       <width>93</width>
+       <height>28</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Exit</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="page_2">
     <widget class="QPushButton" name="Start">

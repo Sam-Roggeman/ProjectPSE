@@ -406,9 +406,11 @@ void VaccinInterface::on_Gif_export_clicked()
                                                     tr("Gif ( *.gif)"));
     if(!fileName.isEmpty()){
         simulatie->exportToGif(fileName.toStdString(), "./tmp");
-//        on_stackedWidget_currentChanged(0);
-
-
     }
 }
 
+
+void VaccinInterface::on_Exit_2_clicked()
+{
+    this->close();
+}
